@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    druid:
+      driver-class-name: ${yiming1234.datasource.driver-class-name}
+      url: jdbc:mysql://${yiming1234.datasource.host}:${yiming1234.datasource.port}/${yiming1234.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${yiming1234.datasource.username}
+      password: ${yiming1234.datasource.password}
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.yiming1234.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    cn:
+      yiming1234:
+        mapper: debug
+        service: info
+        controller: info
+
+yiming1234:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: itcast
+    # 设置jwt过期时间
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+  alioss:
+    endpoint: ${yiming1234.alioss.endpoint}
+    access-key-id: ${yiming1234.alioss.access-key-id}
+    access-key-secret: ${yiming1234.alioss.access-key-secret}
+    bucket-name: ${yiming1234.alioss.bucket-name}

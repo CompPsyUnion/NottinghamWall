@@ -1,0 +1,13 @@
+yiming1234:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: nottinghamwall
+    username: root
+    password: root
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key:
+    access-secret:
+    bucket-name: yiming1234
