@@ -50,14 +50,14 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     public Docket docket() {
         //log.info("开始生成接口文档...");
         ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("苍穹外卖项目接口文档")
-                .version("2.0")
-                .description("苍穹外卖项目接口文档")
+                .title("宁波诺丁汉大学校园墙项目接口文档")
+                .version("1.0")
+                .description("宁波诺丁汉大学校园墙项目接口文档")
                 .build();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.yiming1234.controller"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
