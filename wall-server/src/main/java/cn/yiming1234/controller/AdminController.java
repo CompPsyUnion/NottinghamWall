@@ -9,7 +9,6 @@ import cn.yiming1234.properties.JwtProperties;
 import cn.yiming1234.result.PageResult;
 import cn.yiming1234.result.Result;
 import cn.yiming1234.service.AdminService;
-import cn.yiming1234.service.StudentService;
 import cn.yiming1234.utils.JwtUtil;
 import cn.yiming1234.vo.AdminLoginVO;
 import io.swagger.annotations.Api;
@@ -24,15 +23,13 @@ import java.util.Map;
  * 管理员管理
  */
 @RestController
-@RequestMapping("/admin/admin")
+@RequestMapping("/admin/manage")
 @Slf4j
 @Api(tags = "管理员管理接口")
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
-    @Autowired
-    private StudentService studentService;
     @Autowired
     private JwtProperties jwtProperties;
     /**
@@ -55,7 +52,7 @@ public class AdminController {
                 jwtProperties.getAdminSecretKey(),
                 jwtProperties.getAdminTtl(),
                 claims);
-
+        log.info("token:{}", token);
         AdminLoginVO adminLoginVO = AdminLoginVO.builder()
                 .id(admin.getId())
                 .userName(admin.getUsername())

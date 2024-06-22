@@ -48,7 +48,6 @@ public class AdminServiceImpl implements AdminService {
         }
 
         //密码比对
-        //加密后比对
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(admin.getPassword())) {
             //密码错误

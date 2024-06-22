@@ -10,6 +10,7 @@ import cn.yiming1234.result.Result;
 import cn.yiming1234.service.StudentService;
 import cn.yiming1234.utils.JwtUtil;
 import cn.yiming1234.vo.StudentLoginVO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/student/student")
+@RequestMapping("/student/manage")
 @Slf4j
-@ApiOperation(value = "学生信息接口")
+@Api(tags = "学生管理接口")
 public class StudentController {
 
        @Autowired
@@ -29,13 +30,13 @@ public class StudentController {
        @Autowired
          private JwtProperties jwtProperties;
         /**
-         * 登录
+         * 微信登录
          *
          * @param studentLoginDTO
          * @return
          */
         @PostMapping("/login")
-        @ApiOperation(value = "登录")
+        @ApiOperation(value = "微信登录")
         public Result<StudentLoginVO> login(@RequestBody StudentLoginDTO studentLoginDTO){
             log.info("学生登录：{}", studentLoginDTO.getCode());
             Student student = studentService.wxLogin(studentLoginDTO);
