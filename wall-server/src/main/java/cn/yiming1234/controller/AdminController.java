@@ -116,7 +116,7 @@ public class AdminController {
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询管理员")
-    public Result<Admin> getById(Long id){
+    public Result<Admin> getById(@PathVariable Long id){
         Admin admin = adminService.getById(id);
         return Result.success(admin);
     }

@@ -76,10 +76,10 @@ public class AdminServiceImpl implements AdminService {
         BeanUtils.copyProperties(adminDTO, admin);
         admin.setStatus(StatusConstant.ENABLE);
         admin.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
-        //admin.setCreateTime(LocalDateTime.now());
-        //admin.setUpdateTime(LocalDateTime.now());
-        //admin.setCreateUser(BaseContext.getCurrentId());
-        //admin.setUpdateUser(BaseContext.getCurrentId());
+        admin.setCreateTime(LocalDateTime.now());
+        admin.setUpdateTime(LocalDateTime.now());
+        admin.setCreateUser(BaseContext.getCurrentId());
+        admin.setUpdateUser(BaseContext.getCurrentId());
 
         adminMapper.insert(admin);
     }
@@ -100,7 +100,7 @@ public class AdminServiceImpl implements AdminService {
         return new PageResult(total, records);
     }
     /**
-     * 修改管理员
+     * 启用禁用管理员
      *
      * @param status
      * @param id
@@ -112,10 +112,15 @@ public class AdminServiceImpl implements AdminService {
                 .build();
         adminMapper.update(admin);;
     }
-
+    /**
+     * 根据id查询管理员
+     *
+     * @param id
+     * @return
+     */
     public Admin getById(Long id) {
         Admin admin = adminMapper.getById(id);
-        admin.setPassword(null);
+        admin.setPassword("******");
         return admin;
     }
     /**
