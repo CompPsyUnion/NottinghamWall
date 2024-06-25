@@ -8,7 +8,10 @@ import java.io.Serializable;
 public class StudentPageQueryDTO implements Serializable {
 
     //用户姓名
-    private String name;
+    private String username;
+
+    //用户学号
+    private String studentId;
 
     //页码
     private int page;

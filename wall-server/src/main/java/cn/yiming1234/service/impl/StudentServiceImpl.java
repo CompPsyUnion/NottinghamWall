@@ -76,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
     /**
-     * 根据id查询员工
+     * 根据id查询学生
      *
      * @param id
      * @return
@@ -87,7 +87,17 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
     /**
-     * 用户分页查询
+     * 根据学号查询学生
+     *
+     * @param studentId
+     * @return
+     */
+    public Student getByStudentId(Long studentId) {
+        Student student = studentMapper.getByStudentId(studentId);
+        return student;
+    }
+    /**
+     * 学生分页查询
      * @param studentPageQueryDTO
      * @return
      */

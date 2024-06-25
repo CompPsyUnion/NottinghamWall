@@ -1,4 +1,4 @@
-package cn.yiming1234.controller;
+package cn.yiming1234.controller.admin;
 
 import cn.yiming1234.constant.JwtClaimsConstant;
 import cn.yiming1234.dto.AdminDTO;
@@ -25,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/manage")
 @Slf4j
-@Api(tags = "管理员管理接口")
+@Api(tags = "管理端管理员接口")
 public class AdminController {
 
     @Autowired

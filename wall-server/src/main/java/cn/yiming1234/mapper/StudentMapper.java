@@ -15,14 +15,14 @@ public interface StudentMapper {
      */
     void insert(Student student);
     /**
-     * 根据用户名查询管理员
+     * 根据用户名查询管学生
      * @param username
      * @return
      */
     @Select("select * from student where username = #{username}")
     Student getByUsername(String username);
     /**
-     * 根据id查询管理员
+     * 根据id查询学生
      * @param id
      * @return
      */
@@ -35,8 +35,11 @@ public interface StudentMapper {
      */
     @Select("select * from student where openid = #{openid}")
     Student findByOpenid(String openid);
+
+    @Select("select * from student where studentid = #{studentid}")
+    Student getByStudentId(Long studentid);
     /**
-     * 分页查询管理员
+     * 分页查询学生
      * @param studentPageQueryDTO
      * @return
      */

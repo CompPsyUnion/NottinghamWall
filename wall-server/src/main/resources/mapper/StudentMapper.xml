@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sky.mapper.DishMapper">
-    <select id="pageQuery" resultType="cn.yiming1234.entity.Admin">
-        select * from admin
+<mapper namespace="cn.yiming1234.mapper.StudentMapper">
+    <select id="pageQuery" resultType="cn.yiming1234.entity.Student">
+        select * from student
         <where>
-            <if test="name != null and name != ''">
-                and name like concat('%',#{name},'%')
+            <if test="studentId != null and studentId != ''">
+                and studentId like concat('%',#{studentId},'%')
+            </if>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
             </if>
         </where>
         order by create_time desc
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into student (openid, name, phone, sex, id_number, avatar, create_time)
-        values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})
+        insert into student (openid, studentid, name, phone, sex, id_number, avatar, create_time, update_time)
+        values (#{openid},#{studentid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
     </insert>
 
 </mapper>

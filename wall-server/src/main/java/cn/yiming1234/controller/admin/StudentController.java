@@ -1,4 +1,4 @@
-package cn.yiming1234.controller;
+package cn.yiming1234.controller.admin;
 
 import cn.yiming1234.constant.JwtClaimsConstant;
 import cn.yiming1234.dto.StudentLoginDTO;
@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/student/manage")
+@RequestMapping("/admin/student")
 @Slf4j
-@Api(tags = "学生管理接口")
+@Api(tags = "管理端学生接口")
 public class StudentController {
 
        @Autowired
@@ -52,38 +52,38 @@ public class StudentController {
             return Result.success(studentLoginVO);
         }
         /**
-        * 用户分页查询
+        * 学生分页查询
         * @param studentPageQueryDTO
         * @return
         */
         @GetMapping("/page")
-        @ApiOperation("分页查询用户")
+        @ApiOperation("分页查询学生")
         public Result<PageResult> page(StudentPageQueryDTO studentPageQueryDTO){
-            log.info("用户分页查询：{}", studentPageQueryDTO);
+            log.info("学生分页查询：{}", studentPageQueryDTO);
             PageResult pageResult = studentService.pageQuery(studentPageQueryDTO);
             return Result.success(pageResult);
         }
         /**
-        * 根据id查询用户
+        * 根据id查询学生
         * @param id
         * @return
         */
         @GetMapping("/{id}")
-        @ApiOperation("根据id查询用户")
+        @ApiOperation("根据id查询学生")
         public Result<Student> getById(Long id){
             Student student = studentService.getById(id);
             return Result.success(student);
         }
+
         /**
-         * 获取学生信息
-         *
-         * @return
-         */
-        @ApiOperation(value = "获取学生信息")
-        @RequestMapping("/get")
-        public String getStudentInfo() {
-            //TODO 获取学生信息
-            log.info("获取学生信息");
-            return "获取学生信息";
+        * 根据学号查询学生
+        * @param studentId
+        * @return
+        */
+        @GetMapping("/{studentId}")
+        @ApiOperation("根据学号查询学生")
+        public Result<Student> getByStudentId(Long studentId){
+            Student student = studentService.getByStudentId(studentId);
+            return Result.success(student);
         }
 }
