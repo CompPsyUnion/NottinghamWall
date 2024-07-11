@@ -44,4 +44,10 @@ public interface StudentMapper {
      * @return
      */
     Page<Student> pageQuery(StudentPageQueryDTO studentPageQueryDTO);
+    /**
+     * 根据邮箱查询学生
+     * @param email
+     * @return
+     */
+    Student getByEmail(String email);
 }

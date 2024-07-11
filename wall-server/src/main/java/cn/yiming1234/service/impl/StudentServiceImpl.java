@@ -26,11 +26,15 @@ import java.util.Map;
 @Service
 @Slf4j
 public class StudentServiceImpl implements StudentService {
+
     public static final String WX_URL = "https://api.weixin.qq.com/sns/jscode2session";
+
     @Autowired
     private WeChatProperties weChatProperties;
+
     @Autowired
     private StudentMapper studentMapper;
+
     /**
      * 获取openid
      *
@@ -65,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
         }
         //返回用户对象
         Student student = studentMapper.findByOpenid(openid);
-
+        //判断用户是否为空
         if (student == null) {
             student = Student.builder()
                     .openid(openid)
@@ -94,6 +98,16 @@ public class StudentServiceImpl implements StudentService {
      */
     public Student getByStudentId(Long studentId) {
         Student student = studentMapper.getByStudentId(studentId);
+        return student;
+    }
+    /**
+     * 根据邮箱查询学生
+     *
+     * @param email
+     * @return
+     */
+    public Student getByEmail(String email) {
+        Student student = studentMapper.getByEmail(email);
         return student;
     }
     /**

@@ -11,13 +11,16 @@
             <if test="username != null and username != ''">
                 and username like concat('%',#{username},'%')
             </if>
+            <if test="email != null and email != ''">
+                and email like concat('%',#{email},'%')
+            </if>
         </where>
         order by create_time desc
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into student (openid, studentid, name, phone, sex, id_number, avatar, create_time, update_time)
-        values (#{openid},#{studentid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
+        insert into student (openid, studentid, name, email, phone, sex, id_number, avatar, create_time, update_time)
+        values (#{openid},#{studentid}, #{name}, #{email}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
     </insert>
 
 </mapper>

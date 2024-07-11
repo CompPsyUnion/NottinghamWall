@@ -1,6 +1,7 @@
 package cn.yiming1234.config;
 
 import cn.yiming1234.interceptor.JwtTokenAdminInterceptor;
+import cn.yiming1234.interceptor.JwtTokenStudentInterceptor;
 import cn.yiming1234.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
+    @Autowired
+    private JwtTokenStudentInterceptor jwtTokenStudentInterceptor;
     /**
      * 注册自定义拦截器
      *
@@ -40,6 +43,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/manage/login");
+
+        registry.addInterceptor(jwtTokenStudentInterceptor)
+                .addPathPatterns("/student/**")
+                .excludePathPatterns("/student/manage/login")
+                .excludePathPatterns("/student/uniapp/status");
     }
 
     /**

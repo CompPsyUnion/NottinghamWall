@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@RestController("adminStudentController")
 @RequestMapping("/admin/student")
 @Slf4j
 @Api(tags = "管理端学生接口")
@@ -27,30 +27,6 @@ public class StudentController {
        @Autowired
        private StudentService studentService;
 
-       @Autowired
-         private JwtProperties jwtProperties;
-        /**
-         * 微信登录
-         *
-         * @param studentLoginDTO
-         * @return
-         */
-        @PostMapping("/login")
-        @ApiOperation(value = "微信登录")
-        public Result<StudentLoginVO> login(@RequestBody StudentLoginDTO studentLoginDTO){
-            log.info("学生登录：{}", studentLoginDTO.getCode());
-            Student student = studentService.wxLogin(studentLoginDTO);
-            Map<String, Object> claims = new HashMap<>();
-            claims.put(JwtClaimsConstant.USER_ID, student.getId());
-            String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
-
-            StudentLoginVO studentLoginVO = StudentLoginVO.builder()
-                    .id(student.getId())
-                    .openid(student.getOpenid())
-                    .token(token)
-                    .build();
-            return Result.success(studentLoginVO);
-        }
         /**
         * 学生分页查询
         * @param studentPageQueryDTO
@@ -84,6 +60,18 @@ public class StudentController {
         @ApiOperation("根据学号查询学生")
         public Result<Student> getByStudentId(Long studentId){
             Student student = studentService.getByStudentId(studentId);
+            return Result.success(student);
+        }
+
+        /**
+     * 根据邮箱查询学生
+     * @param email
+     * @return
+     */
+        @GetMapping("/{email}")
+        @ApiOperation("根据邮箱查询学生")
+        public  Result<Student> getByEmail(String email){
+            Student student = studentService.getByEmail(email);
             return Result.success(student);
         }
 }
