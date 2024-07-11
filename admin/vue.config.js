@@ -18,7 +18,7 @@ module.exports = {
     }
   },
   devServer: {
-    port: 8888,
+    port: 6666,
     open: true,
     disableHostCheck: true,
     hot: true,
@@ -48,6 +48,5 @@ module.exports = {
     extract: IS_PROD,
     sourceMap: false,
     loaderOptions: {},
-    modules: false,
   },
 };
