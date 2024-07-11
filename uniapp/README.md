@@ -30,9 +30,11 @@
 
 API接口地址：(https://apifox.com/apidoc/shared-4f188e54-2808-4958-9fd1-8acbb4c4072c)
 
-小程序项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/uniapp)
+服务器端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/backend)
 
-后端接口项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/backend)
+小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/uniapp)
+
+管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/admin)
 
 ## Star History
 
