@@ -1,4 +1,4 @@
-# 宁波诺丁汉大学校园墙服务器端
+# 宁波诺丁汉大学校园墙
 
 ## 项目简介
 
@@ -32,6 +32,6 @@
 
 API接口地址：(https://apifox.com/apidoc/shared-4f188e54-2808-4958-9fd1-8acbb4c4072c)
 
-小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/uniapp)
+小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/uniapp)
 
-管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/admin)
+管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/admin)
