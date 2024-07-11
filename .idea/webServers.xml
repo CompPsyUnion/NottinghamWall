@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c4c7b359-8072-4411-80d9-5bc0aefcfcff" name="阿里云">
+        <fileTransfer rootFolder="/www/NottinghamWall" accessType="SFTP" host="59.110.44.213" port="22" sshConfigId="01941a8f-4c03-4ec3-9edf-046be6bb5797" sshConfig="root@59.110.44.213:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
