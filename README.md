@@ -32,8 +32,8 @@
 
 API接口地址：(https://apifox.com/apidoc/shared-4f188e54-2808-4958-9fd1-8acbb4c4072c)
 
-服务器端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/backend)
+服务器端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/backend)
 
-小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/uniapp)
+小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/uniapp)
 
-管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/admin)
+管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/admin)
