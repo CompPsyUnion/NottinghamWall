@@ -1,0 +1,57 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  uni-captcha:
+    specifier: file:../../../../uni-captcha/uniCloud/cloudfunctions/common/uni-captcha
+    version: file:../../../../uni-captcha/uniCloud/cloudfunctions/common/uni-captcha
+  uni-cloud-s2s:
+    specifier: file:../../../../uni-cloud-s2s/uniCloud/cloudfunctions/common/uni-cloud-s2s
+    version: file:../../../../uni-cloud-s2s/uniCloud/cloudfunctions/common/uni-cloud-s2s
+  uni-config-center:
+    specifier: file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center
+    version: file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center
+  uni-id-common:
+    specifier: file:../../../../uni-id-common/uniCloud/cloudfunctions/common/uni-id-common
+    version: file:../../../../uni-id-common/uniCloud/cloudfunctions/common/uni-id-common
+  uni-open-bridge-common:
+    specifier: file:../../../../uni-open-bridge-common/uniCloud/cloudfunctions/common/uni-open-bridge-common
+    version: file:../../../../uni-open-bridge-common/uniCloud/cloudfunctions/common/uni-open-bridge-common
+
+packages:
+
+  file:../../../../uni-captcha/uniCloud/cloudfunctions/common/uni-captcha:
+    resolution: {directory: ../../../../uni-captcha/uniCloud/cloudfunctions/common/uni-captcha, type: directory}
+    name: uni-captcha
+    dependencies:
+      uni-config-center: file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center
+    dev: false
+
+  file:../../../../uni-cloud-s2s/uniCloud/cloudfunctions/common/uni-cloud-s2s:
+    resolution: {directory: ../../../../uni-cloud-s2s/uniCloud/cloudfunctions/common/uni-cloud-s2s, type: directory}
+    name: uni-cloud-s2s
+    dependencies:
+      uni-config-center: file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center
+    dev: false
+
+  file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center:
+    resolution: {directory: ../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center, type: directory}
+    name: uni-config-center
+    dev: false
+
+  file:../../../../uni-id-common/uniCloud/cloudfunctions/common/uni-id-common:
+    resolution: {directory: ../../../../uni-id-common/uniCloud/cloudfunctions/common/uni-id-common, type: directory}
+    name: uni-id-common
+    dependencies:
+      uni-config-center: file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center
+    dev: false
+
+  file:../../../../uni-open-bridge-common/uniCloud/cloudfunctions/common/uni-open-bridge-common:
+    resolution: {directory: ../../../../uni-open-bridge-common/uniCloud/cloudfunctions/common/uni-open-bridge-common, type: directory}
+    name: uni-open-bridge-common
+    dependencies:
+      uni-config-center: file:../../../../uni-config-center/uniCloud/cloudfunctions/common/uni-config-center
+    dev: false
