@@ -24,7 +24,7 @@ jobs:
         distribution: 'adopt'
 
     - name: Build with Maven
-      run: mvn package -B -DskipTests --file server/java/carproject-server/pom.xml
+      run: mvn package -B -DskipTests --file backend/wall-server/pom.xml
 
     - name: Release
       uses: softprops/action-gh-release@v2
