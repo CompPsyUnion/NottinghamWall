@@ -1,0 +1,32 @@
+name: Build and Release Spring Boot Project
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 22
+      uses: actions/setup-java@v4
+      with:
+        java-version: '22'
+        distribution: 'adopt'
+
+    - name: Build with Maven
+      run: mvn package -B -DskipTests --file backend/pom.xml
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          backend/wall-server/target/wall-server-*.jar
+        tag_name: NottinghamWall-backend v1.0
