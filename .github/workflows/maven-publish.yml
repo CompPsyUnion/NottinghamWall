@@ -32,4 +32,4 @@ jobs:
       with:
         files: |
           backend/wall-server/target/wall-server-*.jar
-        tag_name: v1.0-SNAPSHOT
+        tag_name: NottinghamWall-backend v1.0
