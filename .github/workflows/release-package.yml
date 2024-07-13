@@ -7,17 +7,21 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'admin/**'
      
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - run: npm ci
-      - run: npm test
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./admin
 
   publish-gpr:
     needs: build
@@ -31,7 +35,6 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
