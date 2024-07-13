@@ -1,8 +1,8 @@
 {
-  "name": "nottinghamwall",
+  "name": "@pleasurecruise/nottinghamwall",
   "version": "0.1.0",
   "private": false,
-  "author": "Pleasure1234 <3196812536@qq.com>",
+  "author": "自由的世界人 <3196812536@qq.com>",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/Pleasurecruise"
   },
