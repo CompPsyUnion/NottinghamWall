@@ -23,7 +23,7 @@ jobs:
         run: npm install
         working-directory: ./admin
       - name: Run tests
-        run: npm test：e2e
+        run: npm run test：e2e
         working-directory: ./admin
 
   publish:
