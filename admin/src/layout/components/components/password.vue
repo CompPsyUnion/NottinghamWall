@@ -39,7 +39,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Form as ElForm, Input } from 'element-ui'
 // 接口
-import { editPassword } from '../../../../../admin/src/api/users'
+import { editPassword } from '@/api/users'
 @Component({
   name: 'Password',
 })

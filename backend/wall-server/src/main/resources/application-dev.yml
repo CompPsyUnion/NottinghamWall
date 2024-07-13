@@ -4,8 +4,8 @@ yiming1234:
     host: localhost
     port: 3306
     database: nottinghamwall
-    username: root
-    password: root
+    username: pleasure1234
+    password: 123456
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
     access-key:
