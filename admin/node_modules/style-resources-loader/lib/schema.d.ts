@@ -1,0 +1,4 @@
+import validate from 'schema-utils';
+declare type Schema = Parameters<typeof validate>[0];
+export declare const schema: Schema;
+export {};

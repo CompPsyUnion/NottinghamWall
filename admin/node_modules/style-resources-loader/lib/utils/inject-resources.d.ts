@@ -1,0 +1,2 @@
+import { StyleResources, StyleResourcesLoaderNormalizedOptions } from '..';
+export declare const injectResources: (options: StyleResourcesLoaderNormalizedOptions, source: string, resources: StyleResources) => Promise<string>;
