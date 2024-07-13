@@ -3,6 +3,8 @@
   "version": "0.1.1",
   "private": false,
   "author": "pleasure1234 <3196812536@qq.com>",
+  "description": "宁波诺丁汉大学校园墙",
+  "license": "MIT",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/Pleasurecruise"
   },
