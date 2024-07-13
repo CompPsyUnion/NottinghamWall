@@ -22,8 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./admin
+      - name: Run tests
+        run: npm test：e2e
+        working-directory: ./admin
 
-  publish-gpr:
+  publish:
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -35,12 +38,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          registry-url: https://npm.pkg.github.com/
       - name: Install dependencies
         run: npm install
         working-directory: ./admin
-      - name: Publish package
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish
         working-directory: ./admin
+      - name: Publish to GitHub Packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
+          npm publish --registry=https://npm.pkg.github.com/
+        working-directory: ./admin
