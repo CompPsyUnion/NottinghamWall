@@ -39,9 +39,11 @@ jobs:
         run: npm install
         working-directory: ./admin
       - name: Publish to npm
-        run: npm publish --registry='https://registry.npmjs.org' --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm publish
         working-directory: ./admin
       - name: Publish to GitHub Packages
         run: |
