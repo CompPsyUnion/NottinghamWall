@@ -1,4 +1,4 @@
-name: Build and Release Spring Boot Project
+name: SpringBoot Built and Release
 
 on:
   push:
