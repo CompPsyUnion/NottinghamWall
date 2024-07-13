@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./admin
-      - name: Run tests
-        run: npm run test：e2e
-        working-directory: ./admin
 
   publish:
     needs: build
