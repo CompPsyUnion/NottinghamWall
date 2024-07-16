@@ -30,6 +30,8 @@
 
 ## 相关信息
 
+管理端部署地址：(https://nottinghamwall.yiming1234.cn)
+
 API接口地址：(https://apifox.com/apidoc/shared-4f188e54-2808-4958-9fd1-8acbb4c4072c)
 
 服务器端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/backend)
