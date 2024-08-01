@@ -1,2 +1,0 @@
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.shvl={})}(this,function(e){e.get=function(e,t,n){return void 0===(e=(t.split?t.split("."):t).reduce(function(e,t){return e&&e[t]},e))?n:e},e.set=function(e,t,n,i){return(t=t.split?t.split("."):t).slice(0,-1).reduce(function(e,t){return e[t]=e[t]||{}},e)[t.pop()]=n,e}});
-//# sourceMappingURL=shvl.umd.js.map
