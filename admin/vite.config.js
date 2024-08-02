@@ -1,7 +1,30 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [vue()],
-})
+export default defineConfig(({ mode }) => {
+  return {
+    plugins: [vue()],
+    base: mode === 'production' ? './' : '/', // 类似于 Vue CLI 的 publicPath
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src')
+      }
+    },
+    server: {
+      port: 8888,
+      open: true,
+      proxy: {
+        '/api': {
+          target: process.env.VITE_API_URL, // 使用环境变量配置 API 地址
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
+    },
+    build: {
+      minify: mode === 'production' ? 'esbuild' : false,
+      assetsDir: 'assets'
+    },
+  };
+});

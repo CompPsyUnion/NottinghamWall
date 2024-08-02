@@ -9,10 +9,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.31"
+    "axios": "^1.7.3",
+    "element-plus": "^2.7.8",
+    "md5": "^2.3.0",
+    "pinia": "^2.2.0",
+    "pinia-persistedstate-plugin": "^0.1.0",
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.2"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@eslint/js": "^9.8.0",
     "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/eslint-config-standard": "^8.0.1",
+    "eslint": "^8.0.1",
+    "eslint-plugin-vue": "^9.27.0",
     "vite": "^5.3.4"
   }
 }
