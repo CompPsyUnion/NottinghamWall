@@ -5,6 +5,9 @@ import path from 'path';
 export default defineConfig(({ mode }) => {
   return {
     plugins: [vue()],
+    define: {
+      'process.env.NODE_ENV': JSON.stringify('production')
+    },
     base: mode === 'production' ? './' : '/', // 类似于 Vue CLI 的 publicPath
     resolve: {
       alias: {

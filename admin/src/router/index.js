@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 //导入组件
+import LoginVue from '@/views/Login.vue'
 
 //定义路由关系
 const routes = [
-    // { path: '/login', component: LoginVue },
+    { path: '/login', component: LoginVue },
     // {
     //     path: '/', component: LayoutVue, children: [
     //         { path: '/user/front', component: FrontPageVue },
