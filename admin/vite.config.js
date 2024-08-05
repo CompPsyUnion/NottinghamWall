@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       open: true,
       proxy: {
         '/api': {
-          target: process.env.VITE_API_URL, // 使用环境变量配置 API 地址
+          target: process.env.VITE_API_URL || 'http://localhost:8080', // 使用环境变量配置 API 地址
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },

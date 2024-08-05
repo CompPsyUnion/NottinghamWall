@@ -27,7 +27,6 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "管理端管理员接口")
 public class AdminController {
-
     @Autowired
     private AdminService adminService;
     @Autowired
@@ -42,7 +41,6 @@ public class AdminController {
     @ApiOperation(value = "登录")
     public Result<AdminLoginVO> login(@RequestBody AdminLoginDTO adminLoginDTO) {
         log.info("管理员登录：{}", adminLoginDTO);
-
         Admin admin = adminService.login(adminLoginDTO);
 
         //登录成功后，生成jwt令牌

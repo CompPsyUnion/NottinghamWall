@@ -27,22 +27,35 @@ const rules = {
 const tokenStore = useTokenStore()
 const router = useRouter()
 const login = async () => {
-  //调用接口完成登录
-  const result = await userLoginService(LoginData.value);
-  /*if (result.code === 0) {
-      alert(result.msg ? result.msg : '登录成功');
-  } else {
-      alert(result.msg ? result.msg : '登录失败');
-  }*/
-  //alert(result.msg ? result.msg : '登录成功');
-  ElMessage.success(result.msg ? result.msg : '登录成功');
-  //把得到的token储存到pinia中
-  tokenStore.setToken(result.data)
-  localStorage.setItem('token',result.data)
-  //跳转到首页，借助路由完成跳转
-  await router.push('/')
-
+  try {
+    // 调用接口完成登录
+    const result = await userLoginService(LoginData.value);
+    // 检查业务状态码
+    if (result.code === 1) {
+      // 登录成功
+      ElMessage.success(result.msg ? result.msg : '登录成功');
+      // 把得到的 token 储存到 Pinia 中
+      tokenStore.setToken(result.data.token);
+      localStorage.setItem('token', result.data.token);
+      // 跳转到首页，借助路由完成跳转
+      router.push('/');
+    } else {
+      // 登录失败
+      ElMessage.error(result.msg ? result.msg : '登录失败');
+    }
+  } catch (error) {
+    // 处理请求失败
+    if (error.response && error.response.data && error.response.data.msg) {
+      // 后端返回的具体错误消息
+      ElMessage.error(error.response.data.msg);
+    } else {
+      // 通用错误消息
+      ElMessage.error('登录请求失败');
+    }
+    console.error('Login request failed', error); // 添加日志
+  }
 }
+
 </script>
 
 <template>
@@ -51,6 +64,9 @@ const login = async () => {
     <el-col :span="6" :offset="3" class="form">
       <!-- 登录表单 -->
       <el-form ref="form" size="large" autocomplete="off" :model="LoginData" :rules="rules">
+        <el-form-item class="logo-container">
+          <img src="@/assets/icon_logo.png" alt="Logo" class="logo">
+        </el-form-item>
         <el-form-item>
           <h1>登录</h1>
         </el-form-item>
@@ -86,6 +102,16 @@ const login = async () => {
 .login-page {
   height: 100vh;
   background-color: #fff;
+
+  .logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    width: 100%; /* 设置宽度为100% */
+    height: auto; /* 保持宽高比 */
+  }
 
   .bg {
     background:
