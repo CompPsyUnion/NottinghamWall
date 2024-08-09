@@ -30,11 +30,6 @@ jobs:
         uses: actions/setup-node@v4.0.3
         with:
           node-version: 20
-      
-      - name: Setup npmrc
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
 
       - name: Publish to npm
         run: npm publish
