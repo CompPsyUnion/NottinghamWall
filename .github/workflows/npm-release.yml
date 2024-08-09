@@ -25,16 +25,22 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 20
+    - uses: actions/checkout@v4
 
-      - name: Publish to npm
-        run: npm publish
-        working-directory: ./admin
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4.0.3
+      with:
+        node-version: 20
 
-      - name: Publish to GitHub Packages
-        run: npm publish --registry=https://npm.pkg.github.com/
-        working-directory: ./admin
+    - name: Inject GitHub and npm tokens into .npmrc
+      run: |
+        sed -i "s/\${GH_TOKEN}/${{ secrets.GH_TOKEN }}/" .npmrc
+        sed -i "s/\${NPM_TOKEN}/${{ secrets.NPM_TOKEN }}/" .npmrc
+
+    - name: Publish to npm
+      run: npm publish
+      working-directory: ./admin
+
+    - name: Publish to GitHub Packages
+      run: npm publish --registry=https://npm.pkg.github.com/
+      working-directory: ./admin
