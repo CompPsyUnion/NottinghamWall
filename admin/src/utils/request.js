@@ -15,7 +15,7 @@ instance.interceptors.request.use(
         const tokenStore = useTokenStore()
         if (tokenStore.token) {
             config.headers.token = tokenStore.token
-        } else if (!tokenStore.token && config.url !== '/login') {
+        } else if (!tokenStore.token && config.url !== '/admin/manage/login') {
             window.location.href = '/login'
             return Promise.reject(new Error('No token'))
         }
