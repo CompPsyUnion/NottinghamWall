@@ -4,11 +4,14 @@
   "description": "宁波诺丁汉大学校园墙",
   "License": "Apache-2.0",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/Pleasurecruise"
   },
-  "repository": "https://github.com/Pleasurecruise/NottinghamWall.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/octocat/my-other-repo.git"
+    },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
