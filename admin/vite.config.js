@@ -21,7 +21,11 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: process.env.VITE_API_URL || 'http://localhost:8080', // 使用环境变量配置 API 地址
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => {
+            const newPath = path.replace(/^\/api/, ''); // 去掉 /api 前缀
+            console.log(`Original path: ${path}, Rewritten path: ${newPath}`); // 输出重写前后的路径
+            return newPath;
+          },
         },
       },
     },

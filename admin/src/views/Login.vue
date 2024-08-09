@@ -7,6 +7,7 @@ import { ref } from 'vue'
 //登录函数
 import {userLoginService} from '@/api/admin';
 import { useTokenStore } from '@/store/token'
+import { useAdminStore } from '@/store/admin'
 import { useRouter } from 'vue-router'
 //定义注册模型
 const LoginData = ref({
@@ -25,19 +26,17 @@ const rules = {
   ],
 }
 const tokenStore = useTokenStore()
+const adminStore = useAdminStore()
 const router = useRouter()
 const login = async () => {
   try {
-    // 调用接口完成登录
     const result = await userLoginService(LoginData.value);
-    // 检查业务状态码
     if (result.code === 1) {
-      // 登录成功
       ElMessage.success(result.msg ? result.msg : '登录成功');
-      // 把得到的 token 储存到 Pinia 中
+      const tokenExpiry = new Date().getTime() + 60 * 60 * 1000; // 1小时过期时间
       tokenStore.setToken(result.data.token);
-      localStorage.setItem('token', result.data.token);
-      // 跳转到首页，借助路由完成跳转
+      adminStore.setAdminname(result.data.userName);
+      localStorage.setItem('tokenExpiry', tokenExpiry);
       router.push('/');
     } else {
       // 登录失败
@@ -65,7 +64,7 @@ const login = async () => {
       <!-- 登录表单 -->
       <el-form ref="form" size="large" autocomplete="off" :model="LoginData" :rules="rules">
         <el-form-item class="logo-container">
-          <img src="@/assets/icon_logo.png" alt="Logo" class="logo">
+          <img src="../assets/logo/icon_logo.png" alt="Logo" class="logo">
         </el-form-item>
         <el-form-item>
           <h1>登录</h1>
@@ -115,7 +114,7 @@ const login = async () => {
 
   .bg {
     background:
-        url('@/assets/login_bg.png') no-repeat center / cover;
+        url('@/assets/logo/login_bg.png') no-repeat center / cover;
     border-radius: 0 20px 20px 0;
   }
 

@@ -1,20 +1,37 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 //导入组件
 import LoginVue from '@/views/Login.vue'
-import Dashboard from '@/views/Dashboard.vue';
+import DashboardVue from '@/views/Dashboard.vue'
+import NoticeVue from '@/views/notice/Notice.vue'
+import AdminVue from '@/views/admin/Admin.vue'
+import StudentVue from '@/views/student/Student.vue'
+import addAdminVue from '@/views/admin/addAdmin.vue'
 
 //定义路由关系
 const routes = [
-    { path: '/login', component: LoginVue },
+    {path: '/login', component: LoginVue},
     {
-        path: '/', component: Dashboard,
-        // path: '/', component: Dashboard, children: [
-        //     { path: '/user/front', component: FrontPageVue },
-        //     { path: '/article/category', component: ArticleCategoryVue},
-        //     { path: '/user/info', component: UserInfoVue },
-        //     { path: '/article/manage', component: ArticleManageVue }
-        // ]
+        path: '/',
+        component: DashboardVue,
+        children: [
+            {
+                path: '/',
+                component: NoticeVue,
+            },
+            {
+                path: 'manage/admin',
+                component: AdminVue,
+            },
+            {
+                path: 'manage/student',
+                component: StudentVue,
+            },
+            {
+                path: 'manage/add',
+                component: addAdminVue
+            }
+        ]
     }
 ]
 
