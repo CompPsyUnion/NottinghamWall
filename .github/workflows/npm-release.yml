@@ -32,14 +32,21 @@ jobs:
       with:
         node-version: 20
 
+    - name: Configure npm for npm registry
+      run: |
+          echo "@pleasure1234:registry=https://registry.npmjs.org/" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
     - name: Publish to npm
       run: npm publish
-      working-directory: ./admin
       env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        
+
+    - name: Configure npm for GitHub Packages
+      run: |
+        echo "@Pleasurecruise:registry=https://npm.pkg.github.com/" > .npmrc
+        echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
+        sed -i 's/"name": "@pleasure1234\/nottinghamwall"/"name": "@Pleasurecruise\/nottinghamwall"/' package.json
     - name: Publish to GitHub Packages
       run: npm publish --registry=https://npm.pkg.github.com/
-      working-directory: ./admin
       env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
