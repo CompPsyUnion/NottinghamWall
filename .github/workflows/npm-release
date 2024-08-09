@@ -1,0 +1,45 @@
+name: Node.js Package Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'admin/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./admin
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20
+      
+      - name: Setup npmrc
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
+      - name: Publish to npm
+        run: npm publish
+        working-directory: ./admin
+
+      - name: Publish to GitHub Packages
+        run: npm publish --registry=https://npm.pkg.github.com/
+        working-directory: ./admin
