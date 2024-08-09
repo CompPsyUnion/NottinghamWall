@@ -6,7 +6,7 @@
   "private": false,
   "version": "1.0.2",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/Pleasurecruise"
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
