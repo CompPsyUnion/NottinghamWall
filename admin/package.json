@@ -1,8 +1,14 @@
 {
-  "name": "admin",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "@pleasure1234/nottinghamwall",
+  "author": "pleasure1234 <3196812536@qq.com>",
+  "description": "宁波诺丁汉大学校园墙",
+  "License": "Apache-2.0",
+  "private": false,
+  "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/Pleasurecruise"
+  },
+  "repository": "https://github.com/Pleasurecruise/NottinghamWall",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
