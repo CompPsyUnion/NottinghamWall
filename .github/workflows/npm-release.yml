@@ -34,8 +34,8 @@ jobs:
 
     - name: Inject GitHub and npm tokens into .npmrc
       run: |
-        sed -i "s/\${GH_TOKEN}/${{ secrets.GH_TOKEN }}/" .npmrc
-        sed -i "s/\${NPM_TOKEN}/${{ secrets.NPM_TOKEN }}/" .npmrc
+        sed -i "s/\${GH_TOKEN}/${{ secrets.GH_TOKEN }}/" admin/.npmrc
+        sed -i "s/\${NPM_TOKEN}/${{ secrets.NPM_TOKEN }}/" admin/.npmrc
 
     - name: Publish to npm
       run: npm publish
