@@ -1,4 +1,4 @@
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: GitHub Pages dependencies preinstalled
 
 on:
   # Runs on pushes targeting the docs directory
@@ -32,16 +32,16 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-
+    
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./docs
           destination: ./docs/_site
-
+    
       - name: Create CNAME file
-        run: echo "wallwiki.yiming1234.cn" > docs/_site/CNAME
-
+        run: echo "wallwiki.yiming1234.cn" > docs/CNAME
+    
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
