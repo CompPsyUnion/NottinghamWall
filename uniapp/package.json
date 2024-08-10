@@ -1,0 +1,13 @@
+{
+	"scripts": {
+		"dev:mp-weixin": "cross-env NODE_ENV=development UNI_PLATFORM=mp-weixin vue-cli-service uni-build --watch",
+		"build:mp-weixin": "cross-env NODE_ENV=production UNI_PLATFORM=mp-weixin vue-cli-service uni-build"
+	},
+	"dependencies": {
+		"vant": "^4.9.4"
+	},
+	"devDependencies": {
+		"@vant/popperjs": "^1.3.0",
+		"@vant/use": "^1.6.0"
+	}
+}
