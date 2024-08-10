@@ -22,9 +22,9 @@
 
 ## 效果展示
 
-![image](https://github.com/Pleasurecruise/NottinghamWall/assets/144885467/ce3b65fc-e63f-4934-8317-3ea45e91927a)
+![管理平台登录页面](https://github.com/user-attachments/assets/5e093f4a-4490-43b6-89ad-54dd0eab8289)
 
-![image](https://github.com/Pleasurecruise/NottinghamWall/assets/144885467/0a0659ec-5b86-471c-b9eb-6558d1c3ae4a)
+![管理员管理界面](https://github.com/user-attachments/assets/13446b39-4e5f-4cb8-8718-7dbf7fadd7e3)
 
 [后端项目编写中......]
 
