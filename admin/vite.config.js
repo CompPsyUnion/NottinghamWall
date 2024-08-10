@@ -5,6 +5,7 @@ import path from 'path';
 export default defineConfig(({ mode }) => {
   return {
     plugins: [vue()],
+    logLevel: 'info',
     define: {
       'process.env.NODE_ENV': JSON.stringify('production')
     },

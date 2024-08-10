@@ -6,9 +6,9 @@ export const useTokenStore = defineStore({
         token: localStorage.getItem('token') || ''
     }),
     actions: {
-        setToken(newToken) {
-            this.token = newToken;
-            localStorage.setItem('token', newToken);
+        setToken(token) {
+            this.token = token;
+            localStorage.setItem('token', token);
         },
         removeToken() {
             this.token = '';

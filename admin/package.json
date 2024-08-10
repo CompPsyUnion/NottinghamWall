@@ -4,10 +4,10 @@
   "description": "宁波诺丁汉大学校园墙",
   "license": "Apache-2.0",
   "private": false,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pleasurecruise/nottinghamwall"
+    "url": "https://github.com/Pleasurecruise/NottinghamWall"
   },
   "publishConfig": {
     "access": "public",
@@ -20,21 +20,21 @@
   },
   "dependencies": {
     "axios": "^1.7.3",
-    "element-plus": "^2.7.8",
+    "element-plus": "^2.8.0",
     "md5": "^2.3.0",
-    "pinia": "^2.2.0",
+    "pinia": "^2.2.1",
     "pinia-persistedstate-plugin": "^0.1.0",
-    "vue": "^3.4.31",
-    "vue-router": "^4.4.2"
+    "vue": "^3.4.37",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@eslint/js": "^9.8.0",
-    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitejs/plugin-vue": "^5.1.2",
     "@vue/eslint-config-standard": "^8.0.1",
     "eslint": "^8.0.1",
     "eslint-plugin-vue": "^9.27.0",
     "sass": "^1.77.8",
-    "vite": "^5.3.4"
+    "vite": "^5.4.0"
   }
 }

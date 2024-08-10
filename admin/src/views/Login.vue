@@ -1,18 +1,19 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { ref } from 'vue'
-//绑定数据，复用注册表单的数据模型
-//表单数据校验
-//登录函数
-import {userLoginService} from '@/api/admin';
 import { useTokenStore } from '@/store/token'
 import { useAdminStore } from '@/store/admin'
+import { userLoginService } from '@/api/admin';
 import { useRouter } from 'vue-router'
-//定义注册模型
+import { ref } from 'vue'
+
+const token = useTokenStore()
+const admin = useAdminStore()
+const router = useRouter()
+//定义默认登录数据
 const LoginData = ref({
-  username: '',
-  password: '',
+  username: 'Pleasure1234',
+  password: '123456',
 })
 //定义表单校验规则
 const rules = {
@@ -25,19 +26,19 @@ const rules = {
     { min: 5, max: 16, message: '长度为 5 到 16 个字符', trigger: 'blur' }
   ],
 }
-const tokenStore = useTokenStore()
-const adminStore = useAdminStore()
-const router = useRouter()
+//登录函数
 const login = async () => {
   try {
-    const result = await userLoginService(LoginData.value);
+    const result = await userLoginService({
+      username: LoginData.value.username,
+      password: LoginData.value.password
+    });
+    console.log('Login service result:', result); // 添加日志
     if (result.code === 1) {
       ElMessage.success(result.msg ? result.msg : '登录成功');
-      const tokenExpiry = new Date().getTime() + 60 * 60 * 1000; // 1小时过期时间
-      tokenStore.setToken(result.data.token);
-      adminStore.setAdminname(result.data.userName);
-      localStorage.setItem('tokenExpiry', tokenExpiry);
-      router.push('/');
+      token.setToken(result.data.token);
+      admin.setAdmin(result.data.userName);
+      await router.push('/');
     } else {
       // 登录失败
       ElMessage.error(result.msg ? result.msg : '登录失败');
@@ -54,7 +55,6 @@ const login = async () => {
     console.error('Login request failed', error); // 添加日志
   }
 }
-
 </script>
 
 <template>

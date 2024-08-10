@@ -4,16 +4,19 @@ import {useAdminStore} from '@/store/admin';
 import {useTokenStore} from '@/store/token';
 
 // 提供调用登录接口的函数
-export const userLoginService = (loginData) => {
+export const userLoginService = (LoginData) => {
     console.log('Login request initiated'); // 添加日志
-
     // 发送 JSON 格式的请求体
-    return request.post('/admin/manage/login', loginData, {
+    return request.post('/admin/manage/login', LoginData, {
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(response => {
         console.log('Login response received', response); // 添加日志
+        const tokenStore = useTokenStore();
+        const adminStore = useAdminStore();
+        tokenStore.setToken(response.data.token);
+        adminStore.setAdmin(response.data.userName);
         return response;
     }).catch(error => {
         console.error('Login request failed', error); // 添加日志
@@ -25,13 +28,7 @@ export const userLoginService = (loginData) => {
 export const getAdminList = (params) => {
     console.log('Fetching admin list'); // 添加日志
     // 发送 GET 请求，包含分页参数
-    return request.get('/admin/manage/page', {
-        params: {
-            name: params.name,
-            page: params.page,
-            pageSize: params.pageSize
-        }
-    }).then(response => {
+    return request.get('/admin/manage/page', {params}).then(response => {
         console.log('Admin list response received', response); // 添加日志
         return response;
     }).catch(error => {
@@ -45,7 +42,7 @@ export const statusChangeAdmin = (id, status) => {
     console.log('Start or stop admin'); // 添加日志
     // 发送 GET 请求，包含分页参数
     return request.post(`/admin/manage/status/${status}`, null, {
-        params: { id },
+        params: {id},
         headers: {
             'Content-Type': 'application/json'
         }
@@ -100,7 +97,7 @@ export const getAdminById = (id) => {
 
     // 发送 GET 请求，包含 id 参数
     return request.get(`/admin/manage/${id}`, {
-        params: { id }
+        params: {id}
     }).then(response => {
         console.log('Query admin by id response received', response); // 添加日志
         return response;

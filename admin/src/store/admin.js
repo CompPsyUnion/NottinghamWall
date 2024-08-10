@@ -7,9 +7,9 @@ export const useAdminStore = defineStore( {
         admin: localStorage.getItem('admin') || ''
     }),
     actions: {
-        setAdminname(newAdmin) {
-            this.admin = newAdmin;
-            localStorage.setItem('admin', newAdmin);
+        setAdmin(userName) {
+            this.admin = userName;
+            localStorage.setItem('admin', userName);
         },
         clearAdmin() {
             this.admin = '';

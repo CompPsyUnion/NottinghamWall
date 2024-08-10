@@ -70,14 +70,14 @@ import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { getAdminList, statusChangeAdmin } from '@/api/admin';
 
+const router = useRouter();
+
+// 定义响应式变量
 const name = ref('');
 const page = ref(1);
 const pageSize = ref(5);
 const total = ref(0);
 const records = ref([]);
-
-const router = useRouter();
-
 // 分页查询函数
 const pageQuery = async () => {
   const params = {

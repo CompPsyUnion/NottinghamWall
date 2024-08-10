@@ -12,6 +12,7 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(
     (config) => {
+        console.log('Sending request:', config); // 添加日志
         const tokenStore = useTokenStore()
         if (tokenStore.token) {
             config.headers.token = tokenStore.token
@@ -29,6 +30,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
     result => {
+        console.log('Received response:', result); // 添加日志
         //判断业务状态码
         if (result.data.code === 1) {
             return result.data;
