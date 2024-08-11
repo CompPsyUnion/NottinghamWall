@@ -16,5 +16,5 @@ yiming1234:
     port: 6379
     password: root
   wechat:
-    appid:
-    secret:
+    appid:  wxc57c61bf271c2e18
+    secret: 34ccd4b2b9c10d9da301c983d7a4d822

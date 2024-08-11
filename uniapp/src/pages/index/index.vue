@@ -6,11 +6,11 @@
 
 <script>
 import CustomSwiper from './components/swipper.vue'; // 引入自定义的 swiper 组件
-
 export default {
   components: {
     CustomSwiper
   },
+  //轮播图固定图片
   data() {
     return {
       imgList: [

@@ -3,7 +3,19 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "Nottingham Wall"
+			}
+		},
+		{
+			"path": "pages/transition/Login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/transition/agreement",
+			"style": {
+				"navigationBarTitleText": "用户协议"
 			}
 		}
 	],
