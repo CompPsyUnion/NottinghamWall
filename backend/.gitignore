@@ -4,4 +4,4 @@
 *.class
 *Test.java
 **/test/
-src/main/resources/application-dev.yml
+wall-server/src/main/resources/application-dev.yml
