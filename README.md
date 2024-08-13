@@ -6,6 +6,8 @@
 
 该主项目为由SpringBoot编写的接口地址
 
+管理端链接：https://nottinghamwall.yiming1234.cn
+
 欢迎后来者调用接口，编写自己喜欢的前端页面
 
 有意者也欢迎commit加入我
