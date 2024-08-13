@@ -50,4 +50,10 @@ public interface StudentMapper {
      * @return
      */
     Student getByEmail(String email);
+    /**
+     * 更新学生信息
+     *
+     * @param student
+     */
+    void updateById(Student student);
 }

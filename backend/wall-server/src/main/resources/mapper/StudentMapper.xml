@@ -19,8 +19,13 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into student (openid, studentid, name, email, phone, sex, id_number, avatar, create_time, update_time)
-        values (#{openid},#{studentid}, #{name}, #{email}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
+        insert into student (openid, studentid, username, email, phone, sex, id_number, avatar, create_time, update_time)
+        values (#{openid},#{studentid}, #{username}, #{email}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
     </insert>
 
+    <update id="updateById" parameterType="cn.yiming1234.entity.Student">
+        UPDATE student
+        SET username = #{username}, update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
 </mapper>

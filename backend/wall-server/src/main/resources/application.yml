@@ -50,7 +50,7 @@ yiming1234:
     # 设置jwt过期时间
     user-ttl: 7200000
     # 设置前端传递过来的令牌名称
-    user-token-name: authorization
+    user-token-name: token
   alioss:
     endpoint: ${yiming1234.alioss.endpoint}
     access-key-id: ${yiming1234.alioss.access-key-id}

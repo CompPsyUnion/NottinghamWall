@@ -1,11 +1,9 @@
 package cn.yiming1234.service;
 
-import cn.yiming1234.dto.AdminPageQueryDTO;
-import cn.yiming1234.dto.StudentLoginDTO;
-import cn.yiming1234.dto.StudentPageQueryDTO;
-import cn.yiming1234.entity.Admin;
+import cn.yiming1234.dto.*;
 import cn.yiming1234.entity.Student;
 import cn.yiming1234.result.PageResult;
+import org.springframework.beans.BeanUtils;
 
 public interface StudentService {
     /**
@@ -16,13 +14,19 @@ public interface StudentService {
      */
     Student wxLogin(StudentLoginDTO studentLoginDTO);
     /**
-     * 分页查询用户
+     * 分页查询学生
      * @param studentPageQueryDTO
      * @return
      */
     PageResult pageQuery(StudentPageQueryDTO studentPageQueryDTO);
     /**
-     * 根据id查询用户
+     * 更新学生信息
+     * @param studentDTO
+     * @return
+     */
+    Student update(StudentDTO studentDTO);
+    /**
+     * 根据id查询学生
      * @param id
      * @return
      */

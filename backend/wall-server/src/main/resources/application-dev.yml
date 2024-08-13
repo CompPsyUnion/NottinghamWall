@@ -8,8 +8,8 @@ yiming1234:
     password: 123456
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    access-key:
-    access-secret:
+    access-key-id: LTAI5tN1XwzBPpGZY6MhB3Sj
+    access-key-secret: SYm17YAhe8L3iOl175sa7lKRF9IUD7
     bucket-name: yiming1234
   redis:
     host: localhost

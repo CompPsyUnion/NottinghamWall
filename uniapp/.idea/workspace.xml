@@ -5,44 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.env.production" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/transition/Login.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/transition/agreement.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/default_avatar.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/logo/default.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/logo/icon_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/logo/login_bg.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/logo/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/logo/mini-logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/student.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/token.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-config-center/changelog.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-config-center/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-config-center/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-config-center/uniCloud/cloudfunctions/common/uni-config-center/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-config-center/uniCloud/cloudfunctions/common/uni-config-center/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-id-common/changelog.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-id-common/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-id-common/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-id-common/uniCloud/cloudfunctions/common/uni-id-common/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/uni_modules/uni-id-common/uniCloud/cloudfunctions/common/uni-id-common/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/ApifoxUploaderProjectSetting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/StudentDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/admin/AdminCommonController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/person/editInfo.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/person/getUserInfo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/env.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/properties/AliOssProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/properties/AliOssProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/StudentLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/StudentLoginDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/OssConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/OssConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/WebMvcConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/WebMvcConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/interceptor/JwtTokenStudentInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/interceptor/JwtTokenStudentInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/StudentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/StudentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/StudentMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/static/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/transition/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/getPhone.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/token.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/request.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,37 +81,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/NottinghamWall/uniapp/src/utils",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "pnpm",
-    "npm.dev:mp-weixin.executor": "Run",
-    "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "E:\\WebStorm 2023.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Cangqiong_Takeout/资料/微信小程序源代码/project-rjwm-weixin-uniapp&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;npm.dev:mp-weixin.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\WebStorm 2023.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\NottinghamWall\uniapp\src\utils" />
       <recent name="D:\NottinghamWall\uniapp\src\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\NottinghamWall\uniapp" />
+      <recent name="D:\NottinghamWall\uniapp\src\pages\person" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\transition" />
+      <recent name="D:\NottinghamWall\uniapp" />
       <recent name="D:\NottinghamWall\uniapp\src\common" />
     </key>
   </component>
@@ -152,7 +149,10 @@
       <option name="presentableId" value="Default" />
       <updated>1723352204296</updated>
       <workItem from="1723352206477" duration="6508000" />
-      <workItem from="1723365567171" duration="10620000" />
+      <workItem from="1723365567171" duration="10813000" />
+      <workItem from="1723382996819" duration="799000" />
+      <workItem from="1723446002125" duration="62867000" />
+      <workItem from="1723565470072" duration="19000" />
     </task>
     <servers />
   </component>

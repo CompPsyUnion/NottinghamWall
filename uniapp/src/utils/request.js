@@ -1,57 +1,39 @@
-// 定制请求的实例
-import axios from 'axios';
-import { useTokenStore } from '@/store/token';
+import {baseUrl} from '@/utils/env'
 
-const instance = axios.create({
-    baseURL: '/api',
-    timeout: 600000
-});
+// 参数： url:请求地址  param：请求参数  method：请求方式 callBack：回调函数
+export function request({url='', params={}, method='GET'}) {
 
-// 添加请求拦截器
-instance.interceptors.request.use(
-    (config) => {
-        console.log('Sending request:', config); // 添加日志
-        const tokenStore = useTokenStore();
-        if (tokenStore.token) {
-            config.headers.token = tokenStore.token;
-        } else if (!tokenStore.token && config.url !== '/student/manage/login') {
-            uni.navigateTo({
-                url: '/pages/transition/Login'
-            });
-            return Promise.reject(new Error('No token'));
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+    let header = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        token: uni.getStorageSync('token')
     }
-);
 
-// 添加响应拦截器
-instance.interceptors.response.use(
-    result => {
-        console.log('Received response:', result); // 添加日志
-        // 判断业务状态码
-        if (result.data.code === 1) {
-            return result.data;
-        }
-        // 操作失败
-        ElMessage.error(result.data.msg ? result.data.msg : '服务异常');
-        // 异步操作的状态转换为失败
-        return Promise.reject(result.data);
-    },
-    err => {
-        // 判断响应状态码, 如果为401, 则证明未登录, 提示请登录, 并跳转到登录页面
-        if (err.response.status === 401) {
-            ElMessage.error('请先登录');
-            uni.navigateTo({
-                url: '/pages/transition/Login'
-            });
-        } else {
-            ElMessage.error('服务异常');
-        }
-        return Promise.reject(err); // 异步的状态转化成失败的状态
-    }
-);
+    return new Promise((resolve, reject) => {
+        uni.request({
+            url: baseUrl + url,
+            data: params,
+            header: header,
+            method: method,
+            success: (res) => {
+                const {data} = res
+                if (data.code === 200 || data.code === 1) {
+                    // store.commit('setLoading', false)
+                    console.log('Request Success:', res)
+                    resolve(res.data)
+                } else {
+                    // store.commit('setLoading', true)
+                    console.error('Request Failed:', res.data)
+                    reject(res.data)
+                }
+            },
+            fail: (err) => {
+                console.error('Request Failed:', err);
+                const error = {data: {msg: err.data}}
+                // store.commit('setLoading', true)
+                reject(error)
+            }
+        });
+    })
+}
 
-export default instance;

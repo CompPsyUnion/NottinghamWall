@@ -22,7 +22,7 @@ public class Student implements Serializable {
     private String openid;
 
     //学号
-    private String studentId;
+    private String studentid;
 
     //姓名
     private String username;

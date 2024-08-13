@@ -59,6 +59,9 @@ importers:
       pinia:
         specifier: ^2.2.1
         version: 2.2.1(vue@3.4.37)
+      pinia-persistedstate-plugin:
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.4.37)
       sass:
         specifier: ^1.77.8
         version: 1.77.8
@@ -1386,6 +1389,9 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
+
+  '@types/js-cookie@3.0.6':
+    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
 
   '@types/node@22.2.0':
     resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
@@ -2772,6 +2778,9 @@ packages:
   pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
+
+  pinia-persistedstate-plugin@0.1.0:
+    resolution: {integrity: sha512-ToKR/EJzhhXElQ5YL8PVVY4CqLJjywxszAJjOCgprjmIVkTrPBsEOY4b/ATOzHQc1TtuaJs/3MJuoCpA3pv8Ew==}
 
   pinia@2.2.1:
     resolution: {integrity: sha512-ltEU3xwiz5ojVMizdP93AHi84Rtfz0+yKd8ud75hr9LVyWX2alxp7vLbY1kFm7MXFmHHr/9B08Xf8Jj6IHTEiQ==}
@@ -5560,6 +5569,8 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
 
+  '@types/js-cookie@3.0.6': {}
+
   '@types/node@22.2.0':
     dependencies:
       undici-types: 6.13.0
@@ -7216,6 +7227,15 @@ snapshots:
   picomatch@2.3.1: {}
 
   pify@2.3.0: {}
+
+  pinia-persistedstate-plugin@0.1.0(vue@3.4.37):
+    dependencies:
+      '@types/js-cookie': 3.0.6
+      pinia: 2.2.1(vue@3.4.37)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - typescript
+      - vue
 
   pinia@2.2.1(vue@3.4.37):
     dependencies:

@@ -1,6 +1,7 @@
 package cn.yiming1234.service.impl;
 
 import cn.yiming1234.constant.MessageConstant;
+import cn.yiming1234.dto.StudentDTO;
 import cn.yiming1234.dto.StudentLoginDTO;
 import cn.yiming1234.dto.StudentPageQueryDTO;
 import cn.yiming1234.entity.Student;
@@ -50,9 +51,10 @@ public class StudentServiceImpl implements StudentService {
         String json = HttpClientUtil.doGet(WX_URL, map);
         //判断openid是否为空
         JSONObject jsonObject = JSON.parseObject(json);
-        String openid = jsonObject.getString("openid");
-        return openid;
+        log.info("jsonObject:{}", jsonObject);
+        return jsonObject.getString("openid");
     }
+
     /**
      * 微信登录
      *
@@ -63,8 +65,9 @@ public class StudentServiceImpl implements StudentService {
     public Student wxLogin(StudentLoginDTO studentLoginDTO) {
         //获取openid
         String openid = getOpenid(studentLoginDTO.getCode());
+        log.info("openid:{}", openid);
         //判断当前用户是否为新用户，自动完成注册
-        if (openid != null) {
+        if (openid == null) {
             throw new LoginFailedException(MessageConstant.LOGIN_FAILED);
         }
         //返回用户对象
@@ -79,6 +82,30 @@ public class StudentServiceImpl implements StudentService {
         }
         return student;
     }
+
+    /**
+     * 更新学生信息
+     *
+     * @param studentDTO
+     */
+    @Override
+    public Student update(StudentDTO studentDTO) {
+        // 获取前端传递的用户名
+        String username = studentDTO.getUsername();
+        log.info("username:{}", username);
+        //TODO: 通过用户名查询学生其他要插入的信息
+
+        // 根据 ID 查找学生
+        Student student = studentMapper.getById(studentDTO.getId());
+
+        if (student.getUsername() == null) {
+            student.setUsername(username);
+            student.setUpdateTime(LocalDateTime.now());
+            studentMapper.updateById(student);
+        }
+        return student;
+    }
+
     /**
      * 根据id查询学生
      *
@@ -87,9 +114,9 @@ public class StudentServiceImpl implements StudentService {
      */
     public Student getById(Long id) {
         Student student = studentMapper.getById(id);
-        //student.setPassword("****");
         return student;
     }
+
     /**
      * 根据学号查询学生
      *
@@ -100,6 +127,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentMapper.getByStudentId(studentId);
         return student;
     }
+
     /**
      * 根据邮箱查询学生
      *
@@ -110,8 +138,10 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentMapper.getByEmail(email);
         return student;
     }
+
     /**
      * 学生分页查询
+     *
      * @param studentPageQueryDTO
      * @return
      */

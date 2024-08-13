@@ -62,7 +62,6 @@ public class AdminServiceImpl implements AdminService {
         //3、返回实体对象
         return admin;
     }
-
     /**
      * 新增管理员
      *

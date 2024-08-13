@@ -41,7 +41,6 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             //当前拦截到的不是动态方法，直接放行
             return true;
-
         }
         //log.info("拦截到的是Controller的方法");
         //1、从请求头中获取令牌
@@ -51,8 +50,8 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
         try {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-            Long userId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前学生id：", userId);
+            Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+            log.info("userId:{}", userId);
             BaseContext.setCurrentId(userId);
             //3、通过，放行
             return true;

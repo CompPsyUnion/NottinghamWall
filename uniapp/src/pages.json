@@ -7,15 +7,21 @@
 			}
 		},
 		{
-			"path": "pages/transition/Login",
+			"path": "pages/person/getPhone",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "获取手机号"
 			}
 		},
 		{
 			"path": "pages/transition/agreement",
 			"style": {
 				"navigationBarTitleText": "用户协议"
+			}
+		},
+		{
+			"path": "pages/person/editInfo",
+			"style": {
+				"navigationBarTitleText": "个人中心"
 			}
 		}
 	],
