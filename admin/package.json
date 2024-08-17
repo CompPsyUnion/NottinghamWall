@@ -1,13 +1,13 @@
 {
-  "name": "@pleasurecruise/nottinghamwall",
+  "name": "@nottinghamwall/nottinghamwall",
   "author": "Pleasurecruise <3196812536@qq.com>",
   "description": "宁波诺丁汉大学校园墙",
   "license": "Apache-2.0",
   "private": false,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pleasurecruise/NottinghamWall"
+    "url": "https://github.com/NottinghamWall/NottinghamWall"
   },
   "publishConfig": {
     "access": "public",
