@@ -43,7 +43,7 @@ jobs:
             NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Configure npm for GitHub Packages
         run: |
-          echo "@Pleasurecruise:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "@NottinghamWall:registry=https://npm.pkg.github.com/" > .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
         working-directory: ./admin
       - name: Publish to GitHub Packages
