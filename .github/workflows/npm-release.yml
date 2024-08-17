@@ -9,42 +9,8 @@ on:
       - 'admin/package.json'
 
 jobs:
-  check_version:
-    runs-on: ubuntu-latest
-    outputs:
-      version_changed: ${{ steps.check_version.outputs.version_changed }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 20
-      - name: Get previous version
-        id: previous_version
-        run: |
-          if [ -f ./admin/package.json ]; then
-            echo "PREVIOUS_VERSION=$(jq -r .version ./admin/package.json)" >> $GITHUB_ENV
-          else
-            echo "PREVIOUS_VERSION=0.0.0" >> $GITHUB_ENV
-          fi
-      - name: Check for version change
-        id: check_version
-        run: |
-          CURRENT_VERSION=$(jq -r .version ./admin/package.json)
-          if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
-            echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
-            echo "version_changed=true" >> $GITHUB_ENV
-          else
-            echo "No version change detected."
-            echo "version_changed=false" >> $GITHUB_ENV
-          fi
-      - name: Set output for version change
-        id: set_output
-        run: echo "::set-output name=version_changed::${{ env.version_changed }}"
 
   build:
-    needs: check_version
-    if: needs.check_version.outputs.version_changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
