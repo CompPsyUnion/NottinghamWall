@@ -24,7 +24,6 @@ jobs:
 
   publish:
     needs: build
-    if: needs.check_version.outputs.version_changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
