@@ -5,14 +5,8 @@
     <select id="pageQuery" resultType="cn.yiming1234.entity.Student">
         select * from student
         <where>
-            <if test="studentId != null and studentId != ''">
-                and studentId like concat('%',#{studentId},'%')
-            </if>
             <if test="username != null and username != ''">
                 and username like concat('%',#{username},'%')
-            </if>
-            <if test="email != null and email != ''">
-                and email like concat('%',#{email},'%')
             </if>
         </where>
         order by create_time desc
