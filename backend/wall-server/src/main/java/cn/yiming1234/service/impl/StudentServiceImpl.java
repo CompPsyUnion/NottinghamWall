@@ -92,14 +92,20 @@ public class StudentServiceImpl implements StudentService {
     public Student update(StudentDTO studentDTO) {
         // 获取前端传递的用户名
         String username = studentDTO.getUsername();
+        String avatar = studentDTO.getAvatar();
         log.info("username:{}", username);
-        //TODO: 通过用户名查询学生其他要插入的信息
+        log.info("avatar:{}", avatar);
 
         // 根据 ID 查找学生
         Student student = studentMapper.getById(studentDTO.getId());
 
         if (student.getUsername() == null) {
             student.setUsername(username);
+            student.setUpdateTime(LocalDateTime.now());
+            studentMapper.updateById(student);
+        }
+        if(student.getAvatar() == null){
+            student.setAvatar(avatar);
             student.setUpdateTime(LocalDateTime.now());
             studentMapper.updateById(student);
         }

@@ -7,7 +7,7 @@
     </view>
     <view class="nickname">
       <text>昵称：</text>
-      <input type="nickname" class="weui-input" :value="nickName" @blur="bindblur" placeholder="请输入昵称"
+      <input type="nickname" class="webui-input" :value="nickName" @blur="bindblur" placeholder="请输入昵称"
              @input="bindinput"/>
     </view>
 
@@ -28,7 +28,26 @@ export default {
       nickName: ''
     };
   },
-  onLoad(option) {
+  onLoad() {
+    // 获取用户信息
+    uni.request({
+      url: baseUrl + '/student/get/info',
+      method: 'GET',
+      header: {
+        token: uni.getStorageSync('token')
+      },
+      success: (res) => {
+        if (res.data.code === 1) {
+          this.nickName = res.data.data.username;
+          this.avatarUrl = res.data.data.avatar;
+        } else {
+          console.error('获取用户信息失败:', res.data.msg);
+        }
+      },
+      fail: (err) => {
+        console.error('获取用户信息失败:', err);
+      }
+    });
   },
   methods: {
     bindblur(e) {
@@ -53,27 +72,80 @@ export default {
         })
         return false;
       }
-      // 上传昵称
-      uni.request({
-        url: baseUrl + '/student/login/update',
-        method: 'PUT',
+      // 组合请求参数
+      uni.uploadFile({
+        url: baseUrl + '/student/common/upload',
+        filePath: this.avatarUrl,
+        name: 'file',
         header: {
           token: uni.getStorageSync('token')
         },
-        data: {
-          username: this.nickName
+        success: (res) => {
+          console.log('上传响应:', res);
+          try {
+            // 解析字符串形式的 JSON
+            const responseData = JSON.parse(res.data);
+            if (responseData.code === 1) {
+              const avatar = responseData.data;
+              // 发送请求更新用户信息
+              uni.request({
+                url: baseUrl + '/student/update/info',
+                method: 'PUT',
+                header: {
+                  token: uni.getStorageSync('token')
+                },
+                data: {
+                  username: this.nickName,
+                  avatar: avatar
+                },
+                success: (res) => {
+                  if (res.data.code === 1) {
+                    console.log('用户信息更新成功');
+                    uni.showToast({
+                      title: '更新成功',
+                      icon: 'success',
+                      duration: 2000
+                    });
+                  } else {
+                    console.error('用户信息更新失败:', res.data.msg);
+                    uni.showToast({
+                      title: '更新失败',
+                      icon: 'none',
+                      duration: 2000
+                    });
+                  }
+                },
+                fail: (err) => {
+                  console.error('用户信息更新失败:', err);
+                  uni.showToast({
+                    title: '更新失败',
+                    icon: 'none',
+                    duration: 2000
+                  });
+                }
+              });
+            } else {
+              console.error('上传失败，服务器返回错误:', responseData.msg);
+            }
+          } catch (e) {
+            console.error('解析响应数据失败:', e);
+            uni.showToast({
+              title: '解析失败',
+              icon: 'none',
+              duration: 2000
+            });
+          }
+        },
+        fail: (err) => {
+          console.error('上传头像失败:', err);
+          uni.showToast({
+            title: '上传失败',
+            icon: 'none',
+            duration: 2000
+          });
         }
-      })
-      // TODO 上传头像
-      // // 上传头像
-      // uni.uploadFile({
-      //   url: baseUrl + '/student/common/upload',
-      //   filePath: this.avatarUrl,
-      //   header: {
-      //     token: uni.getStorageSync('token')
-      //   },
-      //   data: {},
-      // })
+      });
+
     }
   }
 }
@@ -123,7 +195,7 @@ export default {
     align-items: center;
     justify-content: center;
 
-    .weui-input {
+    .webui-input {
       padding-left: 60rpx;
     }
   }

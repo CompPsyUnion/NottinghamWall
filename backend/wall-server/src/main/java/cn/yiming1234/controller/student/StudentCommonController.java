@@ -46,7 +46,6 @@ public class StudentCommonController {
         } catch (IOException e) {
             log.error("上传文件失败", e);
         }
-
         return null;
     }
 }

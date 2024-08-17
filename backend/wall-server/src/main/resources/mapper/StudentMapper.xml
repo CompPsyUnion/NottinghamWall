@@ -25,7 +25,10 @@
 
     <update id="updateById" parameterType="cn.yiming1234.entity.Student">
         UPDATE student
-        SET username = #{username}, update_time = #{updateTime}
+        SET
+            username = #{username},
+            avatar = #{avatar},
+            update_time = #{updateTime}
         WHERE id = #{id}
     </update>
 </mapper>

@@ -1,7 +1,6 @@
 package cn.yiming1234.controller.student;
 
 import cn.yiming1234.constant.JwtClaimsConstant;
-import cn.yiming1234.dto.AdminDTO;
 import cn.yiming1234.dto.StudentDTO;
 import cn.yiming1234.dto.StudentLoginDTO;
 import cn.yiming1234.entity.Student;
@@ -16,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -34,6 +34,9 @@ public class StudentController {
 
     @Autowired
     private JwtUtil jwtUtil;
+    
+    @Autowired
+    private StudentCommonController studentCommonController;
 
     /**
      * 微信登录
@@ -65,15 +68,14 @@ public class StudentController {
      * @return
      */
     @ApiOperation(value = "获取学生信息")
-    @GetMapping("/login/get")
+    @GetMapping("/get/info")
     public Result<Student> getStudentInfo(HttpServletRequest request) {
-//        String token = request.getHeader("token").substring(7);
-//        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-//        Long userId = claims.get(JwtClaimsConstant.USER_ID, Long.class);
-//
-//        Student student = studentService.getById(userId);
-//        return Result.success(student);
-        return null;
+        String token = request.getHeader(jwtProperties.getUserTokenName());
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+        Long id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+        log.info("当前学生id:{}", id);
+        Student student = studentService.getById(id);
+        return Result.success(student);
     }
 
     /**
@@ -83,7 +85,7 @@ public class StudentController {
      * @return
      */
     @ApiOperation(value = "更新学生信息")
-    @PutMapping("/login/update")
+    @PutMapping("/update/info")
     public Result update(@RequestBody StudentDTO studentDTO, HttpServletRequest request){
         String token = request.getHeader(jwtProperties.getUserTokenName());
         Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);

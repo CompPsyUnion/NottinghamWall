@@ -5,41 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/ApifoxUploaderProjectSetting.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/StudentDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/admin/AdminCommonController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/person/editInfo.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/person/getUserInfo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/env.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/properties/AliOssProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/properties/AliOssProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/StudentLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/StudentLoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/OssConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/OssConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/WebMvcConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/config/WebMvcConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/interceptor/JwtTokenStudentInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/interceptor/JwtTokenStudentInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/StudentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/StudentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/StudentMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/transition/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/getPhone.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/token.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/editInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/editInfo.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +35,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Pleasurecruise/NottinghamWall.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/NottinghamWall/NottinghamWall.git&quot;,
     &quot;accountId&quot;: &quot;5cac65db-7cfb-4d4c-9d0c-ae9036f7d9af&quot;
   }
 }</component>
@@ -153,6 +123,8 @@
       <workItem from="1723382996819" duration="799000" />
       <workItem from="1723446002125" duration="62867000" />
       <workItem from="1723565470072" duration="19000" />
+      <workItem from="1723863711358" duration="117000" />
+      <workItem from="1723863849660" duration="9165000" />
     </task>
     <servers />
   </component>
