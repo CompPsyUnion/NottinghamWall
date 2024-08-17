@@ -23,6 +23,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Service
 @Slf4j
@@ -90,26 +92,27 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student update(StudentDTO studentDTO) {
-        // 获取前端传递的用户名
-        String username = studentDTO.getUsername();
-        String avatar = studentDTO.getAvatar();
-        log.info("username:{}", username);
-        log.info("avatar:{}", avatar);
-
         // 根据 ID 查找学生
         Student student = studentMapper.getById(studentDTO.getId());
 
-        if (student.getUsername() == null) {
-            student.setUsername(username);
-            student.setUpdateTime(LocalDateTime.now());
-            studentMapper.updateById(student);
-        }
-        if(student.getAvatar() == null){
-            student.setAvatar(avatar);
-            student.setUpdateTime(LocalDateTime.now());
-            studentMapper.updateById(student);
-        }
+        // 更新学生信息
+        updateField(student::getUsername, studentDTO.getUsername(), student::setUsername, student);
+        updateField(student::getAvatar, studentDTO.getAvatar(), student::setAvatar, student);
+        updateField(student::getSex, studentDTO.getSex(), student::setSex, student);
+        updateField(student::getStudentid, studentDTO.getStudentid(), student::setStudentid, student);
+
         return student;
+    }
+
+    /**
+     * 通用方法：检查字段值是否为空，如果是，则更新字段并设置更新时间
+     */
+    private <T> void updateField(Supplier<T> getter, T newValue, Consumer<T> setter, Student student) {
+        if (getter.get() == null && newValue != null) {
+            setter.accept(newValue);
+            student.setUpdateTime(LocalDateTime.now());
+            studentMapper.updateById(student);
+        }
     }
 
     /**

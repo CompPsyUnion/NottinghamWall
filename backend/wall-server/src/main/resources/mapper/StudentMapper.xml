@@ -28,6 +28,8 @@
         SET
             username = #{username},
             avatar = #{avatar},
+            sex = #{sex},
+            studentid = #{studentid},
             update_time = #{updateTime}
         WHERE id = #{id}
     </update>

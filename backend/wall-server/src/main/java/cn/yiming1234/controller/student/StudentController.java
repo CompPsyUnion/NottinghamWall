@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -93,9 +94,11 @@ public class StudentController {
         log.info("当前学生id:{}", id);
         studentDTO.setId(id);
         Student student = studentService.getById(id);
-        if (studentDTO.getUsername() == null) {
-            studentDTO.setUsername(student.getUsername());
-        }
+        studentDTO.setUsername(Optional.ofNullable(studentDTO.getUsername()).orElse(student.getUsername()));
+        studentDTO.setAvatar(Optional.ofNullable(studentDTO.getAvatar()).orElse(student.getAvatar()));
+        studentDTO.setSex(Optional.ofNullable(studentDTO.getSex()).orElse(student.getSex()));
+        studentDTO.setStudentid(Optional.ofNullable(studentDTO.getStudentid()).orElse(student.getStudentid()));
+
         Student updatedStudent = studentService.update(studentDTO);
         return Result.success(updatedStudent);
     }
