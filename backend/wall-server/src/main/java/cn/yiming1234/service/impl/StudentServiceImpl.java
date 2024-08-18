@@ -18,7 +18,7 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +31,10 @@ import java.util.function.Supplier;
 public class StudentServiceImpl implements StudentService {
 
     public static final String WX_URL = "https://api.weixin.qq.com/sns/jscode2session";
+
+    public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token";
+
+    public static final String WX_GET_PHONE_URL = "https://api.weixin.qq.com/wxa/business/getuserphonenumber";
 
     @Autowired
     private WeChatProperties weChatProperties;
@@ -58,6 +62,22 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 获取accessToken
+     *
+     * @return
+     */
+    private String getAccessToken() {
+        Map<String, String> map = new HashMap<>();
+        map.put("appid", weChatProperties.getAppid());
+        map.put("secret", weChatProperties.getSecret());
+        map.put("grant_type", "client_credential");
+        String json = HttpClientUtil.doGet(WX_ACCESS_TOKEN_URL, map);
+        JSONObject jsonObject = JSON.parseObject(json);
+        log.info("access_token:{}", jsonObject.getString("access_token"));
+        return jsonObject.getString("access_token");
+    }
+
+    /**
      * 微信登录
      *
      * @param studentLoginDTO
@@ -78,6 +98,8 @@ public class StudentServiceImpl implements StudentService {
         if (student == null) {
             student = Student.builder()
                     .openid(openid)
+                    .username("飞天裤衩") // 设置默认用户名
+                    .avatar("https://yiming1234.oss-cn-beijing.aliyuncs.com/3af1ed64-c545-4250-8259-13d03f500db9.jpeg")  // 设置默认头像
                     .createTime(LocalDateTime.now())
                     .build();
             studentMapper.insert(student);
@@ -85,6 +107,51 @@ public class StudentServiceImpl implements StudentService {
         return student;
     }
 
+    /**
+     * 微信获取手机号
+     *
+     * @param code
+     * @return
+     */
+    @Override
+    public String getPhoneNumber(String code, Long id) throws IOException {
+        log.info("code:{}", code);
+        String accessToken = getAccessToken();
+        log.info("access_token:{}", accessToken);
+        Map<String, String> bodyParams = new HashMap<>();
+        bodyParams.put("code", code);
+
+        String json = HttpClientUtil.doPost4Json(WX_GET_PHONE_URL + "?access_token=" + accessToken, bodyParams);
+        JSONObject jsonObject = JSON.parseObject(json);
+        log.info("jsonObject:{}", jsonObject);
+        if (jsonObject.getInteger("errcode") == 0) {
+            JSONObject phoneInfo = jsonObject.getJSONObject("phone_info");
+            String purePhoneNumber = phoneInfo.getString("purePhoneNumber");
+            log.info("purePhoneNumber:{}", purePhoneNumber);
+            // Update phone number in the database
+
+            updatePhoneNumber(id, purePhoneNumber);
+            return purePhoneNumber;
+        } else {
+            log.error("Error retrieving phone number: {}", jsonObject.getString("errmsg"));
+            return null;
+        }
+    }
+    /**
+     * 更新手机号
+     *
+     * @param id
+     * @param phoneNumber
+     */
+    @Override
+    public void updatePhoneNumber(Long id, String phoneNumber) {
+        Student student = studentMapper.getById(id);
+        if (student != null) {
+            student.setPhone(phoneNumber);
+            student.setUpdateTime(LocalDateTime.now());
+            studentMapper.updateById(student);
+        }
+    }
     /**
      * 更新学生信息
      *

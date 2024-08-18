@@ -9,16 +9,8 @@
       </view>
     </view>
     <view class="content">
-      <uni-button class="login-btn">
-        <view class="btn-content" @click="getUserInfo">
-          <text class="btn-text">一键获取手机号</text>
-        </view>
-      </uni-button>
-      <uni-button class="skip-btn">
-        <view class="btn-content">
-          <text class="btn-text">暂不获取</text>
-        </view>
-      </uni-button>
+      <button class="primary-button" type="primary" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">一键获取手机号</button>
+      <button class="default-button" type="default" @click="skip">暂不获取</button>
       <view class="agreement">
         <uni-checkbox :value="false" class="checkbox"/>
         <text class="agreement-text">
@@ -32,7 +24,29 @@
 </template>
 
 <script>
+import {userGetPhoneService} from "@/api/getPhone";
 
+export default {
+  methods: {
+    getPhoneNumber(e) {
+      const code = e.detail.code;
+      console.log('code', code);
+      console.log(e.detail.errMsg) // 回调信息（成功失败都会返回）
+      const params = {
+        code: code
+      };
+      userGetPhoneService(params).then(res => {
+        console.log('res', res);
+      });
+    },
+    //TODO: 协议授权逻辑处理
+    skip() {
+      uni.navigateTo({
+        url: '/pages/index/index'
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -41,7 +55,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: #f5ebd6;
+  background-color: #fff;
 }
 
 .header {
@@ -74,25 +88,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px; /* 确保按钮在标题下方 */
+  margin-top: 100px;
 }
 
-.login-btn, .skip-btn {
-  width: 80%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #4a90e2; /* 深蓝色 */
-  color: #fff;
-  font-size: 16px;
-  margin-bottom: 10px;
-  border-radius: 50px;
+.primary-button, .default-button {
+  width: 60%; /* 设置按钮宽度为80%屏幕宽度 */
+  padding: 10px 0; /* 增加按钮的高度 */
+  margin-bottom: 20px; /* 按钮之间的间距 */
+  font-size: 16px; /* 调整按钮内文字的大小 */
+  border-radius: 20px; /* 圆角按钮 */
 }
 
-.skip-btn {
-  background-color: #e0e0e0; /* 浅灰色 */
-  color: #000;
+.default-button {
+  background-color: #f5f5f5;
+  color: #666;
 }
 
 .agreement {
@@ -115,17 +124,6 @@
   text-decoration: underline;
   color: #0066cc;
   white-space: nowrap;
-}
-
-.btn-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-text {
-  font-size: 16px;
-  color: inherit;
 }
 
 </style>

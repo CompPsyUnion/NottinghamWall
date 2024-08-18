@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="" />
+    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/getPhone.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/person/universe.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/.env.production" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/authentication.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/authentication.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/editInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/editInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/getPhone.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/getPhone.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Vue Composition API Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -121,6 +137,7 @@
       <workItem from="1723863849660" duration="9165000" />
       <workItem from="1723891319165" duration="6061000" />
       <workItem from="1723897697895" duration="8000" />
+      <workItem from="1723944985520" duration="16469000" />
     </task>
     <servers />
   </component>

@@ -35,7 +35,11 @@ public interface StudentMapper {
      */
     @Select("select * from student where openid = #{openid}")
     Student findByOpenid(String openid);
-
+    /**
+     * 根据学号查询学生
+     * @param studentid
+     * @return
+     */
     @Select("select * from student where studentid = #{studentid}")
     Student getByStudentId(Long studentid);
     /**

@@ -5,6 +5,8 @@ import cn.yiming1234.entity.Student;
 import cn.yiming1234.result.PageResult;
 import org.springframework.beans.BeanUtils;
 
+import java.io.IOException;
+
 public interface StudentService {
     /**
      * 微信登录
@@ -13,6 +15,13 @@ public interface StudentService {
      * @return
      */
     Student wxLogin(StudentLoginDTO studentLoginDTO);
+    /**
+     * 微信获取手机号
+     *
+     * @param code
+     * @return
+     */
+    String getPhoneNumber(String code, Long id) throws IOException;
     /**
      * 分页查询学生
      * @param studentPageQueryDTO
@@ -25,6 +34,13 @@ public interface StudentService {
      * @return
      */
     Student update(StudentDTO studentDTO);
+    /**
+     * 更新学生手机号
+     *
+     * @param id
+     * @param phoneNumber
+     */
+    void updatePhoneNumber(Long id, String phoneNumber);
     /**
      * 根据id查询学生
      * @param id

@@ -19,9 +19,27 @@
 			}
 		},
 		{
-			"path": "pages/person/editInfo",
+			"path": "pages/person/person",
 			"style": {
 				"navigationBarTitleText": "个人中心"
+			}
+		},
+		{
+			"path": "pages/person/editInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息编辑"
+			}
+		},
+		{
+			"path": "pages/person/authentication",
+			"style": {
+				"navigationBarTitleText": "个人信息认证"
+			}
+		},
+		{
+			"path": "pages/person/universe",
+			"style": {
+				"navigationBarTitleText": "通用管理"
 			}
 		}
 	],

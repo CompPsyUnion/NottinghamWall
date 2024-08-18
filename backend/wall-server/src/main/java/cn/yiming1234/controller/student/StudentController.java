@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -61,6 +62,24 @@ public class StudentController {
                 .token(token)
                 .build();
         return Result.success(studentLoginVO);
+    }
+
+    /**
+     * 微信获取手机号
+     *
+     * @param code
+     * @return
+     */
+    @PostMapping("/login/getPhoneNumber")
+    @ApiOperation(value = "微信获取手机号")
+    public Result<String> getPhoneNumber(@RequestParam String code, HttpServletRequest request) throws IOException {
+        log.info("获取手机号：{}", code);
+        String token = request.getHeader(jwtProperties.getUserTokenName());
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+        Long id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+
+        String phoneNumber = studentService.getPhoneNumber(code, id);
+        return Result.success(phoneNumber);
     }
 
     /**

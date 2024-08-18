@@ -23,6 +23,7 @@
             username = #{username},
             avatar = #{avatar},
             sex = #{sex},
+            phone = #{phone},
             studentid = #{studentid},
             update_time = #{updateTime}
         WHERE id = #{id}

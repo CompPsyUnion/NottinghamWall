@@ -1,4 +1,3 @@
-import {request} from '@/utils/request';
 import {baseUrl} from "@/utils/env";
 
 // 提供调用登录接口的函数
@@ -30,7 +29,3 @@ export const userLoginService = (LoginData) => {
 
     })
 }
-
-// 提供获取用户信息的函数
-
-//  提供更新用户信息的函数

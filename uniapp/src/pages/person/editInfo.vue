@@ -7,7 +7,7 @@
     </view>
     <view class="formItem">
       <text class="label">昵称：</text>
-      <input type="text" class="webui-input" :value="nickName" @blur="bindblur" placeholder="请输入昵称"
+      <input type="nickname" class="weui-input" :value="nickName" @blur="bindblur" placeholder="请输入昵称"
              @input="bindinput"/>
     </view>
     <view class="formItem">
@@ -23,7 +23,7 @@
     </view>
     <view class="formItem">
       <text class="label">学生号：</text>
-      <input type="text" class="webui-input" :value="studentid" @blur="bindStudentIdBlur" placeholder="请输入学生号"
+      <input type="number" class="webui-input" :value="studentid" placeholder="请输入学生号"
              @input="bindStudentIdInput"/>
     </view>
     <view class="btn">
@@ -90,17 +90,14 @@ export default {
     bindinput(e) {
       this.nickName = e.detail.value;
     },
-    bindStudentIdBlur(e) {
-      this.studentid = e.detail.value;
-    },
     bindStudentIdInput(e) {
       this.studentid = e.detail.value;
     },
     onChooseAvatar(e) {
       this.avatarUrl = e.detail.avatarUrl;
     },
-    onSexChange(event) {
-      this.selectedSex = event.detail.value;
+    onSexChange(e) {
+      this.selectedSex = e.detail.value;
     },
     logError(error) {
       console.error('Error:', error);
@@ -117,12 +114,9 @@ export default {
         return;
       }
 
-      // 判断用户是否更改了头像
       if (this.avatarUrl === this.originalAvatarUrl) {
-        // 头像未更改，直接使用原来的头像 URL 更新信息
         this.updateUserInfo(this.avatarUrl);
       } else {
-        // 头像已更改，执行上传操作
         uni.uploadFile({
           url: baseUrl + '/student/common/upload',
           filePath: this.avatarUrl,
@@ -245,7 +239,7 @@ export default {
       text-align: left; // 标签文本左对齐
     }
 
-    .webui-input {
+    .weui-input {
       flex: 1; // 输入框占用剩余空间
       margin-left: 20rpx; // 标签和输入框之间的间距
     }
