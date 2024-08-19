@@ -14,7 +14,6 @@ dist
 
 # Editor directories and files
 .idea
-.env.production
 *.suo
 *.ntvs*
 *.njsproj

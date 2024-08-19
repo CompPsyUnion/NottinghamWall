@@ -99,6 +99,7 @@ public class StudentServiceImpl implements StudentService {
             student = Student.builder()
                     .openid(openid)
                     .username("飞天裤衩") // 设置默认用户名
+                    .sex("1") // 设置默认性别
                     .avatar("https://yiming1234.oss-cn-beijing.aliyuncs.com/3af1ed64-c545-4250-8259-13d03f500db9.jpeg")  // 设置默认头像
                     .createTime(LocalDateTime.now())
                     .build();
@@ -129,7 +130,6 @@ public class StudentServiceImpl implements StudentService {
             String purePhoneNumber = phoneInfo.getString("purePhoneNumber");
             log.info("purePhoneNumber:{}", purePhoneNumber);
             // Update phone number in the database
-
             updatePhoneNumber(id, purePhoneNumber);
             return purePhoneNumber;
         } else {
@@ -163,23 +163,16 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentMapper.getById(studentDTO.getId());
 
         // 更新学生信息
-        updateField(student::getUsername, studentDTO.getUsername(), student::setUsername, student);
-        updateField(student::getAvatar, studentDTO.getAvatar(), student::setAvatar, student);
-        updateField(student::getSex, studentDTO.getSex(), student::setSex, student);
-        updateField(student::getStudentid, studentDTO.getStudentid(), student::setStudentid, student);
-
-        return student;
-    }
-
-    /**
-     * 通用方法：检查字段值是否为空，如果是，则更新字段并设置更新时间
-     */
-    private <T> void updateField(Supplier<T> getter, T newValue, Consumer<T> setter, Student student) {
-        if (getter.get() == null && newValue != null) {
-            setter.accept(newValue);
+        if (student != null) {
+            student.setUsername(studentDTO.getUsername());
+            student.setAvatar(studentDTO.getAvatar());
+            student.setSex(studentDTO.getSex());
+            student.setStudentid(studentDTO.getStudentid());
             student.setUpdateTime(LocalDateTime.now());
             studentMapper.updateById(student);
         }
+
+        return student;
     }
 
     /**

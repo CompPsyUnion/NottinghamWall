@@ -41,8 +41,40 @@
 			"style": {
 				"navigationBarTitleText": "通用管理"
 			}
+		},
+		{
+			"path": "pages/topic/create",
+			"style": {
+				"navigationBarTitleText": "创建帖子"
+			}
+		},
+		{
+			"path": "pages/favorites/index",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
 		}
 	],
+	"tabBar": {
+		"color": "#000000",
+		"selectedColor": "#000000",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home-active.png"
+			},
+			{
+				"pagePath": "pages/person/person",
+				"text": "我的",
+				"iconPath": "static/icon/person.png",
+				"selectedIconPath": "static/icon/person-active.png"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

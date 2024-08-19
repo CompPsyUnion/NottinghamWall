@@ -2,9 +2,9 @@
   <div class="profile-page">
     <!-- 头像和昵称部分 -->
     <div class="profile-header">
-      <img class="avatar" src="https://yiming1234.oss-cn-beijing.aliyuncs.com/3af1ed64-c545-4250-8259-13d03f500db9.jpeg" alt="Avatar" />
+      <img class="avatar" :src="avatarUrl" alt="Avatar" />
       <div class="nickname-settings">
-        <p class="nickname">昵称</p>
+        <p class="nickname">{{ nickName }}</p>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
         <uni-icons type="chat" size="24" color="#ff6600"></uni-icons>
         <p>我的评论</p>
       </div>
-      <div class="order-item">
+      <div class="order-item"  @click="goToFavoritesPage">
         <uni-icons type="star" size="24" color="#ff6600"></uni-icons>
         <p>我的收藏</p>
       </div>
@@ -66,12 +66,45 @@
 
 <script>
 import UniIcons from '@/uni_modules/uni-icons/components/uni-icons/uni-icons.vue';
+import {baseUrl} from "@/utils/env";
 
 export default {
+  data() {
+    return {
+      avatarUrl: '', // 初始化头像URL
+      nickName: '',
+    };
+  },
+  onLoad(){
+    // 获取用户信息
+    uni.request({
+          url: baseUrl + '/student/get/info',
+          method: 'GET',
+          header: {
+            token: uni.getStorageSync('token')
+          },
+      success: (res) => {
+        if (res.data.code === 1) {
+          this.nickName = res.data.data.username;
+          this.avatarUrl = res.data.data.avatar;
+        } else {
+          console.error('获取用户信息失败:', res.data.msg);
+        }
+      },
+      fail: (err) => {
+        console.error('获取用户信息失败:', err);
+      }
+    });
+  },
   components: {
     UniIcons
   },
   methods: {
+    goToFavoritesPage() {
+      uni.navigateTo({
+        url: '/pages/favorites/index'
+      });
+    },
     goToPersonPage() {
       uni.navigateTo({
         url: '/pages/person/editInfo'

@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -33,12 +32,6 @@ public class StudentController {
 
     @Autowired
     private JwtProperties jwtProperties;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-    
-    @Autowired
-    private StudentCommonController studentCommonController;
 
     /**
      * 微信登录

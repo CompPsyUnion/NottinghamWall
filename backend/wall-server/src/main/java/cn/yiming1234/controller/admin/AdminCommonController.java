@@ -27,13 +27,13 @@ public class AdminCommonController {
     private AliOssUtil aliOssUtil;
 
     /**
-     * 上传文件
+     * 管理员上传文件
      *
      * @param file
      * @return
      */
     @PostMapping("/upload")
-    @ApiOperation(value = "上传文件")
+    @ApiOperation(value = "管理员上传文件")
     public Result<String> upload(MultipartFile file) {
         log.info("上传成功:{}",file);
 
@@ -48,5 +48,17 @@ public class AdminCommonController {
         }
 
         return null;
+    }
+    /**
+     * 管理员删除文件
+     *
+     * @param file
+     */
+    @PostMapping("/delete")
+    @ApiOperation(value = "管理员删除文件")
+    public Result<String> delete(String file) {
+        log.info("删除文件:{}",file);
+        aliOssUtil.delete(file);
+        return Result.success();
     }
 }

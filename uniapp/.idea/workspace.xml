@@ -5,21 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/getPhone.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/person/universe.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/exception/MaxUploadSizeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/TopicDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Topic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/typehandler/JsonTypeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/TopicController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/TopicMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/TopicService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/TopicServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/topic.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/favorites/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/index/components/fab.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/topic/create.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/home-active.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/person-active.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/person.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/star-active.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/topic-active.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/topic.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/AliOssUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/AliOssUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/admin/AdminCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/admin/AdminCommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/StudentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/.env.production" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.production" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/person/authentication.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/authentication.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/person/editInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/editInfo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/person/getPhone.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/getPhone.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/person.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/env.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +109,7 @@
       <recent name="D:\NottinghamWall\uniapp\src\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\NottinghamWall\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\person" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\transition" />
       <recent name="D:\NottinghamWall\uniapp" />
@@ -138,6 +158,7 @@
       <workItem from="1723891319165" duration="6061000" />
       <workItem from="1723897697895" duration="8000" />
       <workItem from="1723944985520" duration="16469000" />
+      <workItem from="1724030652614" duration="37496000" />
     </task>
     <servers />
   </component>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yiming1234.mapper.TopicMapper">
+    <insert id="insert" parameterType="cn.yiming1234.entity.Topic">
+        INSERT INTO topics (id, content, authorID, createdAt, updatedAt, imgURLs)
+        VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.typehandler.JsonTypeHandler})
+    </insert>
+</mapper>
