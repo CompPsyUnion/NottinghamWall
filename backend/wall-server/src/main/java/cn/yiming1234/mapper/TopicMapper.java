@@ -6,6 +6,7 @@ import cn.yiming1234.entity.Topic;
 import cn.yiming1234.enumeration.OperationType;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface TopicMapper {
@@ -23,4 +24,11 @@ public interface TopicMapper {
      * @return
      */
     Page<Topic> pageQuery(TopicPageQueryDTO topicPageQueryDTO);
+
+    /**
+     * 根据id获取话题
+     * @param id
+     * @return
+     */
+    Topic getTopicById(String id);
 }

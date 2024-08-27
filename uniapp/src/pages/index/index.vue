@@ -1,7 +1,7 @@
 <template>
   <view>
     <CustomSwiper :imgList="imgList" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="500"/>
-    <TopicComponent :records="records" :loadMoreStatus="loadMoreStatus" />
+    <TopicComponent :records="records" :loadMoreStatus="loadMoreStatus"/>
     <FabComponent />
   </view>
 </template>
@@ -11,7 +11,7 @@ import { userLoginService } from '@/api/login';
 import CustomSwiper from './components/swipper.vue'; // 引入自定义的 swiper 组件
 import FabComponent from './components/fab.vue'; // 引入自定义的 fab 组件
 import TopicComponent from './components/topic.vue';
-import {baseUrl} from "../../utils/env"; // 引入自定义的 topic 组件
+import { baseUrl } from "@/utils/env"; // 引入自定义的 topic 组件
 export default {
   components: {
     CustomSwiper,
@@ -97,15 +97,6 @@ export default {
         uni.showToast({title: '加载失败', icon: 'none'});
       }
     },
-    onClick(record) {
-      console.log('点击记录:', record);
-    },
-    actionsClick(action, record) {
-      uni.showToast({
-        title: `${action}: ${record.content}`,
-        icon: 'none'
-      });
-    }
   }
 };
 </script>

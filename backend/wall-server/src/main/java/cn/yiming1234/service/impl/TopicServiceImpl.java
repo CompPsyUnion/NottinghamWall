@@ -59,4 +59,16 @@ public class TopicServiceImpl implements TopicService {
         List<Topic> records = page.getResult();
         return new PageResult(total, records);
     }
+
+    /**
+     * 根据id获取话题
+     */
+    @Override
+    public Topic getTopicById(String id) {
+        Topic topic = topicMapper.getTopicById(id);
+
+        log.info("根据id获取话题详情：{}", topic);
+
+        return topic;
+    }
 }

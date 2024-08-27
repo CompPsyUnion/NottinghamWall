@@ -91,6 +91,14 @@ public class StudentController {
         return Result.success(student);
     }
 
+    @ApiOperation(value = "根据id获取学生信息")
+    @GetMapping("/get/info/{id}")
+    public Result<Student> getStudentInfoById(@PathVariable Long id) {
+        log.info("根据id获取学生信息：{}", id);
+        Student student = studentService.getById(id);
+        return Result.success(student);
+    }
+
     /**
      * 更新学生信息
      *

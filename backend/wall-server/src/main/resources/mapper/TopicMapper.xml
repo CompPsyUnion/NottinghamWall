@@ -17,8 +17,11 @@
         order by createdAt desc
     </select>
 
+    <select id="getTopicById" resultMap="topicResultMap">
+        SELECT * FROM topics WHERE id = #{id}
+    </select>
+
     <resultMap id="topicResultMap" type="cn.yiming1234.entity.Topic">
         <result property="imgURLs" column="imgURLs" typeHandler="cn.yiming1234.typehandler.JsonTypeHandler"/>
     </resultMap>
-
 </mapper>

@@ -34,6 +34,7 @@ public class AdminServiceImpl implements AdminService {
      * @param adminLoginDTO
      * @return
      */
+    @Override
     public Admin login(AdminLoginDTO adminLoginDTO) {
         String username = adminLoginDTO.getUsername();
         String password = adminLoginDTO.getPassword();
@@ -54,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
 
-        if (admin.getStatus() == StatusConstant.DISABLE) {
+        if (admin.getStatus().equals(StatusConstant.DISABLE)) {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
@@ -67,6 +68,7 @@ public class AdminServiceImpl implements AdminService {
      *
      * @param adminDTO
      */
+    @Override
     public void save(AdminDTO adminDTO) {
         //System.out.println("当前线程的id："+Thread.currentThread().getId());
         //1、数据转换
@@ -87,6 +89,7 @@ public class AdminServiceImpl implements AdminService {
      * @param adminPageQueryDTO
      * @return
      */
+    @Override
     public PageResult pageQuery(AdminPageQueryDTO adminPageQueryDTO) {
         //开始分页查询
         PageHelper.startPage(adminPageQueryDTO.getPage(), adminPageQueryDTO.getPageSize());
@@ -104,6 +107,7 @@ public class AdminServiceImpl implements AdminService {
      * @param status
      * @param id
      */
+    @Override
     public void startOrStop(Integer status, Long id) {
         Admin admin = Admin.builder()
                 .id(id)
@@ -117,6 +121,7 @@ public class AdminServiceImpl implements AdminService {
      * @param id
      * @return
      */
+    @Override
     public Admin getById(Long id) {
         Admin admin = adminMapper.getById(id);
         admin.setPassword("******");

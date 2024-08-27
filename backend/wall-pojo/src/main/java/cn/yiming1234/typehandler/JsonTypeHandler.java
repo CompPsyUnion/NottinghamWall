@@ -1,15 +1,12 @@
 package cn.yiming1234.typehandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
+import java.sql.*;
 import java.util.List;
 
 public class JsonTypeHandler extends BaseTypeHandler<List<String>> {
@@ -21,7 +18,7 @@ public class JsonTypeHandler extends BaseTypeHandler<List<String>> {
         try {
             ps.setString(i, objectMapper.writeValueAsString(parameter));
         } catch (JsonProcessingException e) {
-            throw new SQLException("Error converting list to JSON string", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -36,17 +33,18 @@ public class JsonTypeHandler extends BaseTypeHandler<List<String>> {
     }
 
     @Override
-    public List<String> getNullableResult(java.sql.CallableStatement cs, int columnIndex) throws SQLException {
+    public List<String> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return toList(cs.getString(columnIndex));
     }
 
     private List<String> toList(String json) throws SQLException {
+        if (json == null) {
+            return null;
+        }
         try {
-            return json == null ? null : Arrays.asList(objectMapper.readValue(json, String[].class));
-        } catch (JsonProcessingException e) {
-            throw new SQLException("Error converting JSON string to list", e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            return objectMapper.readValue(json, new TypeReference<List<String>>() {});
+        } catch (Exception e) {
+            throw new SQLException("Failed to convert JSON to List<String>", e);
         }
     }
 }

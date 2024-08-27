@@ -1,15 +1,14 @@
 package cn.yiming1234.controller.student;
 
-
 import cn.yiming1234.constant.JwtClaimsConstant;
 import cn.yiming1234.dto.TopicDTO;
 import cn.yiming1234.dto.TopicPageQueryDTO;
+import cn.yiming1234.entity.Topic;
 import cn.yiming1234.properties.JwtProperties;
 import cn.yiming1234.result.PageResult;
 import cn.yiming1234.result.Result;
 import cn.yiming1234.service.TopicService;
 import cn.yiming1234.utils.JwtUtil;
-import com.github.pagehelper.Page;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,5 +56,13 @@ public class TopicController {
         log.info("实现话题无限滚动：{}", topicPageQueryDTO);
         PageResult pageResult = topicService.pageQuery(topicPageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    @GetMapping("/topic/{id}")
+    @ApiOperation(value = "根据id获取话题详情")
+    public Result<Topic> getTopicById(@PathVariable String id) {
+        log.info("根据id获取话题详情：{}", id);
+        Topic topic = topicService.getTopicById(id);
+        return Result.success(topic);
     }
 }

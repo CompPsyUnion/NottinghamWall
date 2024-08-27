@@ -48,6 +48,12 @@
 				"navigationBarTitleText": "创建帖子"
 			}
 		},
+        {
+    			"path": "pages/topic/view",
+    			"style": {
+    				"navigationBarTitleText": "发表评论"
+    			}
+        },
 		{
 			"path": "pages/favorites/index",
 			"style": {
