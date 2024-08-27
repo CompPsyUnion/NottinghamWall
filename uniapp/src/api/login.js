@@ -25,6 +25,10 @@ export const userLoginService = (LoginData) => {
                     console.error('请求失败，状态码:', res.statusCode);
                 }
             },
+            fail: function (error) {
+                // 请求失败的回调
+                console.error('请求失败:', error);
+            }
         });
 
     })

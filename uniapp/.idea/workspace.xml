@@ -5,39 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/exception/MaxUploadSizeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/TopicDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Topic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/typehandler/JsonTypeHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/TopicController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/TopicMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/TopicService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/TopicServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/topic.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/favorites/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/index/components/fab.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/topic/create.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/home-active.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/home.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/person-active.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/person.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/star-active.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/star.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/topic-active.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/static/icon/topic.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/AliOssUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/AliOssUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/TopicPageQueryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/index/components/topic.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/WeChatPayUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/utils/WeChatPayUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/admin/AdminCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/admin/AdminCommonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.production" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/TopicController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/AdminServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/components/swipper.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/components/swipper.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/person/person.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/env.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,8 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -64,7 +43,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/NottinghamWall/NottinghamWall.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/CompPsyUnion/NottinghamWall.git&quot;,
     &quot;accountId&quot;: &quot;5cac65db-7cfb-4d4c-9d0c-ae9036f7d9af&quot;
   }
 }</component>
@@ -80,29 +59,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Cangqiong_Takeout/资料/微信小程序源代码/project-rjwm-weixin-uniapp&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
-    &quot;npm.dev:mp-weixin.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;E:\\WebStorm 2023.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/Cangqiong_Takeout/资料/微信小程序源代码/project-rjwm-weixin-uniapp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "pnpm",
+    "npm.dev:mp-weixin.executor": "Run",
+    "settings.editor.selected.configurable": "settings.vue",
+    "ts.external.directory.path": "E:\\WebStorm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;vue.recent.templates&quot;: [
-      &quot;Vue Composition API Component&quot;
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\NottinghamWall\uniapp\src\utils" />
@@ -124,6 +103,7 @@
         <script value="dev:mp-weixin" />
       </scripts>
       <node-interpreter value="project" />
+      <package-manager value="pnpm" />
       <envs />
       <method v="2" />
     </configuration>
@@ -136,7 +116,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-WS-242.20224.426" />
       </set>
     </attachedChunks>
   </component>
@@ -159,6 +139,10 @@
       <workItem from="1723897697895" duration="8000" />
       <workItem from="1723944985520" duration="16469000" />
       <workItem from="1724030652614" duration="37496000" />
+      <workItem from="1724324174474" duration="123000" />
+      <workItem from="1724324309557" duration="271000" />
+      <workItem from="1724382554970" duration="163000" />
+      <workItem from="1724745876954" duration="12696000" />
     </task>
     <servers />
   </component>

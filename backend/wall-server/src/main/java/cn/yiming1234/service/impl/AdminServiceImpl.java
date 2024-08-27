@@ -109,7 +109,7 @@ public class AdminServiceImpl implements AdminService {
                 .id(id)
                 .status(status)
                 .build();
-        adminMapper.update(admin);;
+        adminMapper.update(admin);
     }
     /**
      * 根据id查询管理员

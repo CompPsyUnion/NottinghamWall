@@ -8,6 +8,9 @@
         <option value="$PROJECT_DIR$/wall-pojo/pom.xml" />
         <option value="$PROJECT_DIR$/wall-service/pom.xml" />
         <option value="$PROJECT_DIR$/backend/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/wall-common/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/wall-server/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/wall-pojo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -16,5 +19,5 @@
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="graalvmjdk17" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK" />
 </project>

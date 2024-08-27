@@ -3,19 +3,19 @@ package cn.yiming1234.controller.student;
 
 import cn.yiming1234.constant.JwtClaimsConstant;
 import cn.yiming1234.dto.TopicDTO;
+import cn.yiming1234.dto.TopicPageQueryDTO;
 import cn.yiming1234.properties.JwtProperties;
+import cn.yiming1234.result.PageResult;
 import cn.yiming1234.result.Result;
 import cn.yiming1234.service.TopicService;
 import cn.yiming1234.utils.JwtUtil;
+import com.github.pagehelper.Page;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,5 +46,16 @@ public class TopicController {
 
         topicService.addTopic(topicDTO);
         return Result.success(null);
+    }
+
+    /**
+     * 实现话题无限滚动
+     */
+    @GetMapping("/get/topic")
+    @ApiOperation(value = "实现话题无限滚动")
+    public Result<PageResult> getTopic(TopicPageQueryDTO topicPageQueryDTO) {
+        log.info("实现话题无限滚动：{}", topicPageQueryDTO);
+        PageResult pageResult = topicService.pageQuery(topicPageQueryDTO);
+        return Result.success(pageResult);
     }
 }

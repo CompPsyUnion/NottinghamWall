@@ -43,7 +43,7 @@ public class StudentCommonController {
             try {
                 String originalFilename = file.getOriginalFilename();
                 String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                String objectName = UUID.randomUUID().toString() + extension;
+                String objectName = UUID.randomUUID() + extension;
                 String filePath = aliOssUtil.upload(file.getBytes(), objectName);
                 filePaths.add(filePath);
             } catch (IOException e) {
