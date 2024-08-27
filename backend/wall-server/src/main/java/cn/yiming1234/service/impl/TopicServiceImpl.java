@@ -1,9 +1,13 @@
 package cn.yiming1234.service.impl;
 
 import cn.yiming1234.dto.TopicDTO;
+import cn.yiming1234.dto.TopicPageQueryDTO;
 import cn.yiming1234.entity.Topic;
 import cn.yiming1234.mapper.TopicMapper;
+import cn.yiming1234.result.PageResult;
 import cn.yiming1234.service.TopicService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -38,5 +43,20 @@ public class TopicServiceImpl implements TopicService {
         topicMapper.insert(topic);
     }
 
+    /**
+     * 分页查询话题
+     */
+    @Override
+    public PageResult pageQuery(TopicPageQueryDTO topicPageQueryDTO) {
 
+        // 开始分页查询
+        PageHelper.startPage(topicPageQueryDTO.getPage(), topicPageQueryDTO.getPageSize());
+
+        Page<Topic> page = topicMapper.pageQuery(topicPageQueryDTO);
+
+        // 将查询结果封装为PageResult对象
+        long total = page.getTotal();
+        List<Topic> records = page.getResult();
+        return new PageResult(total, records);
+    }
 }

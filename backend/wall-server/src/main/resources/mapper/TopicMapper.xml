@@ -6,4 +6,19 @@
         INSERT INTO topics (id, content, authorID, createdAt, updatedAt, imgURLs)
         VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.typehandler.JsonTypeHandler})
     </insert>
+
+    <select id="pageQuery" resultMap="topicResultMap">
+        select * from topics
+        <where>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
+            </if>
+        </where>
+        order by createdAt desc
+    </select>
+
+    <resultMap id="topicResultMap" type="cn.yiming1234.entity.Topic">
+        <result property="imgURLs" column="imgURLs" typeHandler="cn.yiming1234.typehandler.JsonTypeHandler"/>
+    </resultMap>
+
 </mapper>

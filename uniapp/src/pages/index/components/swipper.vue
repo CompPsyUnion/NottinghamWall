@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss">
 .slideshowBox {
-  height: 200px;
+  height: 150px;
 }
 
 .swiper-item {
