@@ -61,6 +61,18 @@
             }
         },
         {
+            "path": "pages/order/location",
+            "style": {
+                "navigationBarTitleText": "地图选点"
+            }
+        },
+        {
+            "path": "pages/order/address",
+            "style": {
+                "navigationBarTitleText": "地址管理"
+            }
+        },
+        {
              "path": "pages/message/index",
              "style": {
                "navigationBarTitleText": "我的消息"

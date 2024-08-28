@@ -7,12 +7,10 @@
         class="map"
         show-location="true"
         @regionchange="onRegionChange">
-
       <view class="marker">
         <text class="marker-label">{{ latitude.toFixed(5) }}, {{ longitude.toFixed(5) }}</text>
         <uni-icons type="location-filled" :size="30" color="#007aff" />
       </view>
-
       <button class="recenter-button" @click="recenterMap">
         <uni-icons type="location-filled" :size="30" color="#fff" />
       </button>
@@ -44,7 +42,6 @@
     </uni-grid>
   </view>
 </template>
-
 
 <script>
 export default {

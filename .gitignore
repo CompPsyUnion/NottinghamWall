@@ -1,2 +1,4 @@
 
 backend/wall-server/src/main/resources/application-dev.yml
+
+uniapp/src/utils/env.js

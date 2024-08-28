@@ -60,9 +60,7 @@
                 "desc" : "订单功能需要获取用户位置信息"
             }
         },
-        "requiredPrivateInfos": [
-            "getLocation"
-         ]
+        "requiredPrivateInfos" : [ "getLocation", "chooseLocation" ]
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -77,5 +75,14 @@
         "enable" : false
     },
     "vueVersion" : "3",
-    "locale" : "zh-Hans"
+    "locale" : "zh-Hans",
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "RSNBZ-3ABW4-MF3UK-FMCJP-JC4YT-RUFTR"
+                }
+            }
+        }
+    }
 }
