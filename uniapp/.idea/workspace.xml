@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/topic/view.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/order/order.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/order-active.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/icon/order.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/qqmap-wx-jssdk.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/qqmap-wx-jssdk.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/topic.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/components/topic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/components/topic.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,43 +55,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/NottinghamWall-2/uniapp",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "pnpm",
-    "npm.dev:mp-weixin.executor": "Run",
-    "settings.editor.selected.configurable": "cn.fjdmy.uniapp.settings.AppSettingsConfigurable",
-    "ts.external.directory.path": "E:\\WebStorm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/NottinghamWall-2/uniapp/src/static/icon&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;npm.dev:mp-weixin.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;cn.fjdmy.uniapp.settings.AppSettingsConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\WebStorm 2024.2.0.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ],
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\NottinghamWall-2\uniapp\src\static\icon" />
+      <recent name="D:\NottinghamWall-2\uniapp\src" />
       <recent name="D:\NottinghamWall\uniapp\src\utils" />
       <recent name="D:\NottinghamWall\uniapp\src\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\NottinghamWall-2\uniapp\src\utils" />
       <recent name="D:\NottinghamWall\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\person" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\transition" />
       <recent name="D:\NottinghamWall\uniapp" />
-      <recent name="D:\NottinghamWall\uniapp\src\common" />
     </key>
   </component>
   <component name="RunManager">
@@ -138,7 +144,8 @@
       <workItem from="1724324309557" duration="271000" />
       <workItem from="1724382554970" duration="163000" />
       <workItem from="1724745876954" duration="12696000" />
-      <workItem from="1724760748830" duration="14402000" />
+      <workItem from="1724760748830" duration="18995000" />
+      <workItem from="1724815143818" duration="14761000" />
     </task>
     <servers />
   </component>

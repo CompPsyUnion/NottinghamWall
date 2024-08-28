@@ -49,10 +49,22 @@
 			}
 		},
         {
-    			"path": "pages/topic/view",
-    			"style": {
-    				"navigationBarTitleText": "发表评论"
-    			}
+    		"path": "pages/topic/view",
+    		"style": {
+    			"navigationBarTitleText": "发表评论"
+    		}
+        },
+        {
+            "path": "pages/order/order",
+            "style": {
+                "navigationBarTitleText": "发布订单"
+            }
+        },
+        {
+             "path": "pages/message/index",
+             "style": {
+               "navigationBarTitleText": "我的消息"
+             }
         },
 		{
 			"path": "pages/favorites/index",
@@ -73,6 +85,18 @@
 				"iconPath": "static/icon/home.png",
 				"selectedIconPath": "static/icon/home-active.png"
 			},
+            {
+                "pagePath": "pages/order/order",
+                "text": "订单",
+                "iconPath": "static/icon/order.png",
+                "selectedIconPath": "static/icon/order-active.png"
+            },
+            {
+                "pagePath": "pages/message/index",
+                "text": "消息",
+                "iconPath": "static/icon/message.png",
+                "selectedIconPath": "static/icon/message-active.png"
+            },
 			{
 				"pagePath": "pages/person/person",
 				"text": "我的",
