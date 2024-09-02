@@ -106,12 +106,8 @@
 	// 引入公共JS文件
 	import amapWx from './amapWx.js';
 	import {
-		defineEmits
-	} from 'vue';
-	import {
 		onMounted,
 		ref,
-		defineProps,
 		getCurrentInstance
 	} from 'vue';
 	const instance = getCurrentInstance();
