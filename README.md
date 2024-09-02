@@ -1,5 +1,3 @@
-以Pleasurecruise的身份发起pull request
-
 # 宁波诺丁汉大学校园墙
 
 ## 项目简介
