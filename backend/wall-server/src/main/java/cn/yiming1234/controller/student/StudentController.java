@@ -114,6 +114,8 @@ public class StudentController {
         log.info("当前学生id:{}", id);
         studentDTO.setId(id);
         Student student = studentService.getById(id);
+        log.info("当前学生信息:{}", student);
+
         studentDTO.setUsername(Optional.ofNullable(studentDTO.getUsername()).orElse(student.getUsername()));
         studentDTO.setAvatar(Optional.ofNullable(studentDTO.getAvatar()).orElse(student.getAvatar()));
         studentDTO.setSex(Optional.ofNullable(studentDTO.getSex()).orElse(student.getSex()));

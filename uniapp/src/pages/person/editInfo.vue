@@ -69,8 +69,8 @@ export default {
           this.avatarUrl = res.data.data.avatar;
           this.originalAvatarUrl = res.data.data.avatar; // 保存原始头像URL
           this.studentid = res.data.data.studentid;
-          const sexKey = Object.keys(this.sexValueMap).find(key => this.sexValueMap[key] === res.data.data.sex);
-          this.selectedSex = sexKey || 'Male';
+          this.selectedSex = res.data.data.sex === "1" ? 'Male' : 'Female';
+          console.log('获取用户信息成功:', res.data.data);
         } else {
           console.error('获取用户信息失败:', res.data.msg);
         }
@@ -178,7 +178,14 @@ export default {
             uni.showToast({
               title: '更新成功',
               icon: 'success',
-              duration: 2000
+              duration: 1000,
+              complete: () => {
+                setTimeout(() => {
+                  uni.switchTab({
+                    url: '/pages/person/person'
+                  });
+                }, 1000);
+              }
             });
           } else {
             uni.showToast({

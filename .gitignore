@@ -1,4 +1,5 @@
 
 backend/wall-server/src/main/resources/application-dev.yml
-
-uniapp/src/utils/env.js
+backend/wall-server/src/main/resources/application-prod.yml
+backend/wall-server/target/classes/application-dev.yml
+backend/wall-server/target/classes/application-prod.yml

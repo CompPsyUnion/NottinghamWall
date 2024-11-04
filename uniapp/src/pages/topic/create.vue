@@ -47,7 +47,8 @@
 <script>
 import {baseUrl} from "@/utils/env";
 
-// TODO 发布成功后的页面跳转
+// TODO 发布话题跳转后自动刷新
+// TODO 发布评论后自动刷新
 export default {
   data() {
     return {
@@ -153,7 +154,11 @@ export default {
         });
       });
     },
-    // 处理文件删除事件
+
+    /**
+     * 处理文件删除事件
+     * @param e
+     */
     onFileDelete(e) {
       const urlToDelete = this.imgUrls[e.index]; // 获取要删除的图片URL
 
@@ -170,7 +175,12 @@ export default {
             });
           });
     },
-    // 单个文件的删除逻辑
+
+    /**
+     * 删除单个文件
+     * @param urlToDelete
+     * @returns {Promise<unknown>}
+     */
     deleteSingleFile(urlToDelete) {
       return new Promise((resolve, reject) => {
         uni.request({
@@ -194,7 +204,11 @@ export default {
         });
       });
     },
-    // 在imgUrls数组中删除删除的url
+
+    /**
+     * 从imgUrls数组中移除指定的URL
+     * @param urlToDelete
+     */
     removeUrlFromArray(urlToDelete) {
       const index = this.imgUrls.indexOf(urlToDelete);
       if (index > -1) {
@@ -216,7 +230,11 @@ export default {
       // 发布帖子操作，使用已经上传的图片URL数组
       this.uploadTopic(this.imgUrls);
     },
-    // 上传帖子内容到后端
+
+    /**
+     * 上传话题
+     * @param imgUrls
+     */
     uploadTopic(imgUrls) {
       const data = {
         content: this.content,
@@ -236,7 +254,14 @@ export default {
             uni.showToast({
               title: '发布成功',
               icon: 'success',
-              duration: 2000
+              duration: 2000,
+              complete: () => {
+                setTimeout(() => {
+                  uni.reLaunch({
+                    url: '/pages/index/index'
+                  });
+                }, 1000);
+              }
             });
           } else {
             uni.showToast({
