@@ -1,10 +1,12 @@
 package cn.yiming1234.service;
 
+import cn.yiming1234.dto.CommentDTO;
 import cn.yiming1234.dto.TopicDTO;
 import cn.yiming1234.dto.TopicPageQueryDTO;
 import cn.yiming1234.entity.Topic;
 import cn.yiming1234.result.PageResult;
-import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface TopicService {
     /**
@@ -26,4 +28,40 @@ public interface TopicService {
      * @return
      */
     Topic getTopicById(String id);
+
+    /**
+     * 点赞话题
+     * @param id
+     */
+    void likeTopic(String id, String userId);
+
+    /**
+     * 取消点赞话题
+     * @param id
+     * @param s
+     */
+    void unlikeTopic(String id, String s);
+
+    /**
+     * 判断是否点赞话题
+     * @param id
+     * @param s
+     * @return
+     */
+    Boolean isLikeTopic(String id, String s);
+
+    /**
+     * 评论话题
+     * @param commentDTO
+     * @return
+     */
+    void commentTopic(CommentDTO commentDTO);
+
+    /**
+     * 获取评论
+     * @param topicId
+     * @return
+     */
+    List<CommentDTO> getComments(String topicId);
+
 }

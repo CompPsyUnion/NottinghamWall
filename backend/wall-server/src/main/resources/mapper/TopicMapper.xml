@@ -24,4 +24,57 @@
     <resultMap id="topicResultMap" type="cn.yiming1234.entity.Topic">
         <result property="imgURLs" column="imgURLs" typeHandler="cn.yiming1234.typehandler.JsonTypeHandler"/>
     </resultMap>
+
+    <insert id="likeTopic" parameterType="map">
+        INSERT INTO likes (topic_id, user_id)
+        VALUES (#{topicId}, #{userId})
+    </insert>
+
+    <delete id="unlikeTopic">
+        DELETE FROM likes
+        WHERE topic_id = #{topicId} AND user_id = #{userId}
+    </delete>
+
+    <select id="isLikeTopic" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM likes
+        WHERE topic_id = #{topicId} AND user_id = #{userId}
+    </select>
+
+    <insert id="commentTopic" parameterType="cn.yiming1234.dto.CommentDTO">
+        INSERT INTO comment (id, topic_id, user_id, content, created_at, updated_at)
+        VALUES (#{id}, #{topicId}, #{userId}, #{content}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="getComments" parameterType="string" resultMap="CommentResultMap">
+        SELECT
+        c.id AS id,
+        c.topic_id AS topicId,
+        c.user_id AS userId,
+        c.content,
+        c.created_at AS createdAt,
+        s.id AS "user.id",
+        s.username AS "user.username",
+        s.avatar AS "user.avatar"
+        FROM
+        comment c
+        JOIN
+        student s ON c.user_id = s.id
+        WHERE
+        c.topic_id = #{topicId}
+    </select>
+
+    <resultMap id="CommentResultMap" type="cn.yiming1234.dto.CommentDTO">
+        <id property="id" column="id"/>
+        <result property="topicId" column="topicId"/>
+        <result property="userId" column="userId"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="createdAt"/>
+        <association property="user" javaType="cn.yiming1234.dto.StudentDTO">
+            <id property="id" column="user_id"/>
+            <result property="username" column="user.username"/>
+            <result property="avatar" column="user.avatar"/>
+        </association>
+    </resultMap>
+
 </mapper>
