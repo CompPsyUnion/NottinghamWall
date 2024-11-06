@@ -5,26 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/CommentDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/entity/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-prod.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/CommentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/dto/CommentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/StudentCommonController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/controller/student/TopicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/interceptor/JwtTokenStudentInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/interceptor/JwtTokenStudentInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/StudentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/StudentMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/TopicMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/mapper/TopicMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/TopicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/StudentServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/service/impl/TopicServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/message/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/message/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/authentication.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/authentication.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/person/editInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/editInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/getPhone.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/getPhone.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/getUserInfo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/person.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/topic/create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/create.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/topic/view.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/view.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/icon/home-active.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/icon/home-active.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/icon/home.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/icon/home.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/icon/message-active.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/icon/message-active.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/icon/message.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/student.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +77,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/GitHub/yiming-shop",
+    "last_opened_file_path": "D:/GitHub/NottinghamWall/uniapp/src/static/icon",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -96,18 +101,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\GitHub\NottinghamWall\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall-2\uniapp\src\uni_modules" />
       <recent name="D:\NottinghamWall-2\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall-2\uniapp\src" />
       <recent name="D:\NottinghamWall\uniapp\src\utils" />
-      <recent name="D:\NottinghamWall\uniapp\src\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\GitHub\NottinghamWall\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall-2\uniapp\src\utils" />
       <recent name="D:\NottinghamWall\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\person" />
       <recent name="D:\NottinghamWall\uniapp\src\pages\transition" />
-      <recent name="D:\NottinghamWall\uniapp" />
     </key>
   </component>
   <component name="RunManager" selected="npm.dev:mp-weixin">
@@ -182,6 +187,7 @@
       <workItem from="1726504368192" duration="324000" />
       <workItem from="1726537575061" duration="94000" />
       <workItem from="1730687542885" duration="20654000" />
+      <workItem from="1730855999370" duration="32903000" />
     </task>
     <servers />
   </component>

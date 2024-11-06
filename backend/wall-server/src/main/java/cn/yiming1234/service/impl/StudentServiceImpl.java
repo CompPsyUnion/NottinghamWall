@@ -10,6 +10,7 @@ import cn.yiming1234.mapper.StudentMapper;
 import cn.yiming1234.properties.WeChatProperties;
 import cn.yiming1234.result.PageResult;
 import cn.yiming1234.service.StudentService;
+import cn.yiming1234.utils.AliOssUtil;
 import cn.yiming1234.utils.HttpClientUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -36,11 +37,16 @@ public class StudentServiceImpl implements StudentService {
 
     public static final String WX_GET_PHONE_URL = "https://api.weixin.qq.com/wxa/business/getuserphonenumber";
 
-    @Autowired
-    private WeChatProperties weChatProperties;
+    private final WeChatProperties weChatProperties;
+    private final StudentMapper studentMapper;
+    private final AliOssUtil aliOssUtil;
 
     @Autowired
-    private StudentMapper studentMapper;
+    public StudentServiceImpl(WeChatProperties weChatProperties, StudentMapper studentMapper, AliOssUtil aliOssUtil) {
+        this.weChatProperties = weChatProperties;
+        this.studentMapper = studentMapper;
+        this.aliOssUtil = aliOssUtil;
+    }
 
     /**
      * 获取openid
@@ -164,6 +170,12 @@ public class StudentServiceImpl implements StudentService {
 
         // 更新学生信息
         if (student != null) {
+
+            if (!student.getAvatar().equals(studentDTO.getAvatar())) {
+                String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
+                aliOssUtil.delete(objectName);
+            }
+
             student.setUsername(studentDTO.getUsername());
             student.setAvatar(studentDTO.getAvatar());
             student.setSex(studentDTO.getSex());

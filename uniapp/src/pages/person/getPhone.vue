@@ -41,7 +41,7 @@ export default {
     },
     //TODO: 协议授权逻辑处理
     skip() {
-      uni.navigateTo({
+      uni.switchTab({
         url: '/pages/index/index'
       });
     }

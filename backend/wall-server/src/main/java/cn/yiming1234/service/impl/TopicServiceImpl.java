@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -52,7 +52,13 @@ public class TopicServiceImpl implements TopicService {
     /**
      * 删除话题
      */
-    // TODO
+    @Override
+    public void deleteTopic(String id) {
+        topicMapper.deleteTopicLikes(id);
+        topicMapper.deleteTopicCollections(id);
+        topicMapper.deleteTopicComments(id);
+        topicMapper.deleteTopic(id);
+    }
 
     /**
      * 分页查询话题
@@ -118,6 +124,61 @@ public class TopicServiceImpl implements TopicService {
     }
 
     /**
+     * 获取点赞计数
+     */
+    @Override
+    public int getLikeCount(String id) {
+        int count = topicMapper.getLikeCount(id);
+        log.info("话题 {} 的点赞数：{}", id, count);
+        return count;
+    }
+
+    /**
+     * 收藏话题
+     */
+    @Override
+    public void collectTopic(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("topicId", id);
+        params.put("userId", userId);
+        topicMapper.collectTopic(params);
+    }
+
+    /**
+     * 取消收藏话题
+     */
+    @Override
+    public void uncollectTopic(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("topicId", id);
+        params.put("userId", userId);
+        topicMapper.uncollectTopic(params);
+    }
+
+    /**
+     * 判断是否收藏话题
+     */
+    @Override
+    public Boolean isCollectTopic(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("topicId", id);
+        params.put("userId", userId);
+        Boolean isCollected = topicMapper.isCollectTopic(params);
+        log.info("用户 {} 是否收藏话题 {}：{}", userId, id, isCollected);
+        return isCollected;
+    }
+
+    /**
+     * 获取收藏计数
+     */
+    @Override
+    public int getCollectCount(String id) {
+        int count = topicMapper.getCollectCount(id);
+        log.info("话题 {} 的收藏数：{}", id, count);
+        return count;
+    }
+
+    /**
      * 评论话题
      */
     @Override
@@ -128,7 +189,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     /**
-     * 查看评论
+     * 根据Id查看评论
      */
     @Override
     public List<CommentDTO> getComments(String topicId) {
@@ -139,12 +200,79 @@ public class TopicServiceImpl implements TopicService {
     }
 
     /**
-     * 删除评论
+     * 分页查看评论
      */
     // TODO
 
     /**
-     * 分享话题
+     * 点赞评论
      */
-    // TODO
+    @Override
+    public void likeComment(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("commentId", id);
+        params.put("userId", userId);
+        topicMapper.likeComment(params);
+    }
+
+    /**
+     * 取消点赞评论
+     */
+    @Override
+    public void unlikeComment(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("commentId", id);
+        params.put("userId", userId);
+        topicMapper.unlikeComment(params);
+    }
+
+    /**
+     * 判断是否点赞评论
+     */
+    @Override
+    public Boolean isLikeComment(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("commentId", id);
+        params.put("userId", userId);
+        Boolean isLiked = topicMapper.isLikeComment(params);
+        log.info("用户 {} 是否点赞评论 {}：{}", userId, id, isLiked);
+        return isLiked;
+    }
+
+    /**
+     * 回复评论
+     */
+    @Override
+    public void replyComment(CommentDTO commentDTO) {
+        commentDTO.setCreatedAt(LocalDateTime.now());
+        commentDTO.setUpdatedAt(LocalDateTime.now());
+        topicMapper.replyComment(commentDTO);
+    }
+
+    /**
+     * 删除评论
+     */
+    @Override
+    public void deleteComment(String id, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("commentId", id);
+        params.put("userId", userId);
+        topicMapper.deleteComment(params);
+    }
+
+    /**
+     * 获取评论计数
+     */
+    @Override
+    public int getCommentCount(String id) {
+        int count = topicMapper.getCommentCount(id);
+        log.info("话题 {} 的评论数：{}", id, count);
+        return count;
+    }
+
+    @Override
+    public CommentDTO getCommentById(String commentId) {
+        return topicMapper.getCommentById(commentId);
+    }
+
 }
