@@ -43,7 +43,14 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx39ff21ee255f85dd",
+                        "UniversalLinks" : ""
+                    }
+                }
+            }
         }
     },
     /* 快应用特有相关 */
@@ -52,7 +59,8 @@
     "mp-weixin" : {
         "appid" : "wx39ff21ee255f85dd",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : true
         },
         "usingComponents" : true,
         "permission" : {

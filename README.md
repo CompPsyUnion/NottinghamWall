@@ -40,6 +40,4 @@ API接口地址：(https://apifox.com/apidoc/shared-4f188e54-2808-4958-9fd1-8acb
 
 ## Star History
 
-## Star History
-
 [![Star History Chart](https://api.star-history.com/svg?repos=CompPsyUnion/NottinghamWall&type=Date)](https://star-history.com/#CompPsyUnion/NottinghamWall&Date)

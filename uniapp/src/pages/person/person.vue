@@ -22,10 +22,6 @@
         <uni-icons type="star" size="24" color="#ff6600"></uni-icons>
         <p>我的收藏</p>
       </div>
-      <div class="order-item">
-        <uni-icons type="wallet" size="24" color="#ff6600"></uni-icons>
-        <p>我的订单</p>
-      </div>
     </div>
 
     <!-- 功能列表 -->
@@ -38,16 +34,6 @@
       <div class="feature-item" @click="goToAuthenticationPage">
         <uni-icons type="gear" size="20" color="#ff6600"></uni-icons>
         <p>信息认证</p>
-        <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
-      </div>
-      <div class="feature-item">
-        <uni-icons type="location" size="20" color="#ff6600"></uni-icons>
-        <p>地址管理</p>
-        <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
-      </div>
-      <div class="feature-item">
-        <uni-icons type="help" size="20" color="#ff6600"></uni-icons>
-        <p>帮助中心</p>
         <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
       </div>
       <div class="feature-item" @click="goToUniversePage">
@@ -95,9 +81,6 @@ export default {
         console.error('获取用户信息失败:', err);
       }
     });
-  },
-  components: {
-    UniIcons
   },
   methods: {
     goToFavoritesPage() {

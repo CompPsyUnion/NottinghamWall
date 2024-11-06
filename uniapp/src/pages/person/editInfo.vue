@@ -95,6 +95,7 @@ export default {
     },
     onChooseAvatar(e) {
       this.avatarUrl = e.detail.avatarUrl;
+
     },
     onSexChange(e) {
       this.selectedSex = e.detail.value;
@@ -113,14 +114,13 @@ export default {
         });
         return;
       }
-
       if (this.avatarUrl === this.originalAvatarUrl) {
         this.updateUserInfo(this.avatarUrl);
       } else {
         uni.uploadFile({
           url: baseUrl + '/student/common/upload',
           filePath: this.avatarUrl,
-          name: 'file',
+          name: 'files',
           header: {
             token: uni.getStorageSync('token')
           },
@@ -131,6 +131,7 @@ export default {
                 const avatar = responseData.data;
                 this.updateUserInfo(avatar);
               } else {
+                console.log('上传失败:', responseData.msg);
                 uni.showToast({
                   title: '上传失败',
                   icon: 'none',
@@ -169,7 +170,7 @@ export default {
         },
         data: {
           username: this.nickName,
-          avatar: avatarUrl,
+          avatar: avatarUrl[0],
           sex: this.sexValueMap[this.selectedSex],
           studentid: this.studentid
         },
@@ -181,7 +182,7 @@ export default {
               duration: 1000,
               complete: () => {
                 setTimeout(() => {
-                  uni.switchTab({
+                  uni.reLaunch({
                     url: '/pages/person/person'
                   });
                 }, 1000);

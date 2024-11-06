@@ -19,7 +19,7 @@ import java.util.UUID;
  * 公共控制器
  */
 @RestController
-@RequestMapping("student/common")
+@RequestMapping("/student/common")
 @Api(tags = "用户端公共接口")
 @Slf4j
 public class StudentCommonController {

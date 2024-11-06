@@ -47,14 +47,12 @@
 <script>
 import {baseUrl} from "@/utils/env";
 
-// TODO 发布话题跳转后自动刷新
-// TODO 发布评论后自动刷新
 export default {
   data() {
     return {
       isSelected: false,
       content: '',
-      imgUrls: [] // 用于存储图片的临时路径
+      imgUrls: []
     };
   },
   methods: {
@@ -94,7 +92,7 @@ export default {
     },
     uploadFiles(files) {
       const filePaths = files.map(file => file.path);
-      this.imgUrls = []; // 清空 imgUrls 数组，确保重新收集所有URL
+      this.imgUrls = [];
       this.uploadToServer(filePaths);
     },
     // 上传文件并将返回的URL保存到imgUrls数组
