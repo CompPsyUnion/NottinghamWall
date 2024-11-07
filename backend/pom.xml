@@ -8,10 +8,10 @@
         <groupId>org.springframework.boot</groupId>
         <version>2.7.3</version>
     </parent>
-    <groupId>cn.yiming1234</groupId>
+    <groupId>cn.yiming1234.NottinghamWall</groupId>
     <artifactId>NottinghamWall</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <modules>
         <module>wall-common</module>
         <module>wall-pojo</module>
@@ -113,12 +113,6 @@
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi}</version>
-            </dependency>
-            <!--微信支付-->
-            <dependency>
-                <groupId>com.github.wechatpay-apiv3</groupId>
-                <artifactId>wechatpay-apache-httpclient</artifactId>
-                <version>0.4.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

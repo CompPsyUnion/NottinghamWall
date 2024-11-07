@@ -2,23 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>NottinghamWall</artifactId>
-        <groupId>cn.yiming1234</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wall-server</artifactId>
-    <dependencies>
 
+    <artifactId>wall-server</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>cn.yiming1234.NottinghamWall</groupId>
+        <artifactId>NottinghamWall</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
         <dependency>
-            <groupId>cn.yiming1234</groupId>
+            <groupId>cn.yiming1234.NottinghamWall</groupId>
             <artifactId>wall-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
-            <groupId>cn.yiming1234</groupId>
+            <groupId>cn.yiming1234.NottinghamWall</groupId>
             <artifactId>wall-pojo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
