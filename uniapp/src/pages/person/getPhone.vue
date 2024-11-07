@@ -12,7 +12,7 @@
       <button class="primary-button" type="primary" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">一键获取手机号</button>
       <button class="default-button" type="default" @click="skip">暂不获取</button>
       <view class="agreement">
-        <uni-checkbox :value="false" class="checkbox"/>
+<!--        <uni-data-checkbox :value="false" class="checkbox"/>-->
         <text class="agreement-text">
           请您阅读并同意
           <text url="https://blog.yiming1234.cn" class="link">《用户协议》</text>

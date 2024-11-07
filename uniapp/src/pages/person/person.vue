@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import UniIcons from '@/uni_modules/uni-icons/components/uni-icons/uni-icons.vue';
 import {baseUrl} from "@/utils/env";
 
 export default {

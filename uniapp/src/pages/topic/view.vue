@@ -24,7 +24,7 @@
       </view>
       <view slot="actions" class="card-actions">
         <!-- 点赞按钮 -->
-        <view class="action-item" @click.stop="actionsClick(hasLiked ? '取消点赞' : '点赞', topicRecord)">
+        <view class="action-item" @click.stop="handleLike">
           <uni-icons :type="hasLiked ? 'heart-filled' : 'heart'" size="18" :color="hasLiked ? '#f00' : '#999'"></uni-icons>
           <text class="action-item-text">
             {{ hasLiked ? '已点赞' : '点赞' }} {{ likeCount }}
@@ -32,7 +32,7 @@
         </view>
 
         <!-- 评论按钮 -->
-        <view class="action-item" @click.stop="actionsClick('评论', topicRecord)">
+        <view class="action-item" @click.stop="openCommentPopup">
           <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
           <text class="action-item-text">评论 {{ commentCount }}</text>
         </view>
@@ -50,13 +50,12 @@
         </view>
 
         <!-- 收藏按钮 -->
-        <view class="action-item" @click.stop="toggleCollect">
+        <view class="action-item" @click.stop="handleCollect">
           <uni-icons :type="isCollected ? 'star-filled' : 'star'" size="18" :color="isCollected ? '#ffcc00' : '#999'"></uni-icons>
           <text class="action-item-text">
             {{ isCollected ? '已收藏' : '收藏' }} {{ collectCount }}
           </text>
         </view>
-
       </view>
     </uni-card>
 
@@ -80,12 +79,12 @@
         <!-- 评论操作 -->
         <view slot="actions" class="card-actions">
           <!-- 点赞按钮 -->
-          <view class="action-item" @click="comment.hasLiked ? unlikeComment(comment) : likeComment(comment)">
+          <view class="action-item" @click.stop="toggleCommentLike(comment)">
             <uni-icons :type="comment.hasLiked ? 'heart-filled' : 'heart'" size="18" :color="comment.hasLiked ? '#f00' : '#999'"></uni-icons>
             <text class="action-item-text">{{ comment.hasLiked ? '已点赞' : '点赞' }} {{ comment.likeCount }}</text>
           </view>
           <!-- 回复按钮 -->
-          <view class="action-item" @click="replyToComment(comment)">
+          <view class="action-item" @click.stop="replyToComment(comment)">
             <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
             <text class="action-item-text">回复</text>
           </view>
@@ -115,10 +114,41 @@
 </template>
 
 <script>
-import {baseUrl} from "@/utils/env";
+import {
+  fetchTopic,
+  deleteTopic,
+  reportTopic,
+} from "@/api/topic";
 
-// TODO 首页卡片功能连接
-// TODO 评论无线滚动
+import {
+  fetchComments,
+  submitComment,
+  deleteComment,
+  reportComment,
+  likeComment,
+  unlikeComment,
+  checkIfCommentLiked,
+  fetchCommentCount,
+} from "@/api/comment";
+
+import {
+  likeTopic,
+  unlikeTopic,
+  checkIfLiked,
+  fetchLikeCount
+} from "@/api/like";
+
+import {
+  toggleCollect,
+  fetchCollectCount,
+  checkIfCollected,
+} from "@/api/collect";
+
+import {
+  getCurrentUserInfo,
+  getUserInfo as apiGetUserInfo
+} from "@/api/user";
+
 export default {
   data() {
     return {
@@ -135,18 +165,48 @@ export default {
       collectCount: 0,
     };
   },
-  onLoad(options) {
+  async onLoad(options) {
     const topicId = options.topicId;
-    this.fetchTopic(topicId);
-    this.checkIfLiked(topicId);
-    this.fetchComments(topicId);
-    this.checkIfCollected(topicId);
-    this.fetchCommentCount(topicId);
-    this.fetchLikeCount(topicId);
-    this.fetchCollectCount(topicId);
-    this.fetchCurrentUserInfo();
+    try {
+      // 获取当前用户信息
+      const currentUser = await getCurrentUserInfo();
+      this.currentUserId = currentUser.userId;
+      console.log("当前用户ID:", this.currentUserId);
 
-    console.log("Received topicId:", topicId);
+      // 获取话题数据
+      this.topicRecord = await fetchTopic(topicId);
+      await this.fetchUserInfo(this.topicRecord.authorID);
+
+      // 检查是否已点赞
+      this.hasLiked = await checkIfLiked(topicId);
+
+      // 检查是否已收藏
+      this.isCollected = await checkIfCollected(topicId);
+
+      // 获取评论计数
+      this.commentCount = await fetchCommentCount(topicId);
+
+      // 获取点赞计数
+      this.likeCount = await fetchLikeCount(topicId);
+
+      // 获取收藏计数
+      this.collectCount = await fetchCollectCount(topicId);
+
+      // 获取评论列表
+      this.comments = await fetchComments(topicId);
+      for (const comment of this.comments) {
+        comment.hasLiked = await checkIfCommentLiked(comment.id);
+        await this.fetchUserInfo(comment.userId);
+      }
+
+      console.log("Received topicId:", topicId);
+    } catch (error) {
+      console.error("加载数据失败:", error);
+      uni.showToast({
+        title: '加载数据失败',
+        icon: 'none'
+      });
+    }
   },
   onShareAppMessage() {
     return {
@@ -157,70 +217,43 @@ export default {
   },
   methods: {
     /**
-     * 获取当前用户信息
-     * @returns {Promise<void>}
-     */
-    async fetchCurrentUserInfo() {
-      try {
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: baseUrl + '/student/get/currentUserInfo',
-            method: 'GET',
-            header: {
-              'Content-Type': 'application/json',
-              'token': uni.getStorageSync('token'),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-
-        if (res.data.code === 1) {
-          // 假设返回的数据结构中包含 userId
-          this.currentUserId = res.data.data.userId; // 根据实际返回字段调整
-          console.log("当前用户ID:", this.currentUserId);
-        } else {
-          console.error('获取当前用户信息失败:', res.data.msg);
-          uni.showToast({
-            title: '获取用户信息失败',
-            icon: 'none'
-          });
-          this.currentUserId = null; // 或者根据需求处理
-        }
-      } catch (error) {
-        console.error('请求失败:', error);
-        uni.showToast({
-          title: '网络错误',
-          icon: 'none'
-        });
-        this.currentUserId = null; // 或者根据需求处理
-      }
-    },
-
-    /**
      * 获取用户信息
      * @param authorID
-     * @returns {{nickname: string, avatar: string}}
+     * @returns {Object}
      */
     getUserInfo(authorID) {
       if (!authorID) {
         console.error("authorID is undefined");
-        return {nickname: "匿名用户", avatar: ""};
+        return { username: "匿名用户", avatar: "" };
       }
       if (!this.userInfoMap[authorID]) {
         this.fetchUserInfo(authorID); // 异步获取用户信息
       }
-      return this.userInfoMap[authorID] || {nickname: "匿名用户", avatar: ""}; // 返回用户信息
+      return this.userInfoMap[authorID] || { username: "匿名用户", avatar: "" };
+    },
+
+    /**
+     * 异步获取用户信息
+     * @param authorID
+     * @returns {Promise<void>}
+     */
+    async fetchUserInfo(authorID) {
+      if (!this.userInfoMap[authorID]) {
+        try {
+          const userInfo = await apiGetUserInfo(authorID);
+          this.$set(this.userInfoMap, authorID, userInfo);
+        } catch (error) {
+          console.error(`获取用户信息失败 authorID: ${authorID}`, error);
+          this.$set(this.userInfoMap, authorID, { username: "匿名用户", avatar: "" });
+        }
+      }
     },
 
     /**
      * 显示操作菜单
      */
     showActionSheet() {
-      // 判断当前用户是否为话题作者
       const isAuthor = this.currentUserId === this.topicRecord.authorID;
-
-      // 定义操作选项
       const itemList = isAuthor ? ['删除', '举报', '取消'] : ['举报', '取消'];
 
       uni.showActionSheet({
@@ -228,10 +261,10 @@ export default {
         success: (res) => {
           if (isAuthor && res.tapIndex === 0) {
             // 作者选择了“删除”
-            this.deleteItem();
+            this.deleteTopic();
           } else if ((isAuthor && res.tapIndex === 1) || (!isAuthor && res.tapIndex === 0)) {
             // 选择了“举报”
-            this.reportTopic();
+            this.reportTopicAction();
           }
         },
         fail: (res) => {
@@ -253,10 +286,10 @@ export default {
         success: (res) => {
           if (isAuthor && res.tapIndex === 0) {
             // 作者选择了“删除”
-            this.deleteComment(comment);
+            this.deleteCommentAction(comment);
           } else if ((isAuthor && res.tapIndex === 1) || (!isAuthor && res.tapIndex === 0)) {
             // 选择了“举报”
-            this.reportComment(comment);
+            this.reportCommentAction(comment);
           }
         },
         fail: (res) => {
@@ -266,154 +299,83 @@ export default {
     },
 
     /**
+     * 打开评论弹窗
+     */
+    openCommentPopup() {
+      this.$refs.commentPopup.open();
+    },
+
+    // 创建话题不在该页面
+    /**
      * 删除话题
      * @returns {Promise<void>}
      */
-    deleteItem() {
-      uni.request({
-        url: baseUrl + '/student/delete/topic/' + this.topicRecord.id,
-        method: 'DELETE',
-        header: {
-          'Content-Type': 'application/json',
-          'token': uni.getStorageSync('token')
-        },
-        success: function (res) {
-          if (res.statusCode === 200) {
-            uni.showToast({
-              title: '删除成功',
-              icon: 'success'
-            });
-            setTimeout(() => {
-              uni.reLaunch({
-                url: '/pages/index/index'
-              });
-            }, 1000);
-          } else {
-            console.error('删除失败，状态码:', res.statusCode);
-            uni.showToast({
-              title: '删除失败',
-              icon: 'none'
-            });
-          }
-        },
-        fail: function (error) {
-          console.error('删除请求失败:', error);
-          uni.showToast({
-            title: '删除请求失败',
-            icon: 'none'
+    async deleteTopic() {
+      try {
+        await deleteTopic(this.topicRecord.id);
+        await uni.showToast({ title: '删除成功', icon: 'success' });
+        setTimeout(() => {
+          uni.reLaunch({
+            url: '/pages/index/index'
           });
-        }
-      });
+        }, 1000);
+      } catch (error) {
+        console.error('删除失败:', error);
+        await uni.showToast({ title: '删除失败', icon: 'none' });
+      }
     },
 
     /**
-     * 异步获取点赞数据
-     * @param topicId
+     * 举报话题
      * @returns {Promise<void>}
      */
-    async checkIfLiked(topicId) {
+    async reportTopicAction() {
       try {
-        const res = await uni.request({
-          url: baseUrl + "/student/islike/topic/" + topicId,
-          method: "GET",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-        });
-        if (res.data.code === 1) {
-          console.log("检查是否已点赞:", res.data.data);
-          this.hasLiked = res.data.data;
-        } else {
+        await reportTopic(this.topicRecord.id);
+      } catch (error) {
+        await uni.showToast({ title: error, icon: 'none' });
+      }
+    },
+
+    /**
+     * 处理点赞操作
+     * @returns {Promise<void>}
+     */
+    async handleLike() {
+      try {
+        if (this.hasLiked) {
+          await unlikeTopic(this.topicRecord.id);
           this.hasLiked = false;
-        }
-      } catch (error) {
-        console.error("检查是否已点赞失败:", error);
-        this.hasLiked = false;
-      }
-    },
-
-    /**
-     * 异步获取评论列表
-     * @param topicId
-     * @returns {Promise<void>}
-     */
-    async fetchComments(topicId) {
-      try {
-        // 使用 Promise 包装 uni.request 以支持 await
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: baseUrl + "/student/get/comments/" + topicId,
-            method: "GET",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-
-        // 检查返回数据是否成功
-        if (res.data.code === 1) {
-          this.comments = res.data.data;
-          console.log("Fetched comments:", this.comments);
-          for (const comment of this.comments) {
-            comment.hasLiked = await this.checkIfCommentLiked(comment.id);
-          }
-          // 获取评论者的用户信息
-          this.comments.forEach((comment) => {
-            if (comment.userId && !this.userInfoMap[comment.userId]) {
-              this.fetchUserInfo(comment.userId);
-            }
-          });
+          this.likeCount = Math.max(0, this.likeCount - 1);
+          await uni.showToast({ title: "取消点赞成功", icon: "success" });
         } else {
-          uni.showToast({ title: "获取评论失败", icon: "none" });
+          await likeTopic(this.topicRecord.id);
+          this.hasLiked = true;
+          this.likeCount += 1;
+          await uni.showToast({ title: "点赞成功", icon: "success" });
         }
       } catch (error) {
-        console.error("获取评论失败:", error);
-        uni.showToast({ title: "获取评论失败", icon: "none" });
+        console.error("点赞操作失败:", error);
+        await uni.showToast({ title: "操作失败", icon: "none" });
       }
     },
 
     /**
-     * 点击操作按钮
-     * @param action
+     * 处理收藏操作
      * @returns {Promise<void>}
      */
-    actionsClick(action) {
-      if (action === '点赞') {
-        this.likeTopic();
-      } else if (action === '取消点赞') {
-        this.unlikeTopic();
-      } else if (action === '评论') {
-        this.$refs.commentPopup.open();
-      }
-    },
-
-    /**
-     * 获取点赞计数
-     * @param topicId
-     * @returns {Promise<void>}
-     */
-    async fetchLikeCount(topicId) {
+    async handleCollect() {
       try {
-        const res = await uni.request({
-          url: baseUrl + "/student/like/count/" + topicId,
-          method: "GET",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-        });
-        if (res.data.code === 1) {
-          this.likeCount = res.data.data || 0;
-        } else {
-          this.likeCount = 0;
-        }
+        await toggleCollect(this.topicRecord.id, this.isCollected);
+        this.isCollected = !this.isCollected;
+        this.collectCount = this.isCollected
+            ? this.collectCount + 1
+            : Math.max(0, this.collectCount - 1);
+        const message = this.isCollected ? "收藏成功" : "取消收藏成功";
+        await uni.showToast({ title: message, icon: "success" });
       } catch (error) {
-        console.error("获取点赞计数失败:", error);
-        this.likeCount = 0;
+        console.error("收藏操作失败:", error);
+        await uni.showToast({ title: "操作失败", icon: "none" });
       }
     },
 
@@ -427,25 +389,11 @@ export default {
         return;
       }
       try {
-        const [error, res] = await uni.request({
-          url: baseUrl + "/student/comment/topic/" + this.topicRecord.id,
-          method: "POST",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-          data: {
-            content: this.commentContent,
-          },
-        });
-        if (res.data.code === 1) {
-          await uni.showToast({ title: "评论成功", icon: "success" });
-          await this.fetchComments(this.topicRecord.id);
-          this.commentContent = "";
-          this.$refs.commentPopup.close();
-        } else {
-          await uni.showToast({ title: res.data.msg || "评论失败", icon: "none" });
-        }
+        await submitComment(this.topicRecord.id, this.commentContent);
+        await uni.showToast({ title: "评论成功", icon: "success" });
+        await this.refreshComments();
+        this.commentContent = "";
+        this.$refs.commentPopup.close();
       } catch (error) {
         console.error("评论失败:", error);
         await uni.showToast({ title: "评论失败", icon: "none" });
@@ -453,139 +401,31 @@ export default {
     },
 
     /**
-     * 获取评论计数
-     * @param topicId
+     * 刷新评论列表和计数
      * @returns {Promise<void>}
      */
-    async fetchCommentCount(topicId) {
-        try {
-          const res = await uni.request({
-            url: baseUrl + "/student/comment/count/" + topicId,
-            method: "GET",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-          });
-          if (res.data.code === 1) {
-            this.commentCount = res.data.data || 0;
-          } else {
-            this.commentCount = 0;
-          }
-        } catch (error) {
-          console.error("获取评论计数失败:", error);
-          this.commentCount = 0;
-        }
-      },
-
-    /**
-     * 回复评论
-     * @param comment
-     */
-    async replyToComment(comment) {
-      // TODO: 实现回复评论功能
-      await uni.showToast({ title: "回复评论功能暂未开放", icon: "none" });
-    },
-
-    /**
-     * 点赞评论
-     * @param comment
-     */
-    async likeComment(comment) {
+    async refreshComments() {
       try {
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: baseUrl + "/student/like/comment/" + comment.id,
-            method: "POST",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-        if (res.data.code === 1) {
-          comment.hasLiked = true;
-          await uni.showToast({ title: "点赞成功", icon: "success" });
-        } else {
-          await uni.showToast({ title: res.data.msg || "点赞失败", icon: "none" });
+        this.comments = await fetchComments(this.topicRecord.id);
+        for (const comment of this.comments) {
+          comment.hasLiked = await checkIfCommentLiked(comment.id);
+          await this.fetchUserInfo(comment.userId);
         }
+        this.commentCount = await fetchCommentCount(this.topicRecord.id);
       } catch (error) {
-        console.error("点赞评论失败:", error);
-        await uni.showToast({ title: "点赞失败", icon: "none" });
-      }
-    },
-
-    /**
-     * 取消点赞评论
-     * @param comment
-     */
-    async unlikeComment(comment) {
-      try {
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: baseUrl + "/student/unlike/comment/" + comment.id,
-            method: "POST",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-        if (res.data.code === 1) {
-          comment.hasLiked = false;
-          await uni.showToast({ title: "取消点赞成功", icon: "success" });
-          await uni.reLaunch({ url: `/pages/topic/view?topicId=${this.topicRecord.id}` });
-        } else {
-          await uni.showToast({ title: res.data.msg || "取消点赞失败", icon: "none" });
-        }
-      } catch (error) {
-        console.error("取消点赞评论失败:", error);
-        await uni.showToast({ title: "取消点赞失败", icon: "none" });
-      }
-    },
-
-    /**
-     * 检查当前用户是否已点赞某条评论
-     * @returns {Promise<boolean>}
-     * @param commentId
-     */
-    async checkIfCommentLiked(commentId) {
-      try {
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: baseUrl + "/student/islike/comment/" + commentId,
-            method: "GET",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-        if (res.data.code === 1) {
-          return res.data.data; // 返回 true 或 false
-        } else {
-          return false;
-        }
-      } catch (error) {
-        console.error("检查评论点赞状态失败:", error);
-        return false;
+        console.error("刷新评论失败:", error);
+        uni.showToast({ title: "刷新评论失败", icon: "none" });
       }
     },
 
     /**
      * 删除评论
      * @param {Object} comment
+     * @returns {Promise<void>}
      */
-    async deleteComment(comment) {
+    async deleteCommentAction(comment) {
       try {
-        // 显示确认对话框
-        const [error, res] = await uni.showModal({
+        const res = await uni.showModal({
           title: '确认删除',
           content: '您确定要删除这条评论吗？',
           confirmText: '删除',
@@ -593,25 +433,10 @@ export default {
         });
 
         if (res.confirm) {
-          // 用户确认删除
-          const response = await uni.request({
-            url: baseUrl + '/student/delete/comment/' + comment.id,
-            method: 'DELETE',
-            header: {
-              'Content-Type': 'application/json',
-              token: uni.getStorageSync('token'),
-            },
-          });
-
-          if (response.data.code === 1) {
-            await uni.showToast({ title: '删除成功', icon: 'success' });
-            // 从评论列表中移除已删除的评论
-            this.comments = this.comments.filter((c) => c.id !== comment.id);
-            // 更新评论计数
-            this.commentCount = Math.max(0, this.commentCount - 1);
-          } else {
-            await uni.showToast({ title: '删除失败', icon: 'none' });
-          }
+          await deleteComment(comment.id);
+          this.comments = this.comments.filter((c) => c.id !== comment.id);
+          this.commentCount = Math.max(0, this.commentCount - 1);
+          await uni.showToast({ title: '删除成功', icon: 'success' });
         }
       } catch (error) {
         console.error('删除评论失败:', error);
@@ -620,224 +445,48 @@ export default {
     },
 
     /**
-     * 举报话题
-     * @returns {Promise<void>}
-     */
-    async reportTopic() {
-      await uni.showToast({ title: '举报功能暂未开放', icon: 'none' });
-      // TODO: 实现举报功能
-    },
-
-    /**
      * 举报评论
+     * @param {Object} comment
      * @returns {Promise<void>}
      */
-    async reportComment(comment) {
-      await uni.showToast({ title: '举报功能暂未开放', icon: 'none' });
-      // TODO: 实现举报功能
-    },
-
-    /**
-     * 点赞话题
-     * @returns {Promise<void>}
-     */
-    async likeTopic() {
+    async reportCommentAction(comment) {
       try {
-        const res = await uni.request({
-          url: baseUrl + "/student/like/topic/" + this.topicRecord.id,
-          method: "POST",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-        });
-        if (res.data.code === 1) {
-          this.hasLiked = true;
-          this.likeCount += 1;
-          await uni.showToast({title: "点赞成功", icon: "success"});
-        } else {
-          await uni.showToast({title: "点赞失败", icon: "none"});
-        }
+        await reportComment(comment.id);
       } catch (error) {
-        console.error("点赞失败:", error);
+        await uni.showToast({ title: error, icon: 'none' });
       }
     },
 
     /**
-     * 取消点赞话题
-     * @returns {Promise<void>}
+     * 回复评论
+     * @param {Object} comment
      */
-    async unlikeTopic() {
-      try {
-        const res = await uni.request({
-          url: baseUrl + "/student/unlike/topic/" + this.topicRecord.id,
-          method: "POST",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-        });
-        if (res.data.code === 1) {
-          this.hasLiked = false;
-          this.likeCount = Math.max(0, this.likeCount - 1);
-          await uni.showToast({title: "取消点赞成功", icon: "success"});
-        } else {
-          await uni.showToast({title: "取消点赞失败", icon: "none"});
-        }
-      } catch (error) {
-        console.error("取消点赞失败:", error);
-      }
+    async replyToComment(comment) {
+      // TODO: 实现回复评论功能
+      await uni.showToast({ title: "回复评论功能暂未开放", icon: "none" });
     },
 
     /**
-     * 检查是否已收藏
-     * @param topicId
+     * 点赞/取消点赞评论
+     * @param {Object} comment
      * @returns {Promise<void>}
      */
-    async checkIfCollected(topicId) {
+    async toggleCommentLike(comment) {
       try {
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: baseUrl + "/student/iscollect/topic/" + topicId,
-            method: "GET",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-        if (res.data.code === 1) {
-          this.isCollected = res.data.data;
-          console.log("检查是否已收藏:", this.isCollected);
+        if (comment.hasLiked) {
+          await unlikeComment(comment.id);
+          comment.hasLiked = false;
+          comment.likeCount = Math.max(0, comment.likeCount - 1);
+          await uni.showToast({ title: "取消点赞成功", icon: "success" });
         } else {
-          this.isCollected = false;
+          await likeComment(comment.id);
+          comment.hasLiked = true;
+          comment.likeCount += 1;
+          await uni.showToast({ title: "点赞成功", icon: "success" });
         }
       } catch (error) {
-        console.error("检查是否已收藏失败:", error);
-        this.isCollected = false;
-      }
-    },
-
-    /**
-     * 异步获取用户信息
-     * @param authorID
-     * @returns {Promise<void>}
-     */
-    async fetchUserInfo(authorID) {
-      if (!this.userInfoMap[authorID]) {
-        try {
-          console.log("Received authorID:", authorID);
-          const res = await uni.request({
-            url: baseUrl + `/student/get/info/${authorID}`,
-            method: "GET",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-          });
-          if (res.data.code === 1) {
-            this.$set(this.userInfoMap, authorID, res.data.data);
-          } else {
-            this.$set(this.userInfoMap, authorID, {nickname: "匿名用户", avatar: ""});
-          }
-        } catch (error) {
-          console.error(`获取用户信息失败 authorID: ${authorID}`, error);
-          this.$set(this.userInfoMap, authorID, {nickname: "匿名用户", avatar: ""});
-        }
-      }
-    },
-
-    /**
-     * 收藏或取消收藏话题
-     * @returns {Promise<void>}
-     */
-    async toggleCollect() {
-      try {
-        const url = this.isCollected
-            ? baseUrl + "/student/uncollect/topic/" + this.topicRecord.id
-            : baseUrl + "/student/collect/topic/" + this.topicRecord.id;
-
-        const res = await new Promise((resolve, reject) => {
-          uni.request({
-            url: url,
-            method: "POST",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-            success: (response) => resolve(response),
-            fail: (error) => reject(error),
-          });
-        });
-
-        if (res.data.code === 1) {
-          this.isCollected = !this.isCollected;
-          const message = this.isCollected ? "收藏成功" : "取消收藏成功";
-          this.collectCount = this.isCollected
-              ? this.collectCount + 1
-              : Math.max(0, this.collectCount - 1);
-          await uni.showToast({ title: message, icon: "success" });
-        } else {
-          await uni.showToast({ title: "操作失败", icon: "none" });
-        }
-      } catch (error) {
-        console.error("收藏操作失败:", error);
-        await uni.showToast({ title: "收藏操作失败", icon: "none" });
-      }
-    },
-
-    /**
-     * 获取收藏计数
-     * @param topicId
-     * @returns {Promise<void>}
-     */
-    async fetchCollectCount(topicId) {
-      try {
-        const res = await uni.request({
-          url: baseUrl + "/student/collect/count/" + topicId,
-          method: "GET",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-        });
-        if (res.data.code === 1) {
-          this.collectCount = res.data.data || 0;
-        } else {
-          this.collectCount = 0;
-        }
-      } catch (error) {
-        console.error("获取收藏计数失败:", error);
-        this.collectCount = 0;
-      }
-    },
-
-    /**
-     * 异步获取话题数据
-     * @param topicId
-     * @returns {Promise<void>}
-     */
-    async fetchTopic(topicId) {
-      try {
-        const res = await uni.request({
-          url: baseUrl + "/student/topic/" + topicId,
-          method: "GET",
-          header: {
-            "content-type": "application/json",
-            token: uni.getStorageSync("token"),
-          },
-        });
-        if (res.data.code === 1) {
-          this.topicRecord = res.data.data;
-          await this.fetchUserInfo(this.topicRecord.authorID);
-        } else {
-          await uni.showToast({title: "获取话题失败", icon: "none"});
-        }
-      } catch (error) {
-        console.error("获取话题失败:", error);
-        uni.showToast({title: "获取话题失败", icon: "none"});
+        console.error("评论点赞操作失败:", error);
+        await uni.showToast({ title: "操作失败", icon: "none" });
       }
     },
   },
@@ -1031,5 +680,4 @@ export default {
 .submit-button:active {
   background-color: #004494; /* 点击时更深 */
 }
-
 </style>

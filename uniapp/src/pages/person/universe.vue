@@ -40,16 +40,6 @@
   </div>
 </template>
 
-<script>
-import UniIcons from '@/uni_modules/uni-icons/components/uni-icons/uni-icons.vue';
-
-export default {
-  components: {
-    UniIcons
-  }
-};
-</script>
-
 <style scoped>
 .settings-page {
   font-family: Arial, sans-serif;

@@ -1,16 +1,10 @@
 package cn.yiming1234.NottinghamWall.mapper;
 
-import cn.yiming1234.NottinghamWall.annotation.AutoFill;
-import cn.yiming1234.NottinghamWall.dto.CommentDTO;
 import cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
-import cn.yiming1234.NottinghamWall.enumeration.OperationType;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface TopicMapper {
@@ -20,7 +14,6 @@ public interface TopicMapper {
      *
      * @param topic
      */
-    @AutoFill(value = OperationType.INSERT)
     void insert(Topic topic);
 
     /**
@@ -42,23 +35,27 @@ public interface TopicMapper {
     /**
      * 点赞话题
      *
-     * @param params
+     * @param topicId
+     * @param userId
      */
-    void likeTopic(Map<String, Object> params);
+    void likeTopic(@Param("topicId") String topicId, @Param("userId") String userId);
 
     /**
      * 取消点赞话题
      *
-     * @param params
+     * @param topicId
+     * @param userId
      */
-    void unlikeTopic(Map<String, Object> params);
+    void unlikeTopic(@Param("topicId") String topicId, @Param("userId") String userId);
 
     /**
      * 判断是否点赞话题
      *
-     * @param params
+     * @param topicId
+     * @param userId
+     * @return
      */
-    Boolean isLikeTopic(Map<String, Object> params);
+    Boolean isLikeTopic(@Param("topicId") String topicId, @Param("userId") String userId);
 
     /**
      * 获取点赞计数
@@ -71,24 +68,27 @@ public interface TopicMapper {
     /**
      * 收藏话题
      *
-     * @param params
+     * @param topicId
+     * @param userId
      */
-    void collectTopic(Map<String, Object> params);
+    void collectTopic(@Param("topicId") String topicId, @Param("userId") String userId);
 
     /**
      * 取消收藏话题
      *
-     * @param params
+     * @param topicId
+     * @param userId
      */
-    void uncollectTopic(Map<String, Object> params);
+    void uncollectTopic(@Param("topicId") String topicId, @Param("userId") String userId);
 
     /**
      * 判断是否收藏话题
      *
-     * @param params
+     * @param topicId
+     * @param userId
      * @return
      */
-    Boolean isCollectTopic(Map<String, Object> params);
+    Boolean isCollectTopic(@Param("topicId") String topicId, @Param("userId") String userId);
 
     /**
      * 获取收藏计数
@@ -99,75 +99,15 @@ public interface TopicMapper {
     int getCollectCount(@Param("topicId") String topicId);
 
     /**
-     * 评论话题
-     *
-     * @param commentDTO
-     */
-    void commentTopic(CommentDTO commentDTO);
-
-    /**
-     * 点赞评论
-     *
-     * @param params
-     */
-    void likeComment(Map<String, Object> params);
-
-    /**
-     * 取消点赞评论
-     *
-     * @param params
-     */
-    void unlikeComment(Map<String, Object> params);
-
-    /**
-     * 判断是否点赞评论
-     * @param params
-     * @return
-     */
-    Boolean isLikeComment(Map<String, Object> params);
-
-    /**
-     * 回复评论
-     *
-     * @param commentDTO
-     */
-    void replyComment(CommentDTO commentDTO);
-
-    /**
-     * 删除评论
-     *
-     * @param params
-     */
-    void deleteComment(Map<String, Object> params);
-
-    /**
-     * 根据话题id获取评论
-     * @param topicId
-     * @return
-     */
-    List<CommentDTO> getComments(@Param("topicId") String topicId);
-
-    /**
-     * 获取评论计数
-     *
-     * @param topicId
-     * @return
-     */
-    int getCommentCount(@Param("topicId") String topicId);
-
-    /**
      * 删除话题及其相关信息
-     * @param id
+     *
+     * @param topicId
      */
-    void deleteTopic(String id);
-    void deleteTopicLikes(String topicId);
-    void deleteTopicComments(String topicId);
-    void deleteTopicCollections(@Param("topicId") String topicId);
+    void deleteTopic(String topicId);
 
-    /**
-     * 获取评论
-     * @param commentId
-     * @return
-     */
-    CommentDTO getCommentById(String commentId);
+    void deleteTopicLikes(String topicId);
+
+    void deleteTopicCollections(String topicId);
+
+    void deleteTopicComments(String topicId);
 }

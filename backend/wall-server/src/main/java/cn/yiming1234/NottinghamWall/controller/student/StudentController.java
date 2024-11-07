@@ -76,6 +76,20 @@ public class StudentController {
     }
 
     /**
+     * 获取当前用户信息
+     */
+    @GetMapping("/get/currentUserInfo")
+    @ApiOperation(value = "获取当前用户信息")
+    public Result<Map<String, Object>> getCurrentUserInfo(HttpServletRequest request) {
+        String token = request.getHeader(jwtProperties.getUserTokenName());
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+        String userId = claims.get(JwtClaimsConstant.USER_ID).toString();
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("userId", userId);
+        return Result.success(userInfo);
+    }
+
+    /**
      * 获取学生信息
      *
      * @return
@@ -91,6 +105,12 @@ public class StudentController {
         return Result.success(student);
     }
 
+    /**
+     * 根据id获取学生信息
+     *
+     * @param id
+     * @return
+     */
     @ApiOperation(value = "根据id获取学生信息")
     @GetMapping("/get/info/{id}")
     public Result<Student> getStudentInfoById(@PathVariable Long id) {

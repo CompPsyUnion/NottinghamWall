@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yiming1234.NottinghamWall.mapper.CommentMapper">
+
+    <!-- Insert Comment -->
+    <insert id="commentTopic" parameterType="cn.yiming1234.NottinghamWall.dto.CommentDTO">
+        INSERT INTO comment (id, topic_id, user_id, content, parent_id, created_at, updated_at)
+        VALUES (#{id}, #{topicId}, #{userId}, #{content}, #{parentId}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <!-- Reply to Comment -->
+    <insert id="replyComment" parameterType="cn.yiming1234.NottinghamWall.dto.CommentDTO">
+        INSERT INTO comment (id, topic_id, user_id, content, parent_id, created_at, updated_at)
+        VALUES (#{id}, #{topicId}, #{userId}, #{content}, #{parentId}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <!-- Delete Comment -->
+    <delete id="deleteComment">
+        DELETE FROM comment
+        WHERE id = #{commentId} AND user_id = #{userId}
+    </delete>
+
+    <!-- Like Comment -->
+    <insert id="likeComment">
+        INSERT INTO comment_likes (comment_id, user_id)
+        SELECT #{commentId}, #{userId}
+            WHERE NOT EXISTS (
+            SELECT 1 FROM comment_likes WHERE comment_id = #{commentId} AND user_id = #{userId}
+                )
+    </insert>
+
+    <!-- Unlike Comment -->
+    <delete id="unlikeComment">
+        DELETE FROM comment_likes
+        WHERE comment_id = #{commentId} AND user_id = #{userId}
+    </delete>
+
+    <!-- Is Like Comment -->
+    <select id="isLikeComment" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM comment_likes
+        WHERE comment_id = #{commentId} AND user_id = #{userId}
+    </select>
+
+    <!-- Get Comments -->
+    <select id="getComments" parameterType="string" resultMap="CommentResultMap">
+        SELECT
+            c.id AS id,
+            c.topic_id AS topicId,
+            c.user_id AS userId,
+            c.content,
+            c.parent_id AS parentId,
+            c.created_at AS createdAt,
+            s.id AS "user.id",
+            s.username AS "user.username",
+            s.avatar AS "user.avatar"
+        FROM
+            comment c
+                JOIN student s ON c.user_id = s.id
+        WHERE
+            c.topic_id = #{topicId}
+        ORDER BY c.created_at ASC
+    </select>
+
+    <resultMap id="CommentResultMap" type="cn.yiming1234.NottinghamWall.dto.CommentDTO">
+        <id property="id" column="id"/>
+        <result property="topicId" column="topicId"/>
+        <result property="userId" column="userId"/>
+        <result property="content" column="content"/>
+        <result property="parentId" column="parentId"/>
+        <result property="createdAt" column="createdAt"/>
+        <association property="user" javaType="cn.yiming1234.NottinghamWall.dto.StudentDTO">
+            <id property="id" column="user.id"/>
+            <result property="username" column="user.username"/>
+            <result property="avatar" column="user.avatar"/>
+        </association>
+    </resultMap>
+
+    <!-- Get Comment Count -->
+    <select id="getCommentCount" resultType="int">
+        SELECT COUNT(*)
+        FROM comment
+        WHERE topic_id = #{topicId}
+    </select>
+
+    <!-- Get Comment by ID -->
+    <select id="getCommentById" parameterType="string" resultType="cn.yiming1234.NottinghamWall.dto.CommentDTO">
+        SELECT *
+        FROM comment
+        WHERE id = #{commentId}
+    </select>
+
+</mapper>

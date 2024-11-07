@@ -1,12 +1,9 @@
 package cn.yiming1234.NottinghamWall.service;
 
-import cn.yiming1234.NottinghamWall.dto.CommentDTO;
 import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.result.PageResult;
-
-import java.util.List;
 
 public interface TopicService {
     /**
@@ -44,17 +41,17 @@ public interface TopicService {
     /**
      * 取消点赞话题
      * @param id
-     * @param s
+     * @param userId
      */
-    void unlikeTopic(String id, String s);
+    void unlikeTopic(String id, String userId);
 
     /**
      * 判断是否点赞话题
      * @param id
-     * @param s
+     * @param userId
      * @return
      */
-    Boolean isLikeTopic(String id, String s);
+    Boolean isLikeTopic(String id, String userId);
 
     /**
      * 获取点赞计数
@@ -91,72 +88,4 @@ public interface TopicService {
      * @return
      */
     int getCollectCount(String id);
-
-    /**
-     * 评论话题
-     * @param commentDTO
-     * @return
-     */
-    void commentTopic(CommentDTO commentDTO);
-
-    /**
-     * 获取评论列表
-     * @param topicId
-     * @return
-     */
-    List<CommentDTO> getComments(String topicId);
-
-    /**
-     * 分页查询评论
-     *
-     */
-
-    /**
-     * 获取评论计数
-     * @param id
-     * @return
-     */
-    int getCommentCount(String id);
-
-    /**
-     * 点赞评论
-     * @param commentId
-     * @param userId
-     */
-    void likeComment(String commentId, String userId);
-
-    /**
-     * 取消点赞评论
-     * @param id
-     * @param s
-     */
-    void unlikeComment(String id, String s);
-
-    /**
-     * 判断是否点赞评论
-     * @param id
-     * @param s
-     */
-    Boolean isLikeComment(String id, String s);
-
-    /**
-     * 回复评论
-     * @param commentDTO
-     */
-    void replyComment(CommentDTO commentDTO);
-
-    /**
-     * 删除评论
-     * @param commentId
-     * @param userId
-     */
-    void deleteComment(String commentId, String userId);
-
-    /**
-     * 获取评论
-     * @param id
-     * @return
-     */
-    CommentDTO getCommentById(String id);
-
 }
