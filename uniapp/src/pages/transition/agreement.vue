@@ -11,12 +11,12 @@
         </text>
       </view>
       <view class="checkbox-container">
-        <uni-checkbox :value="false" class="checkbox" />
+<!--        <uni-data-checkbox :value="false" class="checkbox" />-->
         <text class="checkbox-text">本人已年满14岁，可自行授权个人信息处理</text>
       </view>
       <view class="button-container">
-        <uni-button class="btn disagree">不同意</uni-button>
-        <uni-button class="btn agree">同意</uni-button>
+        <button class="btn disagree">不同意</button>
+        <button class="btn agree">同意</button>
       </view>
     </view>
   </view>

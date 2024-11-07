@@ -60,7 +60,9 @@
         "appid" : "wx39ff21ee255f85dd",
         "setting" : {
             "urlCheck" : false,
-            "minified" : true
+            "minified" : true,
+            "ignoreDevUnusedFiles": false,
+            "ignoreUploadUnusedFiles": false
         },
         "usingComponents" : true,
         "permission" : {

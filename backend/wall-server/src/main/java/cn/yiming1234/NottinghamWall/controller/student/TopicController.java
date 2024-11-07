@@ -1,7 +1,6 @@
 package cn.yiming1234.NottinghamWall.controller.student;
 
 import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
-import cn.yiming1234.NottinghamWall.dto.CommentDTO;
 import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
@@ -15,43 +14,49 @@ import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/student")
-@Api(tags = "用户端话题接口")
+@Api(tags = "话题相关接口")
 @Slf4j
 public class TopicController {
 
     private final TopicService topicService;
-    private final JwtProperties jwtProperties;
     private final AliOssUtil aliOssUtil;
+    private final JwtProperties jwtProperties;
 
     @Autowired
-    public TopicController(TopicService topicService, JwtProperties jwtProperties, AliOssUtil aliOssUtil) {
+    public TopicController(TopicService topicService, AliOssUtil aliOssUtil, JwtProperties jwtProperties) {
         this.topicService = topicService;
-        this.jwtProperties = jwtProperties;
         this.aliOssUtil = aliOssUtil;
+        this.jwtProperties = jwtProperties;
     }
 
     /**
-     * 获取当前用户信息
+     * 从请求头中提取用户id
+     * @param request
+     * @return
      */
-    @GetMapping("/get/currentUserInfo")
-    @ApiOperation(value = "获取当前用户信息")
-    public Result<Map<String, Object>> getCurrentUserInfo(HttpServletRequest request) {
+    private Long extractUserId(HttpServletRequest request) {
+        return getaLong(request, jwtProperties, log);
+    }
+
+    static Long getaLong(HttpServletRequest request, JwtProperties jwtProperties, Logger log) {
         String token = request.getHeader(jwtProperties.getUserTokenName());
+        if (token == null || token.trim().isEmpty()) {
+            log.error("JWT token is missing in the request header.");
+            throw new IllegalArgumentException("JWT token is missing.");
+        }
         Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        String userId = claims.get(JwtClaimsConstant.USER_ID).toString();
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("userId", userId);
-        return Result.success(userInfo);
+        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+        log.info("当前用户id:{}", userId);
+        return userId;
     }
 
     /**
@@ -59,14 +64,10 @@ public class TopicController {
      */
     @PostMapping("/post/topic")
     @ApiOperation(value = "创建话题")
-    public Result createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) {
+    public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) {
         log.info("创建话题：{}", topicDTO);
-
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        String id = String.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        topicDTO.setAuthorID(id);
-
+        Long userId = extractUserId(request);
+        topicDTO.setAuthorID(String.valueOf(userId));
         topicService.addTopic(topicDTO);
         return Result.success(null);
     }
@@ -76,7 +77,7 @@ public class TopicController {
      */
     @DeleteMapping("/delete/topic/{id}")
     @ApiOperation(value = "删除话题")
-    public Result deleteTopic(@PathVariable String id) {
+    public Result<Void> deleteTopic(@PathVariable String id) {
         log.info("删除话题：{}", id);
 
         Topic topic = topicService.getTopicById(id);
@@ -97,7 +98,7 @@ public class TopicController {
     @GetMapping("/get/topic")
     @ApiOperation(value = "实现话题无限滚动")
     public Result<PageResult> getTopic(TopicPageQueryDTO topicPageQueryDTO) {
-        log.info("实现话题无限滚动：{}", topicPageQueryDTO);
+        log.info("获取话题列表：{}", topicPageQueryDTO);
         PageResult pageResult = topicService.pageQuery(topicPageQueryDTO);
         return Result.success(pageResult);
     }
@@ -108,7 +109,7 @@ public class TopicController {
     @GetMapping("/topic/{id}")
     @ApiOperation(value = "根据id获取话题详情")
     public Result<Topic> getTopicById(@PathVariable String id) {
-        log.info("根据id获取话题详情：{}", id);
+        log.info("获取话题详情：{}", id);
         Topic topic = topicService.getTopicById(id);
         return Result.success(topic);
     }
@@ -118,13 +119,10 @@ public class TopicController {
      */
     @PostMapping("/like/topic/{id}")
     @ApiOperation(value = "点赞话题")
-    public Result likeTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> likeTopic(@PathVariable String id, HttpServletRequest request) {
         log.info("点赞话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long ID = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", id);
-        topicService.likeTopic(id, String.valueOf(ID));
+        Long userId = extractUserId(request);
+        topicService.likeTopic(id, String.valueOf(userId));
         return Result.success(null);
     }
 
@@ -133,13 +131,10 @@ public class TopicController {
      */
     @PostMapping("/unlike/topic/{id}")
     @ApiOperation(value = "取消点赞话题")
-    public Result unlikeTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> unlikeTopic(@PathVariable String id, HttpServletRequest request) {
         log.info("取消点赞话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long ID = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", id);
-        topicService.unlikeTopic(id, String.valueOf(ID));
+        Long userId = extractUserId(request);
+        topicService.unlikeTopic(id, String.valueOf(userId));
         return Result.success(null);
     }
 
@@ -149,17 +144,14 @@ public class TopicController {
     @GetMapping("/islike/topic/{id}")
     @ApiOperation(value = "是否点赞话题")
     public Result<Boolean> isLikeTopic(@PathVariable String id, HttpServletRequest request) {
-        log.info("是否点赞话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long ID = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", id);
-        Boolean isLike = topicService.isLikeTopic(id, String.valueOf(ID));
+        log.info("检查是否点赞话题：{}", id);
+        Long userId = extractUserId(request);
+        Boolean isLike = topicService.isLikeTopic(id, String.valueOf(userId));
         return Result.success(isLike);
     }
 
     /**
-     * 点赞计数
+     * 获取点赞计数
      */
     @GetMapping("/like/count/{id}")
     @ApiOperation(value = "获取点赞计数")
@@ -174,12 +166,9 @@ public class TopicController {
      */
     @PostMapping("/collect/topic/{id}")
     @ApiOperation(value = "收藏话题")
-    public Result collectTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> collectTopic(@PathVariable String id, HttpServletRequest request) {
         log.info("收藏话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", userId);
+        Long userId = extractUserId(request);
         topicService.collectTopic(id, String.valueOf(userId));
         return Result.success(null);
     }
@@ -189,12 +178,9 @@ public class TopicController {
      */
     @PostMapping("/uncollect/topic/{id}")
     @ApiOperation(value = "取消收藏话题")
-    public Result uncollectTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> uncollectTopic(@PathVariable String id, HttpServletRequest request) {
         log.info("取消收藏话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", userId);
+        Long userId = extractUserId(request);
         topicService.uncollectTopic(id, String.valueOf(userId));
         return Result.success(null);
     }
@@ -205,17 +191,14 @@ public class TopicController {
     @GetMapping("/iscollect/topic/{id}")
     @ApiOperation(value = "是否收藏话题")
     public Result<Boolean> isCollectTopic(@PathVariable String id, HttpServletRequest request) {
-        log.info("是否收藏话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", userId);
+        log.info("检查是否收藏话题：{}", id);
+        Long userId = extractUserId(request);
         Boolean isCollect = topicService.isCollectTopic(id, String.valueOf(userId));
         return Result.success(isCollect);
     }
 
     /**
-     * 收藏计数
+     * 获取收藏计数
      */
     @GetMapping("/collect/count/{id}")
     @ApiOperation(value = "获取收藏计数")
@@ -224,140 +207,4 @@ public class TopicController {
         int count = topicService.getCollectCount(id);
         return Result.success(count);
     }
-
-    /**
-     * 评论话题
-     */
-    @PostMapping("/comment/topic/{id}")
-    @ApiOperation(value = "评论话题")
-    public Result commentTopic(@PathVariable String id, @RequestBody CommentDTO commentDTO, HttpServletRequest request) {
-        log.info("评论话题：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        String authorID = String.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        commentDTO.setUserId(Integer.valueOf(authorID));
-        commentDTO.setTopicId(Integer.valueOf(id));
-        commentDTO.setContent(commentDTO.getContent());
-        log.info("当前用户id:{}", id);
-
-        topicService.commentTopic(commentDTO);
-        return Result.success(null);
-    }
-
-    /**
-     * 获取所有评论
-     */
-    @GetMapping("/get/comments/{topicId}")
-    @ApiOperation(value = "获取评论")
-    public Result getComments(@PathVariable String topicId) {
-        log.info("获取评论：{}", topicId);
-
-        List<CommentDTO> comments = topicService.getComments(topicId);
-        log.info("评论列表：{}", comments);
-
-        return Result.success(comments);
-    }
-
-    /**
-     * 分页查询评论
-     */
-    // TODO
-
-    /**
-     * 评论计数
-     */
-    @GetMapping("/comment/count/{id}")
-    @ApiOperation(value = "获取评论计数")
-    public Result<Integer> getCommentCount(@PathVariable String id) {
-        log.info("获取评论计数：{}", id);
-        int count = topicService.getCommentCount(id);
-        return Result.success(count);
-    }
-
-    /**
-     * 点赞评论
-     */
-    @PostMapping("/like/comment/{id}")
-    @ApiOperation(value = "点赞评论")
-    public Result likeComment(@PathVariable String id, HttpServletRequest request) {
-        log.info("点赞评论：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", userId);
-        topicService.likeComment(id, String.valueOf(userId));
-        return Result.success(null);
-    }
-
-    /**
-     * 取消点赞评论
-     */
-    @PostMapping("/unlike/comment/{id}")
-    @ApiOperation(value = "取消点赞评论")
-    public Result unlikeComment(@PathVariable String id, HttpServletRequest request) {
-        log.info("取消点赞评论：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", userId);
-        topicService.unlikeComment(id, String.valueOf(userId));
-        return Result.success(null);
-    }
-
-    /**
-     * 检查是否点赞评论
-     */
-    @GetMapping("/islike/comment/{id}")
-    @ApiOperation(value = "检查是否点赞评论")
-    public Result<Boolean> isLikeComment(@PathVariable String id, HttpServletRequest request) {
-        log.info("检查是否点赞评论：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前用户id:{}", userId);
-        Boolean isLike = topicService.isLikeComment(id, String.valueOf(userId));
-        return Result.success(isLike);
-    }
-
-    /**
-     * 回复评论
-     */
-    @PostMapping("/reply/comment/{id}")
-    @ApiOperation(value = "回复评论")
-    public Result replyComment(@PathVariable String id, @RequestBody CommentDTO commentDTO, HttpServletRequest request) {
-        log.info("回复评论：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        String userId = String.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        commentDTO.setUserId(Integer.valueOf(userId));
-        commentDTO.setParentId(Integer.valueOf(id)); // 设置父评论ID
-        // 确保话题ID已设置
-        if (commentDTO.getTopicId() == null) {
-            // 从父评论中获取话题ID，或者从请求参数中获取
-            CommentDTO parentComment = topicService.getCommentById(id);
-            commentDTO.setTopicId(parentComment.getTopicId());
-        }
-        topicService.replyComment(commentDTO);
-        return Result.success(null);
-    }
-
-
-    /**
-     * 删除评论
-     */
-    @DeleteMapping("/delete/comment/{id}")
-    @ApiOperation(value = "删除评论")
-    public Result deleteComment(@PathVariable String id, HttpServletRequest request) {
-        log.info("删除评论：{}", id);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        String userId = String.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        topicService.deleteComment(id, userId);
-        return Result.success(null);
-    }
-
-    /**
-     * 举报话题
-     */
-    // TODO
 }
