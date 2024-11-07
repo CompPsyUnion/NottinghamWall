@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.yiming1234.mapper.TopicMapper">
+<mapper namespace="cn.yiming1234.NottinghamWall.mapper.TopicMapper">
 
     <!-- Existing mappings -->
 
-    <insert id="insert" parameterType="cn.yiming1234.entity.Topic">
+    <insert id="insert" parameterType="cn.yiming1234.NottinghamWall.entity.Topic">
         INSERT INTO topics (id, content, authorID, createdAt, updatedAt, imgURLs)
-        VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.typehandler.JsonTypeHandler})
+        VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler})
     </insert>
 
     <select id="pageQuery" resultMap="topicResultMap">
@@ -24,8 +24,8 @@
         SELECT * FROM topics WHERE id = #{id}
     </select>
 
-    <resultMap id="topicResultMap" type="cn.yiming1234.entity.Topic">
-        <result property="imgURLs" column="imgURLs" typeHandler="cn.yiming1234.typehandler.JsonTypeHandler"/>
+    <resultMap id="topicResultMap" type="cn.yiming1234.NottinghamWall.entity.Topic">
+        <result property="imgURLs" column="imgURLs" typeHandler="cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler"/>
     </resultMap>
 
     <!-- Likes functionality -->
@@ -78,7 +78,7 @@
 
     <!-- Comments functionality -->
 
-    <insert id="commentTopic" parameterType="cn.yiming1234.dto.CommentDTO">
+    <insert id="commentTopic" parameterType="cn.yiming1234.NottinghamWall.dto.CommentDTO">
         INSERT INTO comment (id, topic_id, user_id, content, parent_id, created_at, updated_at)
         VALUES (#{id}, #{topicId}, #{userId}, #{content}, #{parentId}, #{createdAt}, #{updatedAt})
     </insert>
@@ -103,14 +103,14 @@
         ORDER BY c.created_at ASC
     </select>
 
-    <resultMap id="CommentResultMap" type="cn.yiming1234.dto.CommentDTO">
+    <resultMap id="CommentResultMap" type="cn.yiming1234.NottinghamWall.dto.CommentDTO">
         <id property="id" column="id"/>
         <result property="topicId" column="topicId"/>
         <result property="userId" column="userId"/>
         <result property="content" column="content"/>
         <result property="parentId" column="parentId"/>
         <result property="createdAt" column="createdAt"/>
-        <association property="user" javaType="cn.yiming1234.dto.StudentDTO">
+        <association property="user" javaType="cn.yiming1234.NottinghamWall.dto.StudentDTO">
             <id property="id" column="user.id"/>
             <result property="username" column="user.username"/>
             <result property="avatar" column="user.avatar"/>
@@ -155,7 +155,7 @@
 
     <!-- Reply Comment -->
 
-    <insert id="replyComment" parameterType="cn.yiming1234.dto.CommentDTO">
+    <insert id="replyComment" parameterType="cn.yiming1234.NottinghamWall.dto.CommentDTO">
         INSERT INTO comment (id, topic_id, user_id, content, parent_id, created_at, updated_at)
         VALUES (#{id}, #{topicId}, #{userId}, #{content}, #{parentId}, #{createdAt}, #{updatedAt})
     </insert>
