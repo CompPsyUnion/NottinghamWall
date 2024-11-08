@@ -66,8 +66,8 @@ public class TopicController {
     @ApiOperation(value = "创建话题")
     public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) {
         log.info("创建话题：{}", topicDTO);
-        Long userId = extractUserId(request);
-        topicDTO.setAuthorID(String.valueOf(userId));
+        Integer userId = Math.toIntExact(extractUserId(request));
+        topicDTO.setAuthorID(userId);
         topicService.addTopic(topicDTO);
         return Result.success(null);
     }
@@ -207,4 +207,5 @@ public class TopicController {
         int count = topicService.getCollectCount(id);
         return Result.success(count);
     }
+
 }

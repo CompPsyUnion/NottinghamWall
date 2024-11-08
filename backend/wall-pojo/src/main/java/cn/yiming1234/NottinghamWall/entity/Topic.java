@@ -16,17 +16,11 @@ import java.util.List;
 public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private Long id;
-
+    private Integer id;
     private String content;
-
-    private String authorID;
-
+    private Integer authorID;
     private List<String> imgURLs;
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 
 }

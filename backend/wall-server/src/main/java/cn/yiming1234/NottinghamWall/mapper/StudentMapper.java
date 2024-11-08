@@ -32,7 +32,7 @@ public interface StudentMapper {
      * @return
      */
     @Select("select * from student where id = #{id}")
-    Student getById(Long id);
+    Student getById(Integer id);
 
     /**
      * 根据ids查询学生
@@ -47,7 +47,7 @@ public interface StudentMapper {
             "</foreach>",
             "</script>"
     })
-    List<Student> getByIds(@Param("userIds") List<Long> userIds);
+    List<Student> getByIds(@Param("userIds") List<Integer> userIds);
 
     /**
      * 根据openid查询学生
@@ -63,7 +63,7 @@ public interface StudentMapper {
      * @return
      */
     @Select("select * from student where studentid = #{studentid}")
-    Student getByStudentId(Long studentid);
+    Student getByStudentId(Integer studentid);
 
     /**
      * 分页查询学生

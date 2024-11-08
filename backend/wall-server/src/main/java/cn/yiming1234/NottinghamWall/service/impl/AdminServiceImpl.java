@@ -108,7 +108,7 @@ public class AdminServiceImpl implements AdminService {
      * @param id
      */
     @Override
-    public void startOrStop(Integer status, Long id) {
+    public void startOrStop(Integer status, Integer id) {
         Admin admin = Admin.builder()
                 .id(id)
                 .status(status)
@@ -122,7 +122,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public Admin getById(Long id) {
+    public Admin getById(Integer id) {
         Admin admin = adminMapper.getById(id);
         admin.setPassword("******");
         return admin;

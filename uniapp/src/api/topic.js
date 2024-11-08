@@ -41,8 +41,3 @@ export const deleteTopic = (topicId) => {
         });
     });
 };
-
-export const reportTopic = (topicId) => {
-    // TODO: 实现举报话题的接口
-    return Promise.reject('举报功能暂未开放');
-};

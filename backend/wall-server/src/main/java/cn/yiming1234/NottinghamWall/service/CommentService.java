@@ -1,6 +1,8 @@
 package cn.yiming1234.NottinghamWall.service;
 
 import cn.yiming1234.NottinghamWall.dto.CommentDTO;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -47,11 +49,20 @@ public interface CommentService {
     Boolean isLikeComment(String commentId, Long userId);
 
     /**
-     * 获取评论列表
-     * @param topicId
+     * 获取点赞评论计数
+     * @param id
      * @return
      */
-    List<CommentDTO> getComments(String topicId);
+    int getLikeCommentCount(String id);
+
+    /**
+     * 获取评论列表
+     * @param topicId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    PageInfo<CommentDTO> getComments(Integer topicId, int page, int pageSize);
 
     /**
      * 获取评论计数
@@ -66,4 +77,5 @@ public interface CommentService {
      * @return
      */
     CommentDTO getCommentById(String commentId);
+
 }

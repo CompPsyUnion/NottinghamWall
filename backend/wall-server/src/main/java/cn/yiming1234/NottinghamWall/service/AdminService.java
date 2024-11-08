@@ -23,7 +23,7 @@ public interface AdminService {
      * @param status
      * @param id
      */
-    void startOrStop(Integer status, Long id);
+    void startOrStop(Integer status, Integer id);
     /**
      * 分页查询管理员
      * @param adminPageQueryDTO
@@ -35,7 +35,7 @@ public interface AdminService {
      * @param id
      * @return
      */
-    Admin getById(Long id);
+    Admin getById(Integer id);
     /**
      * 修改管理员
      * @param adminDTO

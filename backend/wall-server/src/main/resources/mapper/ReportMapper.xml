@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.yiming1234.NottinghamWall.mapper.ReportMapper">
+
+    <insert id="insertReport" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO report (id, topic_id, comment_id, user_id, tags, detailed_description)
+        VALUES (#{id}, #{topicId}, #{commentId}, #{userId}, #{tags}, #{detailedDescription})
+    </insert>
+
+    <select id="countExistingReports" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM report
+        WHERE user_id = #{userId} AND topic_id = #{topicId} AND (comment_id = #{commentId} OR #{commentId} IS NULL)
+    </select>
+
+</mapper>

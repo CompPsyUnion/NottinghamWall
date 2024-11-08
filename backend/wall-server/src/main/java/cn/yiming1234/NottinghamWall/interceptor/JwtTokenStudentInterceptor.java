@@ -52,7 +52,7 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
         try {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-            Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+            Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
             log.info("userId:{}", userId);
             BaseContext.setCurrentId(userId);
             //3、通过，放行

@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import uniNoticeBar from '@dcloudio/uni-ui/lib/uni-notice-bar/uni-notice-bar.vue';
 import { userLoginService } from '@/api/login';
 import CustomSwiper from './components/swipper.vue'; // 引入自定义的 swiper 组件
 import FabComponent from './components/fab.vue'; // 引入自定义的 fab 组件
@@ -18,7 +19,8 @@ export default {
   components: {
     CustomSwiper,
     FabComponent,
-    TopicComponent
+    TopicComponent,
+    uniNoticeBar
   },
   data() {
     return {

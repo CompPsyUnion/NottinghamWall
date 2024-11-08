@@ -3,3 +3,6 @@ backend/wall-server/src/main/resources/application-dev.yml
 backend/wall-server/src/main/resources/application-prod.yml
 backend/wall-server/target/classes/application-dev.yml
 backend/wall-server/target/classes/application-prod.yml
+
+uniapp/src/utils/env.js
+uniapp/dist/mp-weixin/utils/env.js

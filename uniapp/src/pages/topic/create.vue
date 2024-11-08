@@ -47,7 +47,18 @@
 <script>
 import {baseUrl} from "@/utils/env";
 
+import uniSection from '@dcloudio/uni-ui/lib/uni-section/uni-section.vue';
+import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
+import uniPopupDialog from '@dcloudio/uni-ui/lib/uni-popup-dialog/uni-popup-dialog.vue';
+import uniFilePicker from '@dcloudio/uni-ui/lib/uni-file-picker/uni-file-picker.vue';
+
 export default {
+  components: {
+    uniSection,
+    uniPopup,
+    uniPopupDialog,
+    uniFilePicker
+  },
   data() {
     return {
       isSelected: false,

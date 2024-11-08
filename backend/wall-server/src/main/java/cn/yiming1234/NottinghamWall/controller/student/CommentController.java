@@ -4,6 +4,7 @@ import cn.yiming1234.NottinghamWall.dto.CommentDTO;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.result.Result;
 import cn.yiming1234.NottinghamWall.service.CommentService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -109,21 +109,38 @@ public class CommentController {
     }
 
     /**
-     * 获取评论列表
+     * 获取评论点赞计数
      */
-    @GetMapping("/get/comments/{topicId}")
-    @ApiOperation(value = "获取评论")
-    public Result<List<CommentDTO>> getComments(@PathVariable String topicId) {
-        log.info("获取评论列表：{}", topicId);
-        List<CommentDTO> comments = commentService.getComments(topicId);
-        log.info("评论列表：{}", comments);
-        return Result.success(comments);
+    @GetMapping("/like/comment/count/{id}")
+    @ApiOperation(value = "获取评论点赞计数")
+    public Result<Integer> getLikeCommentCount(@PathVariable String id) {
+        log.info("获取评论点赞计数：{}", id);
+        int count = commentService.getLikeCommentCount(id);
+        return Result.success(count);
     }
 
     /**
-     * 实现评论无限滚动
+     * 获取指定话题的所有评论，并进行分页处理。
+     *
+     * @param topicId  话题ID
+     * @param page     页码（从1开始）
+     * @param pageSize 每页大小
+     * @return Result 包含分页后的评论列表
      */
-    // TODO
+    @GetMapping("/get/comments/{topicId}")
+    @ApiOperation(value = "获取评论")
+    public Result<PageInfo<CommentDTO>> getComments(
+            @PathVariable Integer topicId,
+            @RequestParam() int page,
+            @RequestParam() int pageSize
+    ) {
+        log.info("获取评论列表：topicId={}, page={}, pageSize={}", topicId, page, pageSize);
+        PageInfo<CommentDTO> comments = commentService.getComments(topicId, page, pageSize);
+        log.info("评论列表：{}", comments);
+        log.info("评论列表大小：{}", comments.getList().size());
+        return Result.success(comments);
+
+    }
 
     /**
      * 获取评论计数

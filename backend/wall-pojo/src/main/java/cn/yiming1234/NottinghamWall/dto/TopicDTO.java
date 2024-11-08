@@ -8,15 +8,12 @@ import java.util.List;
 
 @Data
 public class TopicDTO implements Serializable {
-    private Long id;
 
+    private Integer id;
     private String content;
-
     private List<String> imgURLs;
-
-    private String authorID;
-
+    private Integer authorID;
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
+
 }

@@ -24,7 +24,7 @@ public interface AdminMapper {
      * @return
      */
     @Select("select * from admin where id = #{id}")
-    Admin getById(Long id);
+    Admin getById(Integer id);
     /**
      * 分页查询管理员
      * @param adminPageQueryDTO
