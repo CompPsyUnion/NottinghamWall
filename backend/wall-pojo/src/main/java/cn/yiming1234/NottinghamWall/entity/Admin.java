@@ -15,31 +15,20 @@ import java.time.LocalDateTime;
 public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private Long id;
-
+    private Integer id;
     private String username;
-
     private String name;
-
     private String password;
-
     private String phone;
-
     private String sex;
-
     private String idNumber;
-
     private Integer status;
 
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
-
-    private Long createUser;
-
-    private Long updateUser;
+    private Integer createUser;
+    private Integer updateUser;
 
 }

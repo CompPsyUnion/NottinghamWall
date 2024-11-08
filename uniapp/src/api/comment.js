@@ -1,9 +1,30 @@
 import { baseUrl } from "@/utils/env";
 
-export const fetchComments = (topicId) => {
+// export const fetchComments = (topicId) => {
+//     return new Promise((resolve, reject) => {
+//         uni.request({
+//             url: `${baseUrl}/student/get/comments/${topicId}`,
+//             method: 'GET',
+//             header: {
+//                 'Content-Type': 'application/json',
+//                 'token': uni.getStorageSync('token'),
+//             },
+//             success: (res) => {
+//                 if (res.data.code === 1) {
+//                     resolve(res.data.data);
+//                 } else {
+//                     reject(res.data.msg);
+//                 }
+//             },
+//             fail: (err) => reject(err),
+//         });
+//     });
+// };
+
+export const fetchComments = (topicId, page, pageSize) => {
     return new Promise((resolve, reject) => {
         uni.request({
-            url: `${baseUrl}/student/get/comments/${topicId}`,
+            url: `${baseUrl}/student/get/comments/${topicId}?page=${page}&pageSize=${pageSize}`,
             method: 'GET',
             header: {
                 'Content-Type': 'application/json',
@@ -11,7 +32,7 @@ export const fetchComments = (topicId) => {
             },
             success: (res) => {
                 if (res.data.code === 1) {
-                    resolve(res.data.data);
+                    resolve(res.data.data.list);
                 } else {
                     reject(res.data.msg);
                 }
@@ -134,6 +155,30 @@ export const checkIfCommentLiked = (commentId) => {
         });
     });
 };
+
+export const fetchCommentLikeCount = (commentId) => {
+    return new Promise((resolve, reject) => {
+        uni.request({
+            url: `${baseUrl}/student/like/comment/count/${commentId}`,
+            method: 'GET',
+            header: {
+                'Content-Type': 'application/json',
+                'token': uni.getStorageSync('token'),
+            },
+            success: (res) => {
+                if (res.data.code === 1) {
+                    resolve(res.data.data || 0);
+                } else {
+                    resolve(0);
+                }
+            },
+            fail: (err) => {
+                console.error("获取评论点赞计数失败:", err);
+                resolve(0);
+            },
+        });
+    });
+}
 
 export const fetchCommentCount = (topicId) => {
     return new Promise((resolve, reject) => {

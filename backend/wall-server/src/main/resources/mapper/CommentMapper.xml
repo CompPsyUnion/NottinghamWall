@@ -23,59 +23,68 @@
 
     <!-- Like Comment -->
     <insert id="likeComment">
-        INSERT INTO comment_likes (comment_id, user_id)
+        INSERT INTO comment_like (comment_id, user_id)
         SELECT #{commentId}, #{userId}
             WHERE NOT EXISTS (
-            SELECT 1 FROM comment_likes WHERE comment_id = #{commentId} AND user_id = #{userId}
+            SELECT 1 FROM comment_like WHERE comment_id = #{commentId} AND user_id = #{userId}
                 )
     </insert>
 
     <!-- Unlike Comment -->
     <delete id="unlikeComment">
-        DELETE FROM comment_likes
+        DELETE FROM comment_like
         WHERE comment_id = #{commentId} AND user_id = #{userId}
     </delete>
 
     <!-- Is Like Comment -->
     <select id="isLikeComment" resultType="boolean">
         SELECT COUNT(*) > 0
-        FROM comment_likes
+        FROM comment_like
         WHERE comment_id = #{commentId} AND user_id = #{userId}
     </select>
 
-    <!-- Get Comments -->
-    <select id="getComments" parameterType="string" resultMap="CommentResultMap">
-        SELECT
-            c.id AS id,
-            c.topic_id AS topicId,
-            c.user_id AS userId,
-            c.content,
-            c.parent_id AS parentId,
-            c.created_at AS createdAt,
-            s.id AS "user.id",
-            s.username AS "user.username",
-            s.avatar AS "user.avatar"
-        FROM
-            comment c
-                JOIN student s ON c.user_id = s.id
-        WHERE
-            c.topic_id = #{topicId}
-        ORDER BY c.created_at ASC
-    </select>
-
+    <!-- 结果映射 -->
     <resultMap id="CommentResultMap" type="cn.yiming1234.NottinghamWall.dto.CommentDTO">
         <id property="id" column="id"/>
-        <result property="topicId" column="topicId"/>
-        <result property="userId" column="userId"/>
+        <result property="topicId" column="topic_id"/>
+        <result property="userId" column="user_id"/>
         <result property="content" column="content"/>
-        <result property="parentId" column="parentId"/>
-        <result property="createdAt" column="createdAt"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
         <association property="user" javaType="cn.yiming1234.NottinghamWall.dto.StudentDTO">
-            <id property="id" column="user.id"/>
-            <result property="username" column="user.username"/>
-            <result property="avatar" column="user.avatar"/>
+            <id property="id" column="user_id"/>
+            <result property="studentid" column="studentid"/>
+            <result property="username" column="username"/>
+            <result property="avatar" column="avatar"/>
         </association>
+        <!-- replies 暂不处理 -->
     </resultMap>
+
+    <!-- 查询所有评论 -->
+    <select id="getComments" parameterType="Integer" resultMap="CommentResultMap">
+        SELECT
+            c.id,
+            c.topic_id,
+            c.user_id,
+            c.content,
+            c.parent_id,
+            c.created_at,
+            c.updated_at,
+            s.username,
+            s.avatar
+        FROM comment c
+                 LEFT JOIN student s ON c.user_id = s.id
+        WHERE c.topic_id = #{topicId}
+        ORDER BY c.created_at DESC
+    </select>
+
+    <!-- Get Like Comment Count -->
+    <select id="getLikeCommentCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM comment_like
+        WHERE comment_id = #{id}
+    </select>
 
     <!-- Get Comment Count -->
     <select id="getCommentCount" resultType="int">

@@ -90,7 +90,7 @@ public class AdminController {
      */
     @PostMapping("/status/{status}")
     @ApiOperation("启用或停用管理员")
-    public Result startOrStop(@PathVariable Integer status, Long id){
+    public Result startOrStop(@PathVariable Integer status, Integer id){
         //log.info("启用或停用管理员：{}", id);
         adminService.startOrStop(status, id);
         return Result.success();
@@ -114,7 +114,7 @@ public class AdminController {
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询管理员")
-    public Result<Admin> getById(@PathVariable Long id){
+    public Result<Admin> getById(@PathVariable Integer id){
         Admin admin = adminService.getById(id);
         return Result.success(admin);
     }

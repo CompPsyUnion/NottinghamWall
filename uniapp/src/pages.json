@@ -60,6 +60,12 @@
     			"navigationBarTitleText": "发表评论"
     		}
         },
+		{
+			"path": "pages/topic/report",
+			"style": {
+				"navigationBarTitleText": "举报"
+			}
+		},
         {
             "path": "pages/order/order",
             "style": {

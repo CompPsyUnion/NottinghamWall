@@ -22,9 +22,7 @@ public class StudentController {
 
         /**
         * 学生分页查询
-        * @param studentPageQueryDTO
-        * @return
-        */
+         */
         @GetMapping("/page")
         @ApiOperation("分页查询学生")
         public Result<PageResult> page(StudentPageQueryDTO studentPageQueryDTO){
@@ -34,36 +32,30 @@ public class StudentController {
         }
         /**
         * 根据id查询学生
-        * @param id
-        * @return
-        */
+         */
         @GetMapping("/{id}")
         @ApiOperation("根据id查询学生")
-        public Result<Student> getById(Long id){
+        public Result<Student> getById(@PathVariable Integer id){
             Student student = studentService.getById(id);
             return Result.success(student);
         }
 
         /**
         * 根据学号查询学生
-        * @param studentId
-        * @return
-        */
+         */
         @GetMapping("/{studentId}")
         @ApiOperation("根据学号查询学生")
-        public Result<Student> getByStudentId(Long studentId){
+        public Result<Student> getByStudentId(@PathVariable Integer studentId){
             Student student = studentService.getByStudentId(studentId);
             return Result.success(student);
         }
 
         /**
-     * 根据邮箱查询学生
-     * @param email
-     * @return
-     */
+        * 根据邮箱查询学生
+         */
         @GetMapping("/{email}")
         @ApiOperation("根据邮箱查询学生")
-        public  Result<Student> getByEmail(String email){
+        public  Result<Student> getByEmail(@PathVariable String email){
             Student student = studentService.getByEmail(email);
             return Result.success(student);
         }

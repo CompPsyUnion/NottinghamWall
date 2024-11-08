@@ -22,7 +22,7 @@ public interface StudentService {
      * @param code
      * @return
      */
-    String getPhoneNumber(String code, Long id) throws IOException;
+    String getPhoneNumber(String code, Integer id) throws IOException;
     /**
      * 分页查询学生
      * @param studentPageQueryDTO
@@ -41,19 +41,19 @@ public interface StudentService {
      * @param id
      * @param phoneNumber
      */
-    void updatePhoneNumber(Long id, String phoneNumber);
+    void updatePhoneNumber(Integer id, String phoneNumber);
     /**
      * 根据id查询学生
      * @param id
      * @return
      */
-    Student getById(Long id);
+    Student getById(Integer id);
     /**
      * 根据学号查询学生
      * @param studentId
      * @return
      */
-    Student getByStudentId(Long studentId);
+    Student getByStudentId(Integer studentId);
     /**
      * 根据邮箱查询学生
      * @param email

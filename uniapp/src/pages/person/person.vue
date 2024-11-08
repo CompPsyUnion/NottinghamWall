@@ -53,7 +53,12 @@
 <script>
 import {baseUrl} from "@/utils/env";
 
+import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue';
+
 export default {
+  components: {
+    uniIcons
+  },
   data() {
     return {
       avatarUrl: '', // 初始化头像URL

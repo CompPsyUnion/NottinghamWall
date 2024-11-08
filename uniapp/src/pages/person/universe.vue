@@ -40,6 +40,15 @@
   </div>
 </template>
 
+<script>
+import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
+export default {
+  components: {
+    uniIcons
+  }
+}
+</script>
+
 <style scoped>
 .settings-page {
   font-family: Arial, sans-serif;
@@ -88,10 +97,6 @@
 .item p {
   font-size: 14px;
   color: #333;
-}
-
-.right-text {
-  color: #666;
 }
 
 .arrow-right {

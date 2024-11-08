@@ -5,13 +5,13 @@
 
     <!-- Insert Topic -->
     <insert id="insert" parameterType="cn.yiming1234.NottinghamWall.entity.Topic">
-        INSERT INTO topics (id, content, authorID, createdAt, updatedAt, imgURLs)
+        INSERT INTO topic (id, content, authorID, createdAt, updatedAt, imgURLs)
         VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler})
     </insert>
 
     <!-- Paginated Query -->
     <select id="pageQuery" parameterType="cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO" resultMap="topicResultMap">
-        SELECT * FROM topics
+        SELECT * FROM topic
         <where>
             <if test="username != null and username != ''">
                 AND username LIKE CONCAT('%', #{username}, '%')
@@ -22,7 +22,7 @@
 
     <!-- Get Topic by ID -->
     <select id="getTopicById" parameterType="string" resultMap="topicResultMap">
-        SELECT * FROM topics WHERE id = #{id}
+        SELECT * FROM topic WHERE id = #{id}
     </select>
 
     <resultMap id="topicResultMap" type="cn.yiming1234.NottinghamWall.entity.Topic">
@@ -36,57 +36,57 @@
 
     <!-- Likes functionality -->
     <insert id="likeTopic">
-        INSERT INTO likes (topic_id, user_id)
+        INSERT INTO `like` (topic_id, user_id)
         VALUES (#{topicId}, #{userId})
     </insert>
 
     <delete id="unlikeTopic">
-        DELETE FROM likes
+        DELETE FROM `like`
         WHERE topic_id = #{topicId} AND user_id = #{userId}
     </delete>
 
     <select id="isLikeTopic" resultType="boolean">
         SELECT COUNT(*) > 0
-        FROM likes
+        FROM `like`
         WHERE topic_id = #{topicId} AND user_id = #{userId}
     </select>
 
     <select id="getLikeCount" resultType="int">
         SELECT COUNT(*)
-        FROM likes
+        FROM `like`
         WHERE topic_id = #{topicId}
     </select>
 
     <!-- Collections functionality -->
     <insert id="collectTopic">
-        INSERT INTO collections (topic_id, user_id)
+        INSERT INTO collection (topic_id, user_id)
         VALUES (#{topicId}, #{userId})
     </insert>
 
     <delete id="uncollectTopic">
-        DELETE FROM collections
+        DELETE FROM collection
         WHERE topic_id = #{topicId} AND user_id = #{userId}
     </delete>
 
     <select id="isCollectTopic" resultType="boolean">
         SELECT COUNT(*) > 0
-        FROM collections
+        FROM collection
         WHERE topic_id = #{topicId} AND user_id = #{userId}
     </select>
 
     <select id="getCollectCount" resultType="int">
         SELECT COUNT(*)
-        FROM collections
+        FROM collection
         WHERE topic_id = #{topicId}
     </select>
 
     <!-- Delete functionalities -->
     <delete id="deleteTopicLikes">
-        DELETE FROM likes WHERE topic_id = #{topicId}
+        DELETE FROM `like` WHERE topic_id = #{topicId}
     </delete>
 
     <delete id="deleteTopicCollections">
-        DELETE FROM collections WHERE topic_id = #{topicId}
+        DELETE FROM collection WHERE topic_id = #{topicId}
     </delete>
 
     <delete id="deleteTopicComments">
@@ -94,7 +94,7 @@
     </delete>
 
     <delete id="deleteTopic">
-        DELETE FROM topics WHERE id = #{id}
+        DELETE FROM topic WHERE id = #{id}
     </delete>
 
 </mapper>

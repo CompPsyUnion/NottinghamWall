@@ -3,6 +3,8 @@ package cn.yiming1234.NottinghamWall.service.impl;
 import cn.yiming1234.NottinghamWall.dto.CommentDTO;
 import cn.yiming1234.NottinghamWall.mapper.CommentMapper;
 import cn.yiming1234.NottinghamWall.service.CommentService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +76,24 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 获取评论列表
+     * 获取点赞评论计数
      */
     @Override
-    public List<CommentDTO> getComments(String topicId) {
-        log.info("获取评论列表:{}", topicId);
-        return commentMapper.getComments(topicId);
+    public int getLikeCommentCount(String id) {
+        int count = commentMapper.getLikeCommentCount(id);
+        log.info("评论 {} 的点赞数：{}", id, count);
+        return count;
+    }
+
+    /**
+     * 获取评论列表
+     * （MyBatis PageHelper插件实现）
+     */
+    @Override
+    public PageInfo<CommentDTO> getComments(Integer topicId, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<CommentDTO> comments = commentMapper.getComments(topicId);
+        return new PageInfo<>(comments);
     }
 
     /**

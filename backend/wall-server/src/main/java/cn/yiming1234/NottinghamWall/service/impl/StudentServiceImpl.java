@@ -119,7 +119,7 @@ public class StudentServiceImpl implements StudentService {
      * @return
      */
     @Override
-    public String getPhoneNumber(String code, Long id) throws IOException {
+    public String getPhoneNumber(String code, Integer id) throws IOException {
         log.info("code:{}", code);
         String accessToken = getAccessToken();
         log.info("access_token:{}", accessToken);
@@ -148,7 +148,7 @@ public class StudentServiceImpl implements StudentService {
      * @param phoneNumber
      */
     @Override
-    public void updatePhoneNumber(Long id, String phoneNumber) {
+    public void updatePhoneNumber(Integer id, String phoneNumber) {
         Student student = studentMapper.getById(id);
         if (student != null) {
             student.setPhone(phoneNumber);
@@ -191,7 +191,7 @@ public class StudentServiceImpl implements StudentService {
      * @param id
      * @return
      */
-    public Student getById(Long id) {
+    public Student getById(Integer id) {
         Student student = studentMapper.getById(id);
         return student;
     }
@@ -202,7 +202,7 @@ public class StudentServiceImpl implements StudentService {
      * @param studentId
      * @return
      */
-    public Student getByStudentId(Long studentId) {
+    public Student getByStudentId(Integer studentId) {
         Student student = studentMapper.getByStudentId(studentId);
         return student;
     }

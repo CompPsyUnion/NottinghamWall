@@ -57,12 +57,20 @@ public interface CommentMapper {
     Boolean isLikeComment(@Param("commentId") String commentId, @Param("userId") Long userId);
 
     /**
+     * 获取点赞评论计数
+     *
+     * @param id
+     * @return
+     */
+    int getLikeCommentCount(String id);
+
+    /**
      * 获取评论列表
      *
      * @param topicId
      * @return
      */
-    List<CommentDTO> getComments(@Param("topicId") String topicId);
+    List<CommentDTO> getComments(@Param("topicId") Integer topicId);
 
     /**
      * 获取评论计数

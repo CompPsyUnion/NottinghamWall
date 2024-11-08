@@ -34,6 +34,23 @@ public class StudentController {
     private JwtProperties jwtProperties;
 
     /**
+     * 获取当前学生id
+     * @param request
+     * @return
+     */
+    private Integer getCurrentStudentId(HttpServletRequest request) {
+        String token = request.getHeader(jwtProperties.getUserTokenName());
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("Token is missing");
+        }
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+        if (claims == null || claims.get(JwtClaimsConstant.USER_ID) == null) {
+            throw new IllegalArgumentException("Invalid token or user ID missing in token");
+        }
+        return (Integer) claims.get(JwtClaimsConstant.USER_ID);
+    }
+
+    /**
      * 微信登录
      *
      * @param studentLoginDTO
@@ -67,10 +84,7 @@ public class StudentController {
     @ApiOperation(value = "微信获取手机号")
     public Result<String> getPhoneNumber(@RequestParam String code, HttpServletRequest request) throws IOException {
         log.info("获取手机号：{}", code);
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-
+        Integer id = getCurrentStudentId(request);
         String phoneNumber = studentService.getPhoneNumber(code, id);
         return Result.success(phoneNumber);
     }
@@ -81,9 +95,7 @@ public class StudentController {
     @GetMapping("/get/currentUserInfo")
     @ApiOperation(value = "获取当前用户信息")
     public Result<Map<String, Object>> getCurrentUserInfo(HttpServletRequest request) {
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        String userId = claims.get(JwtClaimsConstant.USER_ID).toString();
+        Integer userId = getCurrentStudentId(request);
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("userId", userId);
         return Result.success(userInfo);
@@ -97,10 +109,7 @@ public class StudentController {
     @ApiOperation(value = "获取学生信息")
     @GetMapping("/get/info")
     public Result<Student> getStudentInfo(HttpServletRequest request) {
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前学生id:{}", id);
+        Integer id = getCurrentStudentId(request);
         Student student = studentService.getById(id);
         return Result.success(student);
     }
@@ -113,7 +122,7 @@ public class StudentController {
      */
     @ApiOperation(value = "根据id获取学生信息")
     @GetMapping("/get/info/{id}")
-    public Result<Student> getStudentInfoById(@PathVariable Long id) {
+    public Result<Student> getStudentInfoById(@PathVariable Integer id) {
         log.info("根据id获取学生信息：{}", id);
         Student student = studentService.getById(id);
         return Result.success(student);
@@ -128,10 +137,7 @@ public class StudentController {
     @ApiOperation(value = "更新学生信息")
     @PutMapping("/update/info")
     public Result update(@RequestBody StudentDTO studentDTO, HttpServletRequest request){
-        String token = request.getHeader(jwtProperties.getUserTokenName());
-        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-        log.info("当前学生id:{}", id);
+        Integer id = getCurrentStudentId(request);
         studentDTO.setId(id);
         Student student = studentService.getById(id);
         log.info("当前学生信息:{}", student);

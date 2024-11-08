@@ -19,6 +19,3 @@ dist
 *.njsproj
 *.sln
 *.sw?
-
-uniapp/src/utils/env.js
-uniapp/dist/mp-weixin/utils/env.js

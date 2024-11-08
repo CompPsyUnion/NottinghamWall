@@ -94,8 +94,7 @@
           </view>
         </view>
       </uni-card>
-
-      <uni-load-more :status="loadMoreStatus"></uni-load-more>
+      <uni-load-more :status="loadMoreStatus" @loadmore="loadComments"></uni-load-more>
     </view>
 
     <!-- 评论输入框 -->
@@ -114,42 +113,39 @@
 </template>
 
 <script>
-import {
-  fetchTopic,
-  deleteTopic,
-  reportTopic,
-} from "@/api/topic";
+import uniCard from '@dcloudio/uni-ui/lib/uni-card/uni-card.vue';
+import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue';
+import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
+import uniLoadMore from '@dcloudio/uni-ui/lib/uni-load-more/uni-load-more.vue';
+import uniEasyinput from '@dcloudio/uni-ui/lib/uni-easyinput/uni-easyinput.vue';
+
+import {deleteTopic, fetchTopic,} from "@/api/topic";
 
 import {
-  fetchComments,
-  submitComment,
-  deleteComment,
-  reportComment,
-  likeComment,
-  unlikeComment,
   checkIfCommentLiked,
+  deleteComment,
   fetchCommentCount,
+  fetchCommentLikeCount,
+  fetchComments,
+  likeComment,
+  submitComment,
+  unlikeComment,
 } from "@/api/comment";
 
-import {
-  likeTopic,
-  unlikeTopic,
-  checkIfLiked,
-  fetchLikeCount
-} from "@/api/like";
+import {checkIfLiked, fetchLikeCount, likeTopic, unlikeTopic} from "@/api/like";
 
-import {
-  toggleCollect,
-  fetchCollectCount,
-  checkIfCollected,
-} from "@/api/collect";
+import {checkIfCollected, fetchCollectCount, toggleCollect,} from "@/api/collect";
 
-import {
-  getCurrentUserInfo,
-  getUserInfo as apiGetUserInfo
-} from "@/api/user";
+import {getCurrentUserInfo, getUserInfo as apiGetUserInfo} from "@/api/user";
 
 export default {
+  components: {
+    uniCard,
+    uniIcons,
+    uniPopup,
+    uniLoadMore,
+    uniEasyinput,
+  },
   data() {
     return {
       topicRecord: null, // 当前话题记录
@@ -160,6 +156,8 @@ export default {
       comments: [], // 评论列表
       loadMoreStatus: 'more', // 加载更多的状态
       currentUserId: '', // 当前用户的ID
+      page: 1,
+      pageSize: 5,
       commentCount: 0,
       likeCount: 0,
       collectCount: 0,
@@ -167,6 +165,7 @@ export default {
   },
   async onLoad(options) {
     const topicId = options.topicId;
+    this.topicId = options.topicId;
     try {
       // 获取当前用户信息
       const currentUser = await getCurrentUserInfo();
@@ -192,12 +191,13 @@ export default {
       // 获取收藏计数
       this.collectCount = await fetchCollectCount(topicId);
 
-      // 获取评论列表
-      this.comments = await fetchComments(topicId);
+      // 获取评论点赞计数
       for (const comment of this.comments) {
-        comment.hasLiked = await checkIfCommentLiked(comment.id);
-        await this.fetchUserInfo(comment.userId);
+        comment.likeCount = await fetchCommentLikeCount(comment.id);
       }
+
+      // 获取评论列表
+      await this.loadComments();
 
       console.log("Received topicId:", topicId);
     } catch (error) {
@@ -207,6 +207,9 @@ export default {
         icon: 'none'
       });
     }
+  },
+  onReachBottom() {
+    this.loadComments();
   },
   onShareAppMessage() {
     return {
@@ -227,7 +230,7 @@ export default {
         return { username: "匿名用户", avatar: "" };
       }
       if (!this.userInfoMap[authorID]) {
-        this.fetchUserInfo(authorID); // 异步获取用户信息
+        this.fetchUserInfo(authorID);
       }
       return this.userInfoMap[authorID] || { username: "匿名用户", avatar: "" };
     },
@@ -250,6 +253,36 @@ export default {
     },
 
     /**
+     * 加载评论
+      * @returns {Promise<void>}
+     */
+    async loadComments() {
+      if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
+        return;
+      }
+      this.loadMoreStatus = 'loading';
+      try {
+        const res = await fetchComments(this.topicId, this.page, this.pageSize);
+        console.log('请求结果:', res);
+        if (res.length > 0) {
+          this.comments = this.comments.concat(res);
+          if (res.length < this.pageSize) {
+            this.loadMoreStatus = 'noMore';
+          } else {
+            this.loadMoreStatus = 'more';
+            this.page++;
+          }
+        } else {
+          this.loadMoreStatus = 'noMore';
+        }
+      } catch (error) {
+        console.error('请求失败', error);
+        this.loadMoreStatus = 'more';
+        uni.showToast({ title: '加载失败', icon: 'none' });
+      }
+    },
+
+    /**
      * 显示操作菜单
      */
     showActionSheet() {
@@ -260,11 +293,11 @@ export default {
         itemList: itemList,
         success: (res) => {
           if (isAuthor && res.tapIndex === 0) {
-            // 作者选择了“删除”
             this.deleteTopic();
           } else if ((isAuthor && res.tapIndex === 1) || (!isAuthor && res.tapIndex === 0)) {
-            // 选择了“举报”
-            this.reportTopicAction();
+            uni.navigateTo({
+              url: `/pages/topic/report?topicId=${this.topicRecord.id}`,
+            });
           }
         },
         fail: (res) => {
@@ -288,8 +321,9 @@ export default {
             // 作者选择了“删除”
             this.deleteCommentAction(comment);
           } else if ((isAuthor && res.tapIndex === 1) || (!isAuthor && res.tapIndex === 0)) {
-            // 选择了“举报”
-            this.reportCommentAction(comment);
+            uni.navigateTo({
+              url: `/pages/topic/report?topicId=${this.topicRecord.id}&commentId=${comment.id}`,
+            });
           }
         },
         fail: (res) => {
@@ -322,18 +356,6 @@ export default {
       } catch (error) {
         console.error('删除失败:', error);
         await uni.showToast({ title: '删除失败', icon: 'none' });
-      }
-    },
-
-    /**
-     * 举报话题
-     * @returns {Promise<void>}
-     */
-    async reportTopicAction() {
-      try {
-        await reportTopic(this.topicRecord.id);
-      } catch (error) {
-        await uni.showToast({ title: error, icon: 'none' });
       }
     },
 
@@ -445,19 +467,6 @@ export default {
     },
 
     /**
-     * 举报评论
-     * @param {Object} comment
-     * @returns {Promise<void>}
-     */
-    async reportCommentAction(comment) {
-      try {
-        await reportComment(comment.id);
-      } catch (error) {
-        await uni.showToast({ title: error, icon: 'none' });
-      }
-    },
-
-    /**
      * 回复评论
      * @param {Object} comment
      */
@@ -484,6 +493,7 @@ export default {
           comment.likeCount += 1;
           await uni.showToast({ title: "点赞成功", icon: "success" });
         }
+        comment.likeCount = await fetchCommentLikeCount(comment.id);
       } catch (error) {
         console.error("评论点赞操作失败:", error);
         await uni.showToast({ title: "操作失败", icon: "none" });

@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class StudentLoginVO implements Serializable {
 
-        private Long id;
+        private Integer id;
         private String openid;
         private String token;
 }

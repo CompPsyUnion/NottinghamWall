@@ -24,6 +24,12 @@ mybatis:
     #开启驼峰命名
     map-underscore-to-camel-case: true
 
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
 redis:
   host: ${yiming1234.redis.host}
   port: ${yiming1234.redis.port}
