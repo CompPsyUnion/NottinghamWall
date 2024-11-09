@@ -1,5 +1,0 @@
-title: Your Site Title
-description: A brief description of your site
-baseurl: "" # 如果站点在根目录，留空
-url: "https://wallwiki.yiming1234.cn" # 站点的URL
-theme: minima # 选择一个 Jekyll 主题
