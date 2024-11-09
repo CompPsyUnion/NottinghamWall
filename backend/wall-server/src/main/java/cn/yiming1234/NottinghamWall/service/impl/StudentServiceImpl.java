@@ -30,9 +30,7 @@ import java.util.Map;
 public class StudentServiceImpl implements StudentService {
 
     public static final String WX_URL = "https://api.weixin.qq.com/sns/jscode2session";
-
     public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token";
-
     public static final String WX_GET_PHONE_URL = "https://api.weixin.qq.com/wxa/business/getuserphonenumber";
 
     private final WeChatProperties weChatProperties;
@@ -48,9 +46,6 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * 获取openid
-     *
-     * @param code
-     * @return
      */
     private String getOpenid(String code) {
         Map<String, String> map = new HashMap<>();
@@ -67,8 +62,6 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * 获取accessToken
-     *
-     * @return
      */
     private String getAccessToken() {
         Map<String, String> map = new HashMap<>();
@@ -83,9 +76,6 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * 微信登录
-     *
-     * @param studentLoginDTO
-     * @return
      */
     @Override
     public Student wxLogin(StudentLoginDTO studentLoginDTO) {
@@ -114,9 +104,6 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * 微信获取手机号
-     *
-     * @param code
-     * @return
      */
     @Override
     public String getPhoneNumber(String code, Integer id) throws IOException {
@@ -141,11 +128,9 @@ public class StudentServiceImpl implements StudentService {
             return null;
         }
     }
+
     /**
      * 更新手机号
-     *
-     * @param id
-     * @param phoneNumber
      */
     @Override
     public void updatePhoneNumber(Integer id, String phoneNumber) {
@@ -156,10 +141,9 @@ public class StudentServiceImpl implements StudentService {
             studentMapper.updateById(student);
         }
     }
+
     /**
      * 更新学生信息
-     *
-     * @param studentDTO
      */
     @Override
     public Student update(StudentDTO studentDTO) {
@@ -187,47 +171,31 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * 根据id查询学生
-     *
-     * @param id
-     * @return
      */
     public Student getById(Integer id) {
-        Student student = studentMapper.getById(id);
-        return student;
+        return studentMapper.getById(id);
     }
 
     /**
      * 根据学号查询学生
-     *
-     * @param studentId
-     * @return
      */
     public Student getByStudentId(Integer studentId) {
-        Student student = studentMapper.getByStudentId(studentId);
-        return student;
+        return studentMapper.getByStudentId(studentId);
     }
 
     /**
      * 根据邮箱查询学生
-     *
-     * @param email
-     * @return
      */
     public Student getByEmail(String email) {
-        Student student = studentMapper.getByEmail(email);
-        return student;
+        return studentMapper.getByEmail(email);
     }
 
     /**
      * 学生分页查询
-     *
-     * @param studentPageQueryDTO
-     * @return
      */
     public PageResult pageQuery(StudentPageQueryDTO studentPageQueryDTO) {
         //开始分页查询
         PageHelper.startPage(studentPageQueryDTO.getPage(), studentPageQueryDTO.getPageSize());
-
         Page<Student> page = studentMapper.pageQuery(studentPageQueryDTO);
 
         //返回分页结果

@@ -23,21 +23,22 @@
         />
       </view>
       <view slot="actions" class="card-actions">
-        <!-- 点赞按钮 -->
         <view class="action-item" @click.stop="handleLike">
           <uni-icons :type="hasLiked ? 'heart-filled' : 'heart'" size="18" :color="hasLiked ? '#f00' : '#999'"></uni-icons>
           <text class="action-item-text">
             {{ hasLiked ? '已点赞' : '点赞' }} {{ likeCount }}
           </text>
         </view>
-
-        <!-- 评论按钮 -->
         <view class="action-item" @click.stop="openCommentPopup">
           <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
           <text class="action-item-text">评论 {{ commentCount }}</text>
         </view>
-
-        <!-- 分享按钮 -->
+        <view class="action-item" @click.stop="handleCollect">
+          <uni-icons :type="isCollected ? 'star-filled' : 'star'" size="18" :color="isCollected ? '#ffcc00' : '#999'"></uni-icons>
+          <text class="action-item-text">
+            {{ isCollected ? '已收藏' : '收藏' }} {{ collectCount }}
+          </text>
+        </view>
         <view class="action-item share-item" @click.stop>
           <uni-icons type="redo" size="18" color="#999"></uni-icons>
           <text class="action-item-text">分享</text>
@@ -47,14 +48,6 @@
               class="share-button"
               @click.stop
           ></button>
-        </view>
-
-        <!-- 收藏按钮 -->
-        <view class="action-item" @click.stop="handleCollect">
-          <uni-icons :type="isCollected ? 'star-filled' : 'star'" size="18" :color="isCollected ? '#ffcc00' : '#999'"></uni-icons>
-          <text class="action-item-text">
-            {{ isCollected ? '已收藏' : '收藏' }} {{ collectCount }}
-          </text>
         </view>
       </view>
     </uni-card>
@@ -78,17 +71,14 @@
 
         <!-- 评论操作 -->
         <view slot="actions" class="card-actions">
-          <!-- 点赞按钮 -->
           <view class="action-item" @click.stop="toggleCommentLike(comment)">
             <uni-icons :type="comment.hasLiked ? 'heart-filled' : 'heart'" size="18" :color="comment.hasLiked ? '#f00' : '#999'"></uni-icons>
             <text class="action-item-text">{{ comment.hasLiked ? '已点赞' : '点赞' }} {{ comment.likeCount }}</text>
           </view>
-          <!-- 回复按钮 -->
           <view class="action-item" @click.stop="replyToComment(comment)">
             <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
             <text class="action-item-text">回复</text>
           </view>
-          <!-- 更多按钮 -->
           <view class="action-item" @click.stop="showCommentActionSheet(comment)">
             <uni-icons type="more" size="18" color="#999"></uni-icons>
           </view>
@@ -133,9 +123,7 @@ import {
 } from "@/api/comment";
 
 import {checkIfLiked, fetchLikeCount, likeTopic, unlikeTopic} from "@/api/like";
-
 import {checkIfCollected, fetchCollectCount, toggleCollect,} from "@/api/collect";
-
 import {getCurrentUserInfo, getUserInfo as apiGetUserInfo} from "@/api/user";
 
 export default {
@@ -148,56 +136,43 @@ export default {
   },
   data() {
     return {
-      topicRecord: null, // 当前话题记录
-      userInfoMap: {}, // 存储 authorID 对应的用户信息
-      hasLiked: false, // 是否已点赞
-      isCollected: false, // 是否已收藏
-      commentContent: "", // 评论内容
-      comments: [], // 评论列表
-      loadMoreStatus: 'more', // 加载更多的状态
-      currentUserId: '', // 当前用户的ID
+      topicRecord: null,
+      userInfoMap: {},
+      hasLiked: false,
+      isCollected: false,
+      commentContent: "",
+      comments: [],
+      loadMoreStatus: 'more',
+      currentUserId: '',
       page: 1,
       pageSize: 5,
       commentCount: 0,
       likeCount: 0,
       collectCount: 0,
+      commentLikeCount: 0,
     };
   },
   async onLoad(options) {
     const topicId = options.topicId;
     this.topicId = options.topicId;
     try {
-      // 获取当前用户信息
       const currentUser = await getCurrentUserInfo();
       this.currentUserId = currentUser.userId;
       console.log("当前用户ID:", this.currentUserId);
 
-      // 获取话题数据
       this.topicRecord = await fetchTopic(topicId);
-      await this.fetchUserInfo(this.topicRecord.authorID);
-
-      // 检查是否已点赞
       this.hasLiked = await checkIfLiked(topicId);
-
-      // 检查是否已收藏
       this.isCollected = await checkIfCollected(topicId);
-
-      // 获取评论计数
       this.commentCount = await fetchCommentCount(topicId);
-
-      // 获取点赞计数
       this.likeCount = await fetchLikeCount(topicId);
-
-      // 获取收藏计数
       this.collectCount = await fetchCollectCount(topicId);
 
-      // 获取评论点赞计数
       for (const comment of this.comments) {
         comment.likeCount = await fetchCommentLikeCount(comment.id);
       }
 
-      // 获取评论列表
       await this.loadComments();
+      await this.fetchUserInfo(this.topicRecord.authorID);
 
       console.log("Received topicId:", topicId);
     } catch (error) {
@@ -210,13 +185,6 @@ export default {
   },
   onReachBottom() {
     this.loadComments();
-  },
-  onShareAppMessage() {
-    return {
-      title: this.topicRecord ? this.topicRecord.content.slice(0, 20) : '分享一个有趣的内容',
-      path: `/pages/topic/view?topicId=${this.topicRecord.id}`,
-      imageUrl: this.topicRecord.imgURLs && this.topicRecord.imgURLs.length > 0 ? this.topicRecord.imgURLs[0] : ''
-    };
   },
   methods: {
     /**

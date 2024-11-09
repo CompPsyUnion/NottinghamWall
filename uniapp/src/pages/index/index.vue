@@ -11,10 +11,10 @@
 <script>
 import uniNoticeBar from '@dcloudio/uni-ui/lib/uni-notice-bar/uni-notice-bar.vue';
 import { userLoginService } from '@/api/login';
-import CustomSwiper from './components/swipper.vue'; // 引入自定义的 swiper 组件
-import FabComponent from './components/fab.vue'; // 引入自定义的 fab 组件
+import CustomSwiper from './components/swipper.vue';
+import FabComponent from './components/fab.vue';
 import TopicComponent from './components/topic.vue';
-import { baseUrl } from "@/utils/env"; // 引入自定义的 topic 组件
+import { baseUrl } from "@/utils/env";
 export default {
   components: {
     CustomSwiper,
@@ -36,7 +36,9 @@ export default {
       page: 1, // 当前页码
       records: [], // 话题记录列表
       loadMoreStatus: 'more', // 加载状态（'more', 'loading', 'noMore'）
-      total: 0 // 总记录数
+      total: 0, // 总记录数
+      shareTopicId: null, // 用于存储需要分享的话题 ID
+      shareImageUrl: '', // 用于存储需要分享的图片 URL
     };
   },
   onReachBottom() {

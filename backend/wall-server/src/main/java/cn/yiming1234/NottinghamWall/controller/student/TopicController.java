@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
-@Api(tags = "话题相关接口")
+@Api(tags = "用户端话题接口")
 @Slf4j
 public class TopicController {
 

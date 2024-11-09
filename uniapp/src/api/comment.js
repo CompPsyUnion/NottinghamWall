@@ -85,11 +85,6 @@ export const deleteComment = (commentId) => {
     });
 };
 
-export const reportComment = (commentId) => {
-    // TODO: 实现举报评论的接口
-    return Promise.reject('举报功能暂未开放');
-};
-
 export const likeComment = (commentId) => {
     return new Promise((resolve, reject) => {
         uni.request({

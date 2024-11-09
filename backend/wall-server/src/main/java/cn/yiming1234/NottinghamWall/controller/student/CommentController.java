@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/student")
-@Api(tags = "评论相关接口")
+@Api(tags = "用户端评论接口")
 @Slf4j
 public class CommentController {
 

@@ -10,6 +10,7 @@ public class Report {
     private Integer id;
     private Integer topicId;
     private Integer commentId;
+    private Integer authorId;
     private Integer userId;
     private LocalDateTime reportTime;
     private String tags;

@@ -33,9 +33,6 @@ public class AdminController {
     private JwtProperties jwtProperties;
     /**
      * 登录
-     *
-     * @param adminLoginDTO
-     * @return
      */
     @PostMapping("/login")
     @ApiOperation(value = "登录")
@@ -43,7 +40,6 @@ public class AdminController {
         log.info("管理员登录：{}", adminLoginDTO);
         Admin admin = adminService.login(adminLoginDTO);
 
-        //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID, admin.getId());
         String token = JwtUtil.createJWT(
@@ -60,20 +56,18 @@ public class AdminController {
 
         return Result.success(adminLoginVO);
     }
+
     /**
      * 退出
-     *
-     * @return
      */
     @PostMapping("/logout")
     @ApiOperation(value = "退出")
     public Result<String> logout() {
         return Result.success();
     }
+
     /**
      * 新增管理员
-     * @param adminDTO
-     * @return
      */
     @PostMapping
     @ApiOperation("新增管理员")
@@ -85,8 +79,6 @@ public class AdminController {
     }
     /**
      * 启用或停用管理员
-     * @param id
-     * @return
      */
     @PostMapping("/status/{status}")
     @ApiOperation("启用或停用管理员")
@@ -95,10 +87,9 @@ public class AdminController {
         adminService.startOrStop(status, id);
         return Result.success();
     }
+
     /**
      * 管理员分页查询
-     * @param adminPageQueryDTO
-     * @return
      */
     @GetMapping("/page")
     @ApiOperation("分页查询管理员")
@@ -109,8 +100,6 @@ public class AdminController {
     }
     /**
      * 根据id查询管理员
-     * @param id
-     * @return
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询管理员")
@@ -118,10 +107,9 @@ public class AdminController {
         Admin admin = adminService.getById(id);
         return Result.success(admin);
     }
+
     /**
      * 修改管理员
-     * @param adminDTO
-     * @return
      */
     @PutMapping
     @ApiOperation("修改管理员")
