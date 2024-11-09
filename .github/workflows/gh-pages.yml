@@ -3,7 +3,7 @@ name: Deploy VitePress site to Pages
 on:
   push:
     branches: [main]
-  workflow_dispatch:
+    workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.event.repository.fork == false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,6 +38,9 @@ jobs:
 
       - name: Build with VitePress
         run: npm run docs:build
+
+      - name: Copy CNAME to dist
+        run: cp docs/CNAME docs/.vitepress/dist/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
