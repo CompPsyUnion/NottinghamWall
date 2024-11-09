@@ -6,3 +6,7 @@ backend/wall-server/target/classes/application-prod.yml
 
 uniapp/src/utils/env.js
 uniapp/dist/mp-weixin/utils/env.js
+
+node_modules/
+docs/.vitepress/dist
+docs/.vitepress/cache
