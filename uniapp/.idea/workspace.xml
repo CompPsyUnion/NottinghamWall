@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/../admin/src/views/topic/Topic.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/views/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/comment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/comment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/components/topic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/components/topic.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/topic/view.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/view.vue" afterDir="false" />
-    </list>
+    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -183,6 +171,7 @@
       <workItem from="1731059890393" duration="78000" />
       <workItem from="1731064003312" duration="16505000" />
       <workItem from="1731138141075" duration="27000" />
+      <workItem from="1731140092926" duration="13000" />
     </task>
     <servers />
   </component>
