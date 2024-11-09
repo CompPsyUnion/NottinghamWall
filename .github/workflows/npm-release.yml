@@ -31,16 +31,6 @@ jobs:
         uses: actions/setup-node@v4.0.3
         with:
           node-version: 20
-      - name: Configure npm for npm registry
-        run: |
-            echo "@pleasure1234:registry=https://registry.npmjs.org/" > .npmrc
-            echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
-        working-directory: ./admin
-      - name: Publish to npm
-        run: npm publish
-        working-directory: ./admin
-        env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Configure npm for GitHub Packages
         run: |
           echo "@NottinghamWall:registry=https://npm.pkg.github.com/" > .npmrc
