@@ -6,14 +6,24 @@
 <mapper namespace="cn.yiming1234.NottinghamWall.mapper.ReportMapper">
 
     <insert id="insertReport" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO report (id, topic_id, comment_id, user_id, tags, detailed_description)
-        VALUES (#{id}, #{topicId}, #{commentId}, #{userId}, #{tags}, #{detailedDescription})
+        INSERT INTO report (id, topic_id, comment_id, author_id, user_id, tags, detailed_description)
+        VALUES (#{id}, #{topicId}, #{commentId}, #{authorId}, #{userId}, #{tags}, #{detailedDescription})
     </insert>
 
     <select id="countExistingReports" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM report
         WHERE user_id = #{userId} AND topic_id = #{topicId} AND (comment_id = #{commentId} OR #{commentId} IS NULL)
+    </select>
+
+    <select id="pageQuery" resultType="cn.yiming1234.NottinghamWall.entity.Report">
+        select * from report
+        <where>
+            <if test="tags != null and tags != ''">
+                and tags like concat('%',#{tags},'%')
+            </if>
+        </where>
+        order by report_time desc
     </select>
 
 </mapper>

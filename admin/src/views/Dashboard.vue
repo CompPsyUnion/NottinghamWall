@@ -19,42 +19,34 @@
             <span>公告栏</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="2" @click="navigateTo('/test')">
-          <el-icon>
-            <IconMenu />
-          </el-icon>
-          <template #title>
-            <span>订单管理</span>
-          </template>
-        </el-menu-item>
-        <el-sub-menu index="3">
+        <el-sub-menu index="2">
           <template #title>
             <el-icon>
               <Document />
             </el-icon>
             <span>互动管理</span>
           </template>
-          <el-menu-item index="3-1">
+          <el-menu-item index="2-1" @click="navigateTo('/manage/topic')">
             <span>话题管理</span>
           </el-menu-item>
-          <el-menu-item index="3-2">
-            <span>点赞管理</span>
-          </el-menu-item>
-          <el-menu-item index="3-3">
+          <el-menu-item index="2-2">
             <span>评论管理</span>
           </el-menu-item>
+          <el-menu-item index="2-3">
+            <span>举报管理</span>
+          </el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="4">
+        <el-sub-menu index="3">
           <template #title>
             <el-icon>
               <Setting />
             </el-icon>
             <span>人员管理</span>
           </template>
-          <el-menu-item index="4-1" @click="navigateTo('/manage/admin')">
+          <el-menu-item index="3-1" @click="navigateTo('/manage/admin')">
             <span>管理员管理</span>
           </el-menu-item>
-          <el-menu-item index="4-2" @click="navigateTo('/manage/student')">
+          <el-menu-item index="3-2" @click="navigateTo('/manage/student')">
             <span>学生管理</span>
           </el-menu-item>
         </el-sub-menu>
@@ -102,7 +94,6 @@
 import {ref} from 'vue'
 import {
   Document,
-  Menu as IconMenu,
   Location,
   Setting,
 } from '@element-plus/icons-vue'
@@ -187,11 +178,6 @@ const handleCommand = (command) => {
 
 .spacer {
   flex-grow: 1; /* 占据剩余空间，将头像推到右侧 */
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
 }
 
 .el-dropdown-link {

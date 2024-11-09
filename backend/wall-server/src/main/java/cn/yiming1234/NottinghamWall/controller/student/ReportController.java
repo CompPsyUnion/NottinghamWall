@@ -3,6 +3,7 @@ package cn.yiming1234.NottinghamWall.controller.student;
 import cn.yiming1234.NottinghamWall.dto.ReportDTO;
 import cn.yiming1234.NottinghamWall.service.ReportService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/student")
-@Api(tags = "举报相关接口")
+@Api(tags = "用户端举报接口")
 @Slf4j
 public class ReportController {
 
@@ -22,6 +23,7 @@ public class ReportController {
     private ReportService reportService;
 
     @PostMapping("/report/insert")
+    @ApiOperation(value = "举报")
     public ResponseEntity<String> insertReport(@RequestBody ReportDTO reportDTO) {
         try {
             reportService.insertReport(reportDTO);
