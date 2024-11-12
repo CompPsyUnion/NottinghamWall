@@ -1,6 +1,6 @@
 {
     "name" : "wall-uniapp",
-    "appid" : "__UNI__DEB2620",
+    "appid" : "__UNI__3388B50",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -57,12 +57,13 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx39ff21ee255f85dd",
+        "appid" : "wxc57c61bf271c2e18",
         "setting" : {
             "urlCheck" : false,
             "minified" : true,
-            "ignoreDevUnusedFiles": false,
-            "ignoreUploadUnusedFiles": false
+            "ignoreDevUnusedFiles" : false,
+            "ignoreUploadUnusedFiles" : false,
+            "postcss" : true
         },
         "usingComponents" : true,
         "permission" : {

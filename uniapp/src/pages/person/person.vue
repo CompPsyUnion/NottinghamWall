@@ -61,12 +61,11 @@ export default {
   },
   data() {
     return {
-      avatarUrl: '', // 初始化头像URL
-      nickName: '',
+      avatarUrl: 'https://yiming1234.oss-cn-beijing.aliyuncs.com/default.jpg',
+      nickName: '飞天裤衩',
     };
   },
   onLoad(){
-    // 获取用户信息
     uni.request({
           url: baseUrl + '/student/get/info',
           method: 'GET',
@@ -77,6 +76,7 @@ export default {
         if (res.data.code === 1) {
           this.nickName = res.data.data.username;
           this.avatarUrl = res.data.data.avatar;
+          console.log('获取用户信息成功:', res.data.data);
         } else {
           console.error('获取用户信息失败:', res.data.msg);
         }

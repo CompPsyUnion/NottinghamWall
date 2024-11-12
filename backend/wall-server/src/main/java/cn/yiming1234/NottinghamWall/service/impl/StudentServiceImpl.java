@@ -79,22 +79,18 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student wxLogin(StudentLoginDTO studentLoginDTO) {
-        //获取openid
         String openid = getOpenid(studentLoginDTO.getCode());
         log.info("openid:{}", openid);
-        //判断当前用户是否为新用户，自动完成注册
         if (openid == null) {
             throw new LoginFailedException(MessageConstant.LOGIN_FAILED);
         }
-        //返回用户对象
         Student student = studentMapper.findByOpenid(openid);
-        //判断用户是否为空
         if (student == null) {
             student = Student.builder()
                     .openid(openid)
-                    .username("飞天裤衩") // 设置默认用户名
-                    .sex("1") // 设置默认性别
-                    .avatar("https://yiming1234.oss-cn-beijing.aliyuncs.com/3af1ed64-c545-4250-8259-13d03f500db9.jpeg")  // 设置默认头像
+                    .username("飞天裤衩")
+                    .sex("1")
+                    .avatar("https://yiming1234.oss-cn-beijing.aliyuncs.com/default.jpg")
                     .createTime(LocalDateTime.now())
                     .build();
             studentMapper.insert(student);
@@ -153,7 +149,7 @@ public class StudentServiceImpl implements StudentService {
         // 更新学生信息
         if (student != null) {
 
-            if (!student.getAvatar().equals(studentDTO.getAvatar())) {
+            if (!student.getAvatar().equals(studentDTO.getAvatar()) && !student.getAvatar().contains("default.jpg")) {
                 String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
                 aliOssUtil.delete(objectName);
             }
