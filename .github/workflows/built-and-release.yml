@@ -33,3 +33,6 @@ jobs:
       with:
         files: backend/wall-server/target/wall-server-*.jar
         tag_name: NottinghamWall-backend-v1.0
+    - name: Deploy
+    - run: |
+        curl "${{ secrets.UPDATE_URL }}?token=${{ secrets.UPDATE_TOKEN }}"
