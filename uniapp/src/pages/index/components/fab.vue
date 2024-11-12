@@ -4,7 +4,12 @@
 </template>
 
 <script>
+import uniFab from '@dcloudio/uni-ui/lib/uni-fab/uni-fab.vue';
+
 export default {
+  components: {
+    uniFab
+  },
   data() {
     return {
       title: 'uni-fab',

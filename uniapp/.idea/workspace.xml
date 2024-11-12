@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="" />
+    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/StudentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/guide/admin/project-structure.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/guide/admin/project-structure.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/components/fab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/components/fab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/person/person.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/topic/create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/env.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,10 +72,10 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_interpreter_path&quot;: &quot;C:/Environment/node/versions/22.8.0/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;pnpm&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;C:\\Environment\\pnpm\\pnpm.cmd&quot;,
     &quot;npm.dev:h5.executor&quot;: &quot;Run&quot;,
     &quot;npm.dev:mp-weixin.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;application.passwordSafe&quot;,
     &quot;ts.external.directory.path&quot;: &quot;D:\\JetBrains\\WebStorm 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -172,6 +187,10 @@
       <workItem from="1731064003312" duration="16505000" />
       <workItem from="1731138141075" duration="27000" />
       <workItem from="1731140092926" duration="13000" />
+      <workItem from="1731292313710" duration="83000" />
+      <workItem from="1731298806495" duration="784000" />
+      <workItem from="1731323219922" duration="16297000" />
+      <workItem from="1731373356541" duration="8535000" />
     </task>
     <servers />
   </component>
