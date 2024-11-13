@@ -22,5 +22,6 @@ public class Topic implements Serializable {
     private List<String> imgURLs;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isDraft;
 
 }

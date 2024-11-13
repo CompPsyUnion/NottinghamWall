@@ -5,12 +5,37 @@
 
     <!-- Insert Topic -->
     <insert id="insert" parameterType="cn.yiming1234.NottinghamWall.entity.Topic">
-        INSERT INTO topic (id, content, authorID, createdAt, updatedAt, imgURLs)
-        VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler})
+        INSERT INTO topic (id, content, authorID, createdAt, updatedAt, imgURLs, isDraft)
+        VALUES (#{id}, #{content}, #{authorID}, #{createdAt}, #{updatedAt}, #{imgURLs, typeHandler=cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler}, #{isDraft})
     </insert>
 
+    <!-- Update Topic -->
+    <update id="update" parameterType="cn.yiming1234.NottinghamWall.entity.Topic">
+        UPDATE topic
+        <set>
+            <if test="content != null">content = #{content},</if>
+            <if test="authorID != null">authorID = #{authorID},</if>
+            <if test="createdAt != null">createdAt = #{createdAt},</if>
+            <if test="updatedAt != null">updatedAt = #{updatedAt},</if>
+            <if test="imgURLs != null">imgURLs = #{imgURLs, typeHandler=cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler},</if>
+            <if test="isDraft != null">isDraft = #{isDraft},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- Get Draft -->
+    <select id="getDraft" parameterType="int" resultMap="topicResultMap">
+        SELECT * FROM topic WHERE authorID = #{userId} AND isDraft = true
+    </select>
+
+    <select id="isExistDraft" resultType="java.lang.Boolean" parameterType="java.lang.Integer">
+        SELECT COUNT(*) > 0
+        FROM topic
+        WHERE authorID = #{authorID} AND isDraft = true
+    </select>
+
     <!-- Paginated Query -->
-    <select id="pageQuery" parameterType="cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO" resultMap="topicResultMap">
+    <select id="pageQuery" parameterType="cn.yiming1234.NottinghamWall.dto.PageQueryDTO" resultMap="topicResultMap">
         SELECT * FROM topic
         <where>
             <if test="username != null and username != ''">
@@ -21,7 +46,7 @@
     </select>
 
     <!-- Get Topic by ID -->
-    <select id="getTopicById" parameterType="string" resultMap="topicResultMap">
+    <select id="getTopicById" parameterType="int" resultMap="topicResultMap">
         SELECT * FROM topic WHERE id = #{id}
     </select>
 
@@ -32,7 +57,12 @@
         <result property="createdAt" column="createdAt" />
         <result property="updatedAt" column="updatedAt" />
         <result property="imgURLs" column="imgURLs" typeHandler="cn.yiming1234.NottinghamWall.typehandler.JsonTypeHandler"/>
+        <result property="isDraft" column="isDraft" />
     </resultMap>
+
+    <select id="getPublishedPosts" parameterType="int" resultType="Topic">
+        SELECT * FROM topic WHERE authorID = #{authorId}
+    </select>
 
     <!-- Likes functionality -->
     <insert id="likeTopic">
@@ -78,6 +108,23 @@
         SELECT COUNT(*)
         FROM collection
         WHERE topic_id = #{topicId}
+    </select>
+
+    <!-- Get collected topic IDs by user ID -->
+    <select id="getCollectedTopicIds" parameterType="int" resultType="int">
+        SELECT topic_id
+        FROM collection
+        WHERE user_id = #{id}
+    </select>
+
+    <!-- Get topics by a list of IDs -->
+    <select id="getTopicsByIds" parameterType="list" resultMap="topicResultMap">
+        SELECT *
+        FROM topic
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 
     <!-- Delete functionalities -->

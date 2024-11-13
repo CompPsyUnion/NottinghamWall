@@ -1,6 +1,6 @@
 package cn.yiming1234.NottinghamWall.controller.admin;
 
-import cn.yiming1234.NottinghamWall.dto.StudentPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Student;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.result.Result;
@@ -25,9 +25,9 @@ public class StudentController {
          */
         @GetMapping("/page")
         @ApiOperation("分页查询学生")
-        public Result<PageResult> page(StudentPageQueryDTO studentPageQueryDTO){
-            log.info("学生分页查询：{}", studentPageQueryDTO);
-            PageResult pageResult = studentService.pageQuery(studentPageQueryDTO);
+        public Result<PageResult> page(PageQueryDTO pageQueryDTO){
+            log.info("学生分页查询：{}", pageQueryDTO);
+            PageResult pageResult = studentService.pageQuery(pageQueryDTO);
             return Result.success(pageResult);
         }
         /**

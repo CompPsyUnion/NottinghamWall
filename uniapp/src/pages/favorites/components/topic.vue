@@ -1,12 +1,7 @@
 <template>
-  <view>
-    <uni-section title="最新话题" type="line">
       <uni-card
           v-for="(record, index) in records"
           :key="index"
-          :title="getUserInfo(record.authorID).username"
-          :sub-title="record.updatedAt"
-          :thumbnail="getUserInfo(record.authorID).avatar"
           @click="onClick(record)"
       >
         <view class="image-container">
@@ -37,9 +32,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-load-more :status="loadMoreStatus" />
-    </uni-section>
-  </view>
+  <uni-load-more :status="loadMoreStatus" />
 </template>
 
 <script>
@@ -81,7 +74,6 @@ export default {
     records: {
       async handler(newRecords) {
         const promises = newRecords.map(async (record) => {
-          await this.fetchUserInfo(record.authorID);
           record.hasLiked = await checkIfLiked(record.id);
           record.isCollected = await checkIfCollected(record.id);
           record.likeCount = await fetchLikeCount(record.id);
@@ -116,12 +108,6 @@ export default {
           this.$set(this.userInfoMap, authorID, { nickname: "匿名用户", avatar: "" });
         }
       }
-    },
-    getUserInfo(authorID) {
-      if (!this.userInfoMap[authorID]) {
-        this.fetchUserInfo(authorID);
-      }
-      return this.userInfoMap[authorID] || {};
     },
     onClick(record) {
       uni.navigateTo({

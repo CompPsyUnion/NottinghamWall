@@ -23,10 +23,10 @@
       </view>
 
       <view class="options">
-        <button class="small-button" type="primary" @click="toggle('bottom')">
+        <button class="small-button" type="primary">
           <text class="button-text">选择话题</text>
         </button>
-        <button class="small-button" :class="{ 'selected': isSelected }" @click="showConfirm">
+        <button class="small-button">
           <text class="button-text">分身发帖</text>
         </button>
       </view>
@@ -39,46 +39,148 @@
 </template>
 
 <script>
-import { baseUrl } from "@/utils/env";
+import { toRaw } from 'vue';
+import {
+  uploadSingleFile,
+  deleteSingleFile,
+  uploadTopic,
+  getDraft,
+  saveDraft,
+  checkDraftExistence,
+} from '@/api/topic';
 import uniSection from '@dcloudio/uni-ui/lib/uni-section/uni-section.vue';
+import View from '@/pages/topic/create.vue';
 
 export default {
   components: {
+    View,
     uniSection
   },
   data() {
     return {
-      isSelected: false,
+      id: null,
       content: '',
-      imgUrls: []
+      imgUrls: [],
+      submitted: false,
+      isDraft: false
     };
   },
+  mounted() {
+    this.checkDraft();
+  },
+  beforeUnmount() {
+    this.saveDraft();
+  },
   methods: {
-    toggle(type) {
-      this.type = type;
-      this.$refs.popup.open(type);
+
+    /**
+     * 检查是否存在草稿，并直接加载草稿内容
+     */
+    checkDraft() {
+      checkDraftExistence()
+          .then(response => {
+            if (response) {
+              this.loadDraft();
+            }
+          })
+          .catch(error => {
+            console.error('检查草稿失败:', error);
+          });
     },
-    showConfirm() {
-      if (this.isSelected) {
-        this.$refs.cancelPopupWrapper.open();
-      } else {
-        this.$refs.confirmPopupWrapper.open();
+
+    /**
+     * 加载草稿
+     */
+    loadDraft() {
+      getDraft()
+          .then(response => {
+            const draft = response;
+            console.log('加载草稿:', draft);
+            if (draft) {
+              this.id = draft.id || null;
+              this.content = draft.content || '';
+              this.imgUrls = draft.imgURLs || [];
+              this.isDraft = true;
+            }
+          })
+          .catch(error => {
+            console.error('加载草稿失败:', error);
+          });
+    },
+
+    /**
+     * 保存草稿
+     */
+    saveDraft() {
+      if (this.submitted) {
+        return;
+      }
+      if (this.content.trim() !== '' || this.imgUrls.length > 0) {
+        console.log('保存草稿:', this.id);
+        const draftData = {
+          id: this.id,
+          content: this.content,
+          imgURLs: toRaw(this.imgUrls),
+          isDraft: 1
+        };
+        saveDraft(draftData);
       }
     },
+
+    /**
+     * 提交帖子
+     */
     onSubmit() {
       if (this.content.trim() === '') {
         uni.showToast({
           icon: 'none',
-          title: '请输入话题内容'
+          title: '请输入话题内容',
+          duration: 2000
         });
         return;
       }
-      // 上传帖子
-      this.uploadTopic(this.imgUrls);
+      this.uploadTopic();
+      console.log('提交帖子:', this.content, toRaw(this.imgUrls));
     },
 
     /**
-     * 选择图片并上传
+     * 上传帖子
+     */
+    uploadTopic() {
+      const data = {
+        content: this.content,
+        imgURLs: toRaw(this.imgUrls),
+        isDraft: false
+      };
+
+      uploadTopic(data)
+          .then(() => {
+            this.submitted = true;
+            uni.showToast({
+              title: '发布成功',
+              icon: 'success',
+              duration: 2000,
+              complete: () => {
+                setTimeout(() => {
+                  uni.reLaunch({
+                    url: '/pages/index/index'
+                  });
+                }, 1000);
+              }
+            });
+          })
+          .catch((err) => {
+            console.error('发布失败:', err);
+            uni.showToast({
+              title: '发布失败，请检查网络',
+              icon: 'none',
+              duration: 2000
+            });
+          });
+    },
+
+    /**
+     * 选择图片
      */
     chooseImages() {
       const maxSelect = 9 - this.imgUrls.length;
@@ -106,11 +208,10 @@ export default {
     },
 
     /**
-     * 上传文件到服务器
-     * @param {Array} filePaths
+     * 上传图片到服务器
      */
     uploadToServer(filePaths) {
-      const uploadPromises = filePaths.map(filePath => this.uploadSingleFile(filePath));
+      const uploadPromises = filePaths.map(filePath => uploadSingleFile(filePath));
       Promise.all(uploadPromises)
           .then(results => {
             this.imgUrls.push(...results);
@@ -132,45 +233,11 @@ export default {
     },
 
     /**
-     * 上传单个文件
-     * @param {String} filePath
-     * @returns {Promise<String>} 服务器返回的图片URL
-     */
-    uploadSingleFile(filePath) {
-      return new Promise((resolve, reject) => {
-        uni.uploadFile({
-          url: baseUrl + '/student/common/upload',
-          filePath: filePath,
-          name: 'files',
-          header: {
-            token: uni.getStorageSync('token')
-          },
-          success: (res) => {
-            try {
-              const responseData = JSON.parse(res.data);
-              if (responseData.code === 1) {
-                resolve(responseData.data[0]);
-              } else {
-                reject('上传失败: ' + responseData.message);
-              }
-            } catch (e) {
-              reject('解析失败');
-            }
-          },
-          fail: (err) => {
-            reject(err);
-          }
-        });
-      });
-    },
-
-    /**
-     * 删除图片并从服务器中删除
-     * @param {Number} index
+     * 删除图片
      */
     deleteImage(index) {
       const urlToDelete = this.imgUrls[index];
-      this.deleteSingleFile(urlToDelete)
+      deleteSingleFile(urlToDelete)
           .then(() => {
             this.imgUrls.splice(index, 1);
             console.log('图片删除成功，当前图片列表:', this.imgUrls);
@@ -186,37 +253,7 @@ export default {
     },
 
     /**
-     * 删除单个文件
-     * @param {String} urlToDelete
-     * @returns {Promise<String>}
-     */
-    deleteSingleFile(urlToDelete) {
-      return new Promise((resolve, reject) => {
-        uni.request({
-          url: baseUrl + '/student/common/delete',
-          method: 'POST',
-          header: {
-            'Content-Type': 'application/json',
-            token: uni.getStorageSync('token')
-          },
-          data: JSON.stringify({ url: urlToDelete }),
-          success: (res) => {
-            if (res.data.code === 1) {
-              resolve(urlToDelete);
-            } else {
-              reject('删除失败: ' + res.data.message);
-            }
-          },
-          fail: (err) => {
-            reject(err);
-          }
-        });
-      });
-    },
-
-    /**
      * 预览图片
-     * @param {Number} index
      */
     previewImage(index) {
       uni.previewImage({
@@ -227,6 +264,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .container {
   display: flex;
@@ -280,23 +318,23 @@ export default {
 }
 
 .delete-button {
-     position: absolute;
-     top: 5px;
-     right: 5px;
-     background-color: rgba(0, 0, 0, 0.7);
-     color: #fff;
-     border: none;
-     border-radius: 50%;
-     width: 24px;
-     height: 24px;
-     text-align: center;
-     line-height: 24px;
-     font-size: 16px;
-     cursor: pointer;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-   }
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* 添加图片按钮样式 */
 .add-button {

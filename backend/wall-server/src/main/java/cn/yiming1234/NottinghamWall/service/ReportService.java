@@ -1,7 +1,7 @@
 package cn.yiming1234.NottinghamWall.service;
 
 import cn.yiming1234.NottinghamWall.dto.ReportDTO;
-import cn.yiming1234.NottinghamWall.dto.ReportPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 
 public interface ReportService {
@@ -14,5 +14,5 @@ public interface ReportService {
     /**
      * 分页查询举报
      */
-    PageResult pageQuery(ReportPageQueryDTO reportPageQueryDTO);
+    PageResult pageQuery(PageQueryDTO pageQueryDTO);
 }

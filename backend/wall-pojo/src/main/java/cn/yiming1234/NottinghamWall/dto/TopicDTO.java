@@ -15,5 +15,6 @@ public class TopicDTO implements Serializable {
     private Integer authorID;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isDraft;
 
 }

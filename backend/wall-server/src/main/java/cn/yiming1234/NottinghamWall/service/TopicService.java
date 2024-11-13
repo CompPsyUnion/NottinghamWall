@@ -1,91 +1,92 @@
 package cn.yiming1234.NottinghamWall.service;
 
 import cn.yiming1234.NottinghamWall.dto.TopicDTO;
-import cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 
 public interface TopicService {
+
     /**
      * 添加话题
-     * @param topicDTO
      */
     void addTopic(TopicDTO topicDTO);
 
     /**
      * 删除话题
-     * @param id
      */
-    void deleteTopic(String id);
+    void deleteTopic(Integer id);
+
+    /**
+     * 新建草稿
+     */
+    void saveDraft(TopicDTO topicDTO);
+
+
+    /**
+     * 获取草稿
+     */
+    Topic getDraft(Integer userId);
+
+    /**
+     * 删除草稿
+     */
+    void deleteDraft(Integer id);
+
+    /**
+     * 检查是否存在草稿
+     */
+    Boolean isExistDraft(Integer authorID);
 
     /**
      * 分页查询话题
-     * @param topicPageQueryDTO
-     * @return
      */
-    PageResult pageQuery(TopicPageQueryDTO topicPageQueryDTO);
+    PageResult pageQuery(PageQueryDTO pageQueryDTO);
 
     /**
      * 根据id获取话题
-     * @param id
-     * @return
      */
-    Topic getTopicById(String id);
+    Topic getTopicById(Integer id);
 
     /**
      * 点赞话题
-     * @param id
      */
-    void likeTopic(String id, String userId);
+    void likeTopic(Integer id, Integer userId);
 
     /**
      * 取消点赞话题
-     * @param id
-     * @param userId
      */
-    void unlikeTopic(String id, String userId);
+    void unlikeTopic(Integer id, Integer userId);
 
     /**
      * 判断是否点赞话题
-     * @param id
-     * @param userId
-     * @return
      */
-    Boolean isLikeTopic(String id, String userId);
+    Boolean isLikeTopic(Integer id, Integer userId);
 
     /**
      * 获取点赞计数
-     * @param id
-     * @return
      */
-    int getLikeCount(String id);
+    int getLikeCount(Integer id);
 
     /**
      * 收藏话题
-     * @param id
-     * @param userId
      */
-    void collectTopic(String id, String userId);
+    void collectTopic(Integer id, Integer userId);
 
     /**
      * 取消收藏话题
-     * @param id
-     * @param userId
      */
-    void uncollectTopic(String id, String userId);
+    void uncollectTopic(Integer id, Integer userId);
 
     /**
      * 判断是否收藏话题
-     * @param id
-     * @param userId
-     * @return
      */
-    Boolean isCollectTopic(String id, String userId);
+    Boolean isCollectTopic(Integer id, Integer userId);
 
     /**
      * 获取收藏计数
-     * @param id
-     * @return
      */
-    int getCollectCount(String id);
+    int getCollectCount(Integer id);
+
+    // TODO 邮箱功能（获赞评论提醒）
 }

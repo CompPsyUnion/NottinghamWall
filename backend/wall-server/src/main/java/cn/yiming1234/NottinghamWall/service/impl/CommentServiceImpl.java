@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
      * 删除评论
      */
     @Override
-    public void deleteComment(String commentId, Long userId) {
+    public void deleteComment(Integer commentId, Integer userId) {
         commentMapper.deleteComment(commentId, userId);
     }
 
@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
      * 点赞评论
      */
     @Override
-    public void likeComment(String commentId, Long userId) {
+    public void likeComment(Integer commentId, Integer userId) {
         commentMapper.likeComment(commentId, userId);
     }
 
@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
      * 取消点赞评论
      */
     @Override
-    public void unlikeComment(String commentId, Long userId) {
+    public void unlikeComment(Integer commentId, Integer userId) {
         commentMapper.unlikeComment(commentId, userId);
     }
 
@@ -69,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
      * 判断是否点赞评论
      */
     @Override
-    public Boolean isLikeComment(String commentId, Long userId) {
+    public Boolean isLikeComment(Integer commentId, Integer userId) {
         Boolean isLiked = commentMapper.isLikeComment(commentId, userId);
         log.info("用户 {} 是否点赞评论 {}：{}", userId, commentId, isLiked);
         return isLiked;
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
      * 获取点赞评论计数
      */
     @Override
-    public int getLikeCommentCount(String id) {
+    public int getLikeCommentCount(Integer id) {
         int count = commentMapper.getLikeCommentCount(id);
         log.info("评论 {} 的点赞数：{}", id, count);
         return count;
@@ -100,7 +100,7 @@ public class CommentServiceImpl implements CommentService {
      * 获取评论计数
      */
     @Override
-    public int getCommentCount(String id) {
+    public int getCommentCount(Integer id) {
         int count = commentMapper.getCommentCount(id);
         log.info("话题 {} 的评论数：{}", id, count);
         return count;
@@ -110,7 +110,7 @@ public class CommentServiceImpl implements CommentService {
      * 根据Id查看评论
      */
     @Override
-    public CommentDTO getCommentById(String commentId) {
+    public CommentDTO getCommentById(Integer commentId) {
         return commentMapper.getCommentById(commentId);
     }
 }

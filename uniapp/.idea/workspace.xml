@@ -5,19 +5,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/PageQueryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/favorites/components/topic.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/favorites/post.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/index/about.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/PageResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/PageResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/AdminPageQueryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/ReportPageQueryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/StudentPageQueryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/TopicDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/TopicDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/dto/TopicPageQueryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/entity/Topic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-pojo/src/main/java/cn/yiming1234/NottinghamWall/entity/Topic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentCommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/TopicController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/interceptor/JwtTokenStudentInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/interceptor/JwtTokenStudentInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/AdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/AdminMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/CommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/CommentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/ReportMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/ReportMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/StudentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/StudentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/TopicMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/TopicMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/ReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/TopicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/ReportServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/StudentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/TopicServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/TopicServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docs/guide/admin/project-structure.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/guide/admin/project-structure.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/AdminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/AdminMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/StudentMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/mapper/TopicMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index/components/fab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/components/fab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/collect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/collect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/comment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/comment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/getPhone.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/getPhone.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/like.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/like.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/topic.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/topic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/favorites/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/favorites/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/components/topic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/components/topic.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/person/person.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/person/person.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/topic/create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/create.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/topic/view.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/view.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/env.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/env.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,8 +72,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -64,9 +108,10 @@
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/GitHub/NottinghamWall/uniapp/src/static/icon&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GitHub/NottinghamWall/uniapp/src/static&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -75,7 +120,7 @@
     &quot;nodejs_package_manager_path&quot;: &quot;C:\\Environment\\pnpm\\pnpm.cmd&quot;,
     &quot;npm.dev:h5.executor&quot;: &quot;Run&quot;,
     &quot;npm.dev:mp-weixin.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;application.passwordSafe&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;D:\\JetBrains\\WebStorm 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -90,11 +135,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\GitHub\NottinghamWall\uniapp\src\static" />
       <recent name="D:\GitHub\NottinghamWall\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall-2\uniapp\src\uni_modules" />
       <recent name="D:\NottinghamWall-2\uniapp\src\static\icon" />
       <recent name="D:\NottinghamWall-2\uniapp\src" />
-      <recent name="D:\NottinghamWall\uniapp\src\utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GitHub\NottinghamWall\uniapp\src\static\icon" />
@@ -136,7 +181,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23726.96" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
       </set>
     </attachedChunks>
   </component>
@@ -191,6 +236,13 @@
       <workItem from="1731298806495" duration="784000" />
       <workItem from="1731323219922" duration="16297000" />
       <workItem from="1731373356541" duration="8535000" />
+      <workItem from="1731389983013" duration="4032000" />
+      <workItem from="1731398877871" duration="2030000" />
+      <workItem from="1731425484350" duration="4030000" />
+      <workItem from="1731482136477" duration="108000" />
+      <workItem from="1731488473028" duration="805000" />
+      <workItem from="1731492257655" duration="22280000" />
+      <workItem from="1731519612851" duration="33000" />
     </task>
     <servers />
   </component>

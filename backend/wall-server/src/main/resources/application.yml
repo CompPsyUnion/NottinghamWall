@@ -3,12 +3,16 @@ server:
 
 spring:
   profiles:
-    active: prod
+    active: dev
   main:
     allow-circular-references: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     druid:
       driver-class-name: ${yiming1234.datasource.driver-class-name}

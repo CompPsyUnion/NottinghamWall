@@ -1,6 +1,6 @@
 package cn.yiming1234.NottinghamWall.controller.admin;
 
-import cn.yiming1234.NottinghamWall.dto.ReportPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.result.Result;
 import cn.yiming1234.NottinghamWall.service.ReportService;
@@ -25,9 +25,9 @@ public class ReportController {
      */
     @GetMapping("/page")
     @ApiOperation("分页查询举报")
-    public Result<PageResult> page(ReportPageQueryDTO reportPageQueryDTO) {
-        log.info("举报分页查询：{}", reportPageQueryDTO);
-        PageResult pageResult = reportService.pageQuery(reportPageQueryDTO);
+    public Result<PageResult> page(PageQueryDTO pageQueryDTO) {
+        log.info("举报分页查询：{}", pageQueryDTO);
+        PageResult pageResult = reportService.pageQuery(pageQueryDTO);
         return Result.success(pageResult);
     }
 

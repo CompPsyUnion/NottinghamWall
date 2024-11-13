@@ -27,12 +27,6 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
 
     /**
      * 校验jwt
-     *
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -41,24 +35,19 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         if ("getTopic".equals(method.getName())) {
-            // 如果是getTopic方法，直接放行
             return true;
         }
-
-        //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getUserTokenName());
         log.info("token:{}",token);
-        //2、校验令牌
         try {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
             Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
             log.info("userId:{}", userId);
             BaseContext.setCurrentId(userId);
-            //3、通过，放行
+
             return true;
         } catch (Exception ex) {
-            //4、不通过，响应401状态码
             response.setStatus(401);
             return false;
         }

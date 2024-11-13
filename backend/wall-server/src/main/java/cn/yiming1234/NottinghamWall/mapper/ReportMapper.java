@@ -1,6 +1,6 @@
 package cn.yiming1234.NottinghamWall.mapper;
 
-import cn.yiming1234.NottinghamWall.dto.ReportPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Report;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,5 +22,5 @@ public interface ReportMapper {
     /**
      * 分页查询举报
      */
-    Page<Report> pageQuery(ReportPageQueryDTO reportPageQueryDTO);
+    Page<Report> pageQuery(PageQueryDTO pageQueryDTO);
 }

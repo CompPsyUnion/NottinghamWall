@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.yiming1234.NottinghamWall.mapper.StudentMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into student (openid, studentid, username, email, phone, sex, id_number, avatar, create_time, update_time)
+        values (#{openid},#{studentid}, #{username}, #{email}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
+    </insert>
+
+    <select id="getByUsername" resultType="cn.yiming1234.NottinghamWall.entity.Student">
+        SELECT * FROM student WHERE username = #{username}
+    </select>
+
+    <select id="getById" resultType="cn.yiming1234.NottinghamWall.entity.Student">
+        SELECT * FROM student WHERE id = #{id}
+    </select>
+
+    <select id="findByOpenid" resultType="cn.yiming1234.NottinghamWall.entity.Student">
+        SELECT * FROM student WHERE openid = #{openid}
+    </select>
+
+    <select id="getByStudentId" resultType="cn.yiming1234.NottinghamWall.entity.Student">
+        SELECT * FROM student WHERE studentid = #{studentid}
+    </select>
+
     <select id="pageQuery" resultType="cn.yiming1234.NottinghamWall.entity.Student">
         select * from student
         <where>
@@ -11,11 +32,6 @@
         </where>
         order by create_time desc
     </select>
-
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into student (openid, studentid, username, email, phone, sex, id_number, avatar, create_time, update_time)
-        values (#{openid},#{studentid}, #{username}, #{email}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{updateTime})
-    </insert>
 
     <update id="updateById" parameterType="cn.yiming1234.NottinghamWall.entity.Student">
         UPDATE student

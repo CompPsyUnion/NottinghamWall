@@ -5,7 +5,7 @@
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
 		}
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -91,9 +91,21 @@
              }
         },
 		{
+			"path": "pages/favorites/post",
+			"style": {
+				"navigationBarTitleText": "我的发布"
+			}
+		},
+		{
 			"path": "pages/favorites/index",
 			"style": {
 				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/index/about",
+			"style": {
+				"navigationBarTitleText": "关于我们"
 			}
 		}
 	],
@@ -109,12 +121,12 @@
 				"iconPath": "static/icon/home.png",
 				"selectedIconPath": "static/icon/home-active.png"
 			},
-            {
-                "pagePath": "pages/order/order",
-                "text": "订单",
-                "iconPath": "static/icon/order.png",
-                "selectedIconPath": "static/icon/order-active.png"
-            },
+//            {
+//                "pagePath": "pages/order/order",
+//                "text": "订单",
+//                "iconPath": "static/icon/order.png",
+//                "selectedIconPath": "static/icon/order-active.png"
+//            },
             {
                 "pagePath": "pages/message/index",
                 "text": "消息",

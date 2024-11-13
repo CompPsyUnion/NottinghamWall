@@ -3,7 +3,7 @@ package cn.yiming1234.NottinghamWall.controller.admin;
 import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
 import cn.yiming1234.NottinghamWall.dto.AdminDTO;
 import cn.yiming1234.NottinghamWall.dto.AdminLoginDTO;
-import cn.yiming1234.NottinghamWall.dto.AdminPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Admin;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.result.PageResult;
@@ -93,9 +93,9 @@ public class AdminController {
      */
     @GetMapping("/page")
     @ApiOperation("分页查询管理员")
-    public Result<PageResult> page(AdminPageQueryDTO adminPageQueryDTO){
-        log.info("管理员分页查询：{}", adminPageQueryDTO);
-        PageResult pageResult = adminService.pageQuery(adminPageQueryDTO);
+    public Result<PageResult> page(PageQueryDTO pageQueryDTO){
+        log.info("管理员分页查询：{}", pageQueryDTO);
+        PageResult pageResult = adminService.pageQuery(pageQueryDTO);
         return Result.success(pageResult);
     }
     /**

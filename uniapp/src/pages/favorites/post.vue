@@ -1,5 +1,5 @@
 <template>
-  <uni-section title="我的收藏" type="line">
+  <uni-section title="我的发布" type="line">
     <TopicComponent :records="records" :loadMoreStatus="loadMoreStatus"/>
   </uni-section>
 </template>
@@ -7,7 +7,7 @@
 <script>
 import uniNoticeBar from '@dcloudio/uni-ui/lib/uni-notice-bar/uni-notice-bar.vue';
 import TopicComponent from './components/topic.vue';
-import { fetchCollectedTopics} from "@/api/collect";
+import { getPublishedPosts } from "@/api/topic";
 import uniSection from "@dcloudio/uni-ui/lib/uni-section/uni-section.vue";
 
 export default {
@@ -42,7 +42,7 @@ export default {
       }
       this.loadMoreStatus = 'loading';
       try {
-        const data = await fetchCollectedTopics(this.page, 5);
+        const data = await getPublishedPosts(this.page, 5);
         console.log('请求结果:', data);
 
         let newRecords = data.records;

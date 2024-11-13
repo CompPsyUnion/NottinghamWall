@@ -33,11 +33,11 @@ public class CommentController {
      * @param request
      * @return
      */
-    private Long extractUserId(HttpServletRequest request) {
+    private Integer extractUserId(HttpServletRequest request) {
         return getaLong(request, jwtProperties);
     }
 
-    static Long getaLong(HttpServletRequest request, JwtProperties jwtProperties) {
+    static Integer getaLong(HttpServletRequest request, JwtProperties jwtProperties) {
         return TopicController.getaLong(request, jwtProperties, CommentController.log);
     }
 
@@ -46,9 +46,9 @@ public class CommentController {
      */
     @PostMapping("/comment/topic/{id}")
     @ApiOperation(value = "评论话题")
-    public Result<Void> commentTopic(@PathVariable String id, @RequestBody CommentDTO commentDTO, HttpServletRequest request) {
+    public Result<Void> commentTopic(@PathVariable Integer id, @RequestBody CommentDTO commentDTO, HttpServletRequest request) {
         log.info("评论话题：{}", id);
-        Long userId = extractUserId(request);
+        Integer userId = extractUserId(request);
         commentDTO.setUserId(Math.toIntExact(userId));
         commentDTO.setTopicId(Integer.valueOf(id));
         commentService.commentTopic(commentDTO);
@@ -65,9 +65,9 @@ public class CommentController {
      */
     @DeleteMapping("/delete/comment/{id}")
     @ApiOperation(value = "删除评论")
-    public Result<Void> deleteComment(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> deleteComment(@PathVariable Integer id, HttpServletRequest request) {
         log.info("删除评论：{}", id);
-        Long userId = extractUserId(request);
+        Integer userId = extractUserId(request);
         commentService.deleteComment(id, userId);
         return Result.success(null);
     }
@@ -77,9 +77,9 @@ public class CommentController {
      */
     @PostMapping("/like/comment/{id}")
     @ApiOperation(value = "点赞评论")
-    public Result<Void> likeComment(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> likeComment(@PathVariable Integer id, HttpServletRequest request) {
         log.info("点赞评论：{}", id);
-        Long userId = extractUserId(request);
+        Integer userId = extractUserId(request);
         commentService.likeComment(id, userId);
         return Result.success(null);
     }
@@ -89,9 +89,9 @@ public class CommentController {
      */
     @PostMapping("/unlike/comment/{id}")
     @ApiOperation(value = "取消点赞评论")
-    public Result<Void> unlikeComment(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> unlikeComment(@PathVariable Integer id, HttpServletRequest request) {
         log.info("取消点赞评论：{}", id);
-        Long userId = extractUserId(request);
+        Integer userId = extractUserId(request);
         commentService.unlikeComment(id, userId);
         return Result.success(null);
     }
@@ -101,9 +101,9 @@ public class CommentController {
      */
     @GetMapping("/islike/comment/{id}")
     @ApiOperation(value = "检查是否点赞评论")
-    public Result<Boolean> isLikeComment(@PathVariable String id, HttpServletRequest request) {
+    public Result<Boolean> isLikeComment(@PathVariable Integer id, HttpServletRequest request) {
         log.info("检查是否点赞评论：{}", id);
-        Long userId = extractUserId(request);
+        Integer userId = extractUserId(request);
         Boolean isLike = commentService.isLikeComment(id, userId);
         return Result.success(isLike);
     }
@@ -113,7 +113,7 @@ public class CommentController {
      */
     @GetMapping("/like/comment/count/{id}")
     @ApiOperation(value = "获取评论点赞计数")
-    public Result<Integer> getLikeCommentCount(@PathVariable String id) {
+    public Result<Integer> getLikeCommentCount(@PathVariable Integer id) {
         log.info("获取评论点赞计数：{}", id);
         int count = commentService.getLikeCommentCount(id);
         return Result.success(count);
@@ -147,7 +147,7 @@ public class CommentController {
      */
     @GetMapping("/comment/count/{id}")
     @ApiOperation(value = "获取评论计数")
-    public Result<Integer> getCommentCount(@PathVariable String id) {
+    public Result<Integer> getCommentCount(@PathVariable Integer id) {
         log.info("获取评论计数：{}", id);
         int count = commentService.getCommentCount(id);
         return Result.success(count);

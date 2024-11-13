@@ -4,7 +4,9 @@ import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
 import cn.yiming1234.NottinghamWall.dto.StudentDTO;
 import cn.yiming1234.NottinghamWall.dto.StudentLoginDTO;
 import cn.yiming1234.NottinghamWall.entity.Student;
+import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
+import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.result.Result;
 import cn.yiming1234.NottinghamWall.service.StudentService;
 import cn.yiming1234.NottinghamWall.utils.JwtUtil;
@@ -35,8 +37,6 @@ public class StudentController {
 
     /**
      * 获取当前学生id
-     * @param request
-     * @return
      */
     private Integer getCurrentStudentId(HttpServletRequest request) {
         String token = request.getHeader(jwtProperties.getUserTokenName());
@@ -52,9 +52,6 @@ public class StudentController {
 
     /**
      * 微信登录
-     *
-     * @param studentLoginDTO
-     * @return
      */
     @PostMapping("/login/login")
     @ApiOperation(value = "微信登录")
@@ -76,9 +73,6 @@ public class StudentController {
 
     /**
      * 微信获取手机号
-     *
-     * @param code
-     * @return
      */
     @PostMapping("/login/getPhoneNumber")
     @ApiOperation(value = "微信获取手机号")
@@ -103,8 +97,6 @@ public class StudentController {
 
     /**
      * 获取学生信息
-     *
-     * @return
      */
     @ApiOperation(value = "获取学生信息")
     @GetMapping("/get/info")
@@ -116,9 +108,6 @@ public class StudentController {
 
     /**
      * 根据id获取学生信息
-     *
-     * @param id
-     * @return
      */
     @ApiOperation(value = "根据id获取学生信息")
     @GetMapping("/get/info/{id}")
@@ -129,16 +118,23 @@ public class StudentController {
     }
 
     /**
+     * 根据用户名获取学生信息
+     */
+    @ApiOperation(value = "根据用户名获取学生信息")
+    @GetMapping("/get/info/username/{username}")
+    public Result<Student> getStudentInfoByUsername(@PathVariable String username) {
+        log.info("根据用户名获取学生信息：{}", username);
+        Student student = studentService.getByUsername(username);
+        return Result.success(student);
+    }
+
+    /**
      * 更新学生信息
-     *
-     * @param studentDTO
-     * @return
      */
     @ApiOperation(value = "更新学生信息")
     @PutMapping("/update/info")
     public Result update(@RequestBody StudentDTO studentDTO, HttpServletRequest request){
         Integer id = getCurrentStudentId(request);
-        studentDTO.setId(id);
         Student student = studentService.getById(id);
         log.info("当前学生信息:{}", student);
 
@@ -149,5 +145,50 @@ public class StudentController {
 
         Student updatedStudent = studentService.update(studentDTO);
         return Result.success(updatedStudent);
+    }
+
+    /**
+     * 获取发布的帖子（分页）
+     */
+    @ApiOperation(value = "获取发布的帖子（分页）")
+    @GetMapping("/get/publish")
+    public Result<PageResult<Topic>> getPublish(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            HttpServletRequest request
+    ) {
+        Integer id = getCurrentStudentId(request);
+        PageResult<Topic> pageResult = studentService.getPublishedPosts(id, page, pageSize);
+        return Result.success(pageResult);
+    }
+
+    /**
+     * 获取评论的帖子（分页）
+     */
+    @ApiOperation(value = "获取评论的帖子（分页）")
+    @GetMapping("/get/comment")
+    public Result<PageResult<Topic>> getComment(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            HttpServletRequest request
+    ) {
+        Integer id = getCurrentStudentId(request);
+        PageResult<Topic> pageResult = studentService.getCommentedPosts(id, page, pageSize);
+        return Result.success(pageResult);
+    }
+
+    /**
+     * 获取收藏的帖子（分页）
+     */
+    @ApiOperation(value = "获取收藏的帖子（分页）")
+    @GetMapping("/get/collect")
+    public Result<PageResult<Topic>> getCollect(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            HttpServletRequest request
+    ) {
+        Integer id = getCurrentStudentId(request);
+        PageResult<Topic> pageResult = studentService.getCollectedPosts(id, page, pageSize);
+        return Result.success(pageResult);
     }
 }

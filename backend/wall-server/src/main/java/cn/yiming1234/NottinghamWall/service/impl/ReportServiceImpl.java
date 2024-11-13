@@ -1,7 +1,7 @@
 package cn.yiming1234.NottinghamWall.service.impl;
 
 import cn.yiming1234.NottinghamWall.dto.ReportDTO;
-import cn.yiming1234.NottinghamWall.dto.ReportPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Report;
 import cn.yiming1234.NottinghamWall.mapper.ReportMapper;
 import cn.yiming1234.NottinghamWall.mapper.TopicMapper;
@@ -42,7 +42,7 @@ public class ReportServiceImpl implements ReportService {
         report.setId(reportDTO.getId());
         report.setTopicId(reportDTO.getTopicId());
         report.setCommentId(reportDTO.getCommentId());
-        Integer authorId = topicMapper.getTopicById(String.valueOf(reportDTO.getTopicId())).getAuthorID();
+        Integer authorId = topicMapper.getTopicById(reportDTO.getTopicId()).getAuthorID();
         report.setAuthorId(authorId);
         report.setUserId(reportDTO.getUserId());
         report.setTags(reportDTO.getTags());
@@ -56,9 +56,9 @@ public class ReportServiceImpl implements ReportService {
      * 分页查询举报
      */
     @Override
-    public PageResult pageQuery(ReportPageQueryDTO reportPageQueryDTO) {
-        PageHelper.startPage(reportPageQueryDTO.getPage(), reportPageQueryDTO.getPageSize());
-        Page<Report> page = reportMapper.pageQuery(reportPageQueryDTO);
+    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+        PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
+        Page<Report> page = reportMapper.pageQuery(pageQueryDTO);
 
         long total = page.getTotal();
         List<Report> records = page.getResult();

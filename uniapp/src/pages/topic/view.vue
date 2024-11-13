@@ -108,8 +108,9 @@ import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue';
 import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
 import uniLoadMore from '@dcloudio/uni-ui/lib/uni-load-more/uni-load-more.vue';
 import uniEasyinput from '@dcloudio/uni-ui/lib/uni-easyinput/uni-easyinput.vue';
+import View from '@/pages/topic/view.vue';
 
-import {deleteTopic, fetchTopic,} from "@/api/topic";
+import { deleteTopic, fetchTopic,} from "@/api/topic";
 
 import {
   checkIfCommentLiked,
@@ -128,6 +129,7 @@ import {getCurrentUserInfo, getUserInfo as apiGetUserInfo} from "@/api/user";
 
 export default {
   components: {
+    View,
     uniCard,
     uniIcons,
     uniPopup,
@@ -396,7 +398,9 @@ export default {
      */
     async refreshComments() {
       try {
-        this.comments = await fetchComments(this.topicRecord.id);
+        console.log("刷新评论列表", this.topicRecord.id);
+        this.page = 1;
+        this.comments = await fetchComments(this.topicRecord.id, this.page, this.pageSize);
         for (const comment of this.comments) {
           comment.hasLiked = await checkIfCommentLiked(comment.id);
           await this.fetchUserInfo(comment.userId);

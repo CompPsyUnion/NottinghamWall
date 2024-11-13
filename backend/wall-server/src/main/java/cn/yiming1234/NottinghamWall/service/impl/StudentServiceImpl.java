@@ -3,10 +3,13 @@ package cn.yiming1234.NottinghamWall.service.impl;
 import cn.yiming1234.NottinghamWall.constant.MessageConstant;
 import cn.yiming1234.NottinghamWall.dto.StudentDTO;
 import cn.yiming1234.NottinghamWall.dto.StudentLoginDTO;
-import cn.yiming1234.NottinghamWall.dto.StudentPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Student;
+import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.exception.LoginFailedException;
+import cn.yiming1234.NottinghamWall.mapper.CommentMapper;
 import cn.yiming1234.NottinghamWall.mapper.StudentMapper;
+import cn.yiming1234.NottinghamWall.mapper.TopicMapper;
 import cn.yiming1234.NottinghamWall.properties.WeChatProperties;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.service.StudentService;
@@ -16,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +39,16 @@ public class StudentServiceImpl implements StudentService {
 
     private final WeChatProperties weChatProperties;
     private final StudentMapper studentMapper;
+    private final TopicMapper topicMapper;
+    private final CommentMapper commentMapper;
     private final AliOssUtil aliOssUtil;
 
     @Autowired
-    public StudentServiceImpl(WeChatProperties weChatProperties, StudentMapper studentMapper, AliOssUtil aliOssUtil) {
+    public StudentServiceImpl(WeChatProperties weChatProperties, StudentMapper studentMapper, TopicMapper topicMapper, CommentMapper commentMapper, AliOssUtil aliOssUtil) {
         this.weChatProperties = weChatProperties;
         this.studentMapper = studentMapper;
+        this.topicMapper = topicMapper;
+        this.commentMapper = commentMapper;
         this.aliOssUtil = aliOssUtil;
     }
 
@@ -105,18 +113,16 @@ public class StudentServiceImpl implements StudentService {
     public String getPhoneNumber(String code, Integer id) throws IOException {
         log.info("code:{}", code);
         String accessToken = getAccessToken();
-        log.info("access_token:{}", accessToken);
         Map<String, String> bodyParams = new HashMap<>();
         bodyParams.put("code", code);
 
         String json = HttpClientUtil.doPost4Json(WX_GET_PHONE_URL + "?access_token=" + accessToken, bodyParams);
         JSONObject jsonObject = JSON.parseObject(json);
-        log.info("jsonObject:{}", jsonObject);
+
         if (jsonObject.getInteger("errcode") == 0) {
             JSONObject phoneInfo = jsonObject.getJSONObject("phone_info");
             String purePhoneNumber = phoneInfo.getString("purePhoneNumber");
             log.info("purePhoneNumber:{}", purePhoneNumber);
-            // Update phone number in the database
             updatePhoneNumber(id, purePhoneNumber);
             return purePhoneNumber;
         } else {
@@ -143,17 +149,12 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student update(StudentDTO studentDTO) {
-        // 根据 ID 查找学生
         Student student = studentMapper.getById(studentDTO.getId());
-
-        // 更新学生信息
         if (student != null) {
-
             if (!student.getAvatar().equals(studentDTO.getAvatar()) && !student.getAvatar().contains("default.jpg")) {
                 String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
                 aliOssUtil.delete(objectName);
             }
-
             student.setUsername(studentDTO.getUsername());
             student.setAvatar(studentDTO.getAvatar());
             student.setSex(studentDTO.getSex());
@@ -161,20 +162,29 @@ public class StudentServiceImpl implements StudentService {
             student.setUpdateTime(LocalDateTime.now());
             studentMapper.updateById(student);
         }
-
         return student;
     }
 
     /**
      * 根据id查询学生
      */
+    @Override
     public Student getById(Integer id) {
         return studentMapper.getById(id);
     }
 
     /**
+     * 根据用户名查询学生
+     */
+    @Override
+    public Student getByUsername(String username) {
+        return studentMapper.getByUsername(username);
+    }
+
+    /**
      * 根据学号查询学生
      */
+    @Override
     public Student getByStudentId(Integer studentId) {
         return studentMapper.getByStudentId(studentId);
     }
@@ -182,6 +192,7 @@ public class StudentServiceImpl implements StudentService {
     /**
      * 根据邮箱查询学生
      */
+    @Override
     public Student getByEmail(String email) {
         return studentMapper.getByEmail(email);
     }
@@ -189,14 +200,46 @@ public class StudentServiceImpl implements StudentService {
     /**
      * 学生分页查询
      */
-    public PageResult pageQuery(StudentPageQueryDTO studentPageQueryDTO) {
-        //开始分页查询
-        PageHelper.startPage(studentPageQueryDTO.getPage(), studentPageQueryDTO.getPageSize());
-        Page<Student> page = studentMapper.pageQuery(studentPageQueryDTO);
+    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+        PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
+        Page<Student> page = studentMapper.pageQuery(pageQueryDTO);
 
-        //返回分页结果
         long total = page.getTotal();
         List<Student> records = page.getResult();
         return new PageResult(total, records);
+    }
+
+    /**
+     * 查询发布的帖子（分页）
+     */
+    @Override
+    public PageResult<Topic> getPublishedPosts(Integer id, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Topic> posts = topicMapper.getPublishedPosts(id);
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    /**
+     * 查询评论的帖子（分页）
+     */
+    @Override
+    public PageResult<Topic> getCommentedPosts(Integer id, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Topic> posts = commentMapper.getCommentedPosts(id);
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    /**
+     * 查询收藏的帖子（分页）
+     */
+    @Override
+    public PageResult<Topic> getCollectedPosts(Integer id, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Integer> collectedTopicIds = topicMapper.getCollectedTopicIds(id);
+        List<Topic> posts = topicMapper.getTopicsByIds(collectedTopicIds);
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
     }
 }

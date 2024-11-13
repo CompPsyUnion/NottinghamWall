@@ -1,5 +1,6 @@
 package cn.yiming1234.NottinghamWall.service.impl;
 
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import cn.yiming1234.NottinghamWall.constant.MessageConstant;
@@ -8,7 +9,6 @@ import cn.yiming1234.NottinghamWall.constant.StatusConstant;
 import cn.yiming1234.NottinghamWall.context.BaseContext;
 import cn.yiming1234.NottinghamWall.dto.AdminDTO;
 import cn.yiming1234.NottinghamWall.dto.AdminLoginDTO;
-import cn.yiming1234.NottinghamWall.dto.AdminPageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Admin;
 import cn.yiming1234.NottinghamWall.exception.AccountLockedException;
 import cn.yiming1234.NottinghamWall.exception.AccountNotFoundException;
@@ -59,10 +59,8 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void save(AdminDTO adminDTO) {
-        //System.out.println("当前线程的id："+Thread.currentThread().getId());
-        //1、数据转换
         Admin admin = new Admin();
-        //对象属性拷贝
+
         BeanUtils.copyProperties(adminDTO, admin);
         admin.setStatus(StatusConstant.ENABLE);
         admin.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
@@ -78,9 +76,9 @@ public class AdminServiceImpl implements AdminService {
      * 管理员分页查询
      */
     @Override
-    public PageResult pageQuery(AdminPageQueryDTO adminPageQueryDTO) {
-        PageHelper.startPage(adminPageQueryDTO.getPage(), adminPageQueryDTO.getPageSize());
-        Page<Admin> page = adminMapper.pageQuery(adminPageQueryDTO);
+    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+        PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
+        Page<Admin> page = adminMapper.pageQuery(pageQueryDTO);
 
         long total = page.getTotal();
         List<Admin> records = page.getResult();

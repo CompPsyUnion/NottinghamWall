@@ -21,6 +21,9 @@ import { baseUrl } from "@/utils/env";
 //     });
 // };
 
+/**
+ * 获取评论列表
+ */
 export const fetchComments = (topicId, page, pageSize) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -42,6 +45,9 @@ export const fetchComments = (topicId, page, pageSize) => {
     });
 };
 
+/**
+ * 提交评论
+ */
 export const submitComment = (topicId, content) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -64,6 +70,9 @@ export const submitComment = (topicId, content) => {
     });
 };
 
+/**
+ * 删除评论
+ */
 export const deleteComment = (commentId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -85,6 +94,9 @@ export const deleteComment = (commentId) => {
     });
 };
 
+/**
+ * 点赞评论
+ */
 export const likeComment = (commentId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -106,6 +118,9 @@ export const likeComment = (commentId) => {
     });
 };
 
+/**
+ * 取消点赞评论
+ */
 export const unlikeComment = (commentId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -127,6 +142,9 @@ export const unlikeComment = (commentId) => {
     });
 };
 
+/**
+ * 检查评论是否已点赞
+ */
 export const checkIfCommentLiked = (commentId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -151,6 +169,9 @@ export const checkIfCommentLiked = (commentId) => {
     });
 };
 
+/**
+ * 获取评论点赞计数
+ */
 export const fetchCommentLikeCount = (commentId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -175,6 +196,9 @@ export const fetchCommentLikeCount = (commentId) => {
     });
 }
 
+/**
+ * 检查是否已收藏
+ */
 export const fetchCommentCount = (topicId) => {
     return new Promise((resolve, reject) => {
         uni.request({

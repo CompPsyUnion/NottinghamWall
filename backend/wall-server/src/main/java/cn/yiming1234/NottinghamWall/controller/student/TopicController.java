@@ -2,7 +2,7 @@ package cn.yiming1234.NottinghamWall.controller.student;
 
 import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
 import cn.yiming1234.NottinghamWall.dto.TopicDTO;
-import cn.yiming1234.NottinghamWall.dto.TopicPageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.result.PageResult;
@@ -40,21 +40,19 @@ public class TopicController {
 
     /**
      * 从请求头中提取用户id
-     * @param request
-     * @return
      */
-    private Long extractUserId(HttpServletRequest request) {
+    private Integer extractUserId(HttpServletRequest request) {
         return getaLong(request, jwtProperties, log);
     }
 
-    static Long getaLong(HttpServletRequest request, JwtProperties jwtProperties, Logger log) {
+    static Integer getaLong(HttpServletRequest request, JwtProperties jwtProperties, Logger log) {
         String token = request.getHeader(jwtProperties.getUserTokenName());
         if (token == null || token.trim().isEmpty()) {
             log.error("JWT token is missing in the request header.");
             throw new IllegalArgumentException("JWT token is missing.");
         }
         Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-        Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+        Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
         log.info("当前用户id:{}", userId);
         return userId;
     }
@@ -65,10 +63,10 @@ public class TopicController {
     @PostMapping("/post/topic")
     @ApiOperation(value = "创建话题")
     public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) {
-        log.info("创建话题：{}", topicDTO);
         Integer userId = Math.toIntExact(extractUserId(request));
         topicDTO.setAuthorID(userId);
         topicService.addTopic(topicDTO);
+        log.info("提交话题或草稿：{}", topicDTO);
         return Result.success(null);
     }
 
@@ -77,9 +75,8 @@ public class TopicController {
      */
     @DeleteMapping("/delete/topic/{id}")
     @ApiOperation(value = "删除话题")
-    public Result<Void> deleteTopic(@PathVariable String id) {
+    public Result<Void> deleteTopic(@PathVariable Integer id) {
         log.info("删除话题：{}", id);
-
         Topic topic = topicService.getTopicById(id);
         List<String> imgURLs = topic.getImgURLs();
         for (String imgURL : imgURLs) {
@@ -87,9 +84,56 @@ public class TopicController {
             aliOssUtil.delete(objectName);
         }
         log.info("删除图片成功");
-
         topicService.deleteTopic(id);
         return Result.success(null);
+    }
+
+    /**
+     * 新建草稿
+     */
+    @PostMapping("/save/draft")
+    @ApiOperation(value = "新建草稿")
+    public Result<Void> saveDraft(@RequestBody TopicDTO topicDTO, HttpServletRequest request) {
+        Integer userId = extractUserId(request);
+        topicDTO.setAuthorID(userId);
+        topicService.saveDraft(topicDTO);
+        log.info("新建草稿：{}", topicDTO);
+        return Result.success(null);
+    }
+
+    /**
+     * 获取草稿
+     */
+    @GetMapping("/get/draft")
+    @ApiOperation(value = "获取草稿")
+    public Result<Topic> getDraft(HttpServletRequest request) {
+        log.info("获取草稿");
+        Integer userId = extractUserId(request);
+        Topic draft = topicService.getDraft(userId);
+        return Result.success(draft);
+    }
+
+    /**
+     * 删除草稿
+     */
+    @DeleteMapping("/delete/draft/{id}")
+    @ApiOperation(value = "删除草稿")
+    public Result<Void> deleteDraft(@PathVariable Integer id) {
+        log.info("删除草稿：{}", id);
+        topicService.deleteDraft(id);
+        return Result.success(null);
+    }
+
+    /**
+     * 检查是否存在草稿
+     */
+    @GetMapping("/isexist/draft")
+    @ApiOperation(value = "检查是否存在草稿")
+    public Result<Boolean> isExistDraft(HttpServletRequest request) {
+        log.info("检查是否存在草稿");
+        Integer userId = extractUserId(request);
+        Boolean isExist = topicService.isExistDraft(userId);
+        return Result.success(isExist);
     }
 
     /**
@@ -97,9 +141,9 @@ public class TopicController {
      */
     @GetMapping("/get/topic")
     @ApiOperation(value = "实现话题无限滚动")
-    public Result<PageResult> getTopic(TopicPageQueryDTO topicPageQueryDTO) {
-        log.info("获取话题列表：{}", topicPageQueryDTO);
-        PageResult pageResult = topicService.pageQuery(topicPageQueryDTO);
+    public Result<PageResult> getTopic(PageQueryDTO pageQueryDTO) {
+        log.info("获取话题列表：{}", pageQueryDTO);
+        PageResult pageResult = topicService.pageQuery(pageQueryDTO);
         return Result.success(pageResult);
     }
 
@@ -108,7 +152,7 @@ public class TopicController {
      */
     @GetMapping("/topic/{id}")
     @ApiOperation(value = "根据id获取话题详情")
-    public Result<Topic> getTopicById(@PathVariable String id) {
+    public Result<Topic> getTopicById(@PathVariable Integer id) {
         log.info("获取话题详情：{}", id);
         Topic topic = topicService.getTopicById(id);
         return Result.success(topic);
@@ -119,10 +163,10 @@ public class TopicController {
      */
     @PostMapping("/like/topic/{id}")
     @ApiOperation(value = "点赞话题")
-    public Result<Void> likeTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> likeTopic(@PathVariable Integer id, HttpServletRequest request) {
         log.info("点赞话题：{}", id);
-        Long userId = extractUserId(request);
-        topicService.likeTopic(id, String.valueOf(userId));
+        Integer userId = extractUserId(request);
+        topicService.likeTopic(id, userId);
         return Result.success(null);
     }
 
@@ -131,10 +175,10 @@ public class TopicController {
      */
     @PostMapping("/unlike/topic/{id}")
     @ApiOperation(value = "取消点赞话题")
-    public Result<Void> unlikeTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> unlikeTopic(@PathVariable Integer id, HttpServletRequest request) {
         log.info("取消点赞话题：{}", id);
-        Long userId = extractUserId(request);
-        topicService.unlikeTopic(id, String.valueOf(userId));
+        Integer userId = extractUserId(request);
+        topicService.unlikeTopic(id, userId);
         return Result.success(null);
     }
 
@@ -143,10 +187,10 @@ public class TopicController {
      */
     @GetMapping("/islike/topic/{id}")
     @ApiOperation(value = "是否点赞话题")
-    public Result<Boolean> isLikeTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Boolean> isLikeTopic(@PathVariable Integer id, HttpServletRequest request) {
         log.info("检查是否点赞话题：{}", id);
-        Long userId = extractUserId(request);
-        Boolean isLike = topicService.isLikeTopic(id, String.valueOf(userId));
+        Integer userId = extractUserId(request);
+        Boolean isLike = topicService.isLikeTopic(id, userId);
         return Result.success(isLike);
     }
 
@@ -155,7 +199,7 @@ public class TopicController {
      */
     @GetMapping("/like/count/{id}")
     @ApiOperation(value = "获取点赞计数")
-    public Result<Integer> getLikeCount(@PathVariable String id) {
+    public Result<Integer> getLikeCount(@PathVariable Integer id) {
         log.info("获取点赞计数：{}", id);
         int count = topicService.getLikeCount(id);
         return Result.success(count);
@@ -166,10 +210,10 @@ public class TopicController {
      */
     @PostMapping("/collect/topic/{id}")
     @ApiOperation(value = "收藏话题")
-    public Result<Void> collectTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> collectTopic(@PathVariable Integer id, HttpServletRequest request) {
         log.info("收藏话题：{}", id);
-        Long userId = extractUserId(request);
-        topicService.collectTopic(id, String.valueOf(userId));
+        Integer userId = extractUserId(request);
+        topicService.collectTopic(id, userId);
         return Result.success(null);
     }
 
@@ -178,10 +222,10 @@ public class TopicController {
      */
     @PostMapping("/uncollect/topic/{id}")
     @ApiOperation(value = "取消收藏话题")
-    public Result<Void> uncollectTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Void> uncollectTopic(@PathVariable Integer id, HttpServletRequest request) {
         log.info("取消收藏话题：{}", id);
-        Long userId = extractUserId(request);
-        topicService.uncollectTopic(id, String.valueOf(userId));
+        Integer userId = extractUserId(request);
+        topicService.uncollectTopic(id, userId);
         return Result.success(null);
     }
 
@@ -190,10 +234,10 @@ public class TopicController {
      */
     @GetMapping("/iscollect/topic/{id}")
     @ApiOperation(value = "是否收藏话题")
-    public Result<Boolean> isCollectTopic(@PathVariable String id, HttpServletRequest request) {
+    public Result<Boolean> isCollectTopic(@PathVariable Integer id, HttpServletRequest request) {
         log.info("检查是否收藏话题：{}", id);
-        Long userId = extractUserId(request);
-        Boolean isCollect = topicService.isCollectTopic(id, String.valueOf(userId));
+        Integer userId = extractUserId(request);
+        Boolean isCollect = topicService.isCollectTopic(id, userId);
         return Result.success(isCollect);
     }
 
@@ -202,7 +246,7 @@ public class TopicController {
      */
     @GetMapping("/collect/count/{id}")
     @ApiOperation(value = "获取收藏计数")
-    public Result<Integer> getCollectCount(@PathVariable String id) {
+    public Result<Integer> getCollectCount(@PathVariable Integer id) {
         log.info("获取收藏计数：{}", id);
         int count = topicService.getCollectCount(id);
         return Result.success(count);

@@ -1,5 +1,8 @@
 import { baseUrl } from "@/utils/env";
 
+/**
+ * 获取当前用户信息
+ */
 export const getCurrentUserInfo = () => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -21,6 +24,9 @@ export const getCurrentUserInfo = () => {
     });
 };
 
+/**
+ * 获取用户信息
+ */
 export const getUserInfo = (authorID) => {
     return new Promise((resolve, reject) => {
         uni.request({

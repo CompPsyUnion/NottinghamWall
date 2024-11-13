@@ -10,14 +10,14 @@
 
     <!-- 我的操作 -->
     <div class="order-actions">
-      <div class="order-item">
-        <uni-icons type="heart" size="24" color="#ff6600"></uni-icons>
-        <p>我的关注</p>
+      <div class="order-item" @click="goToPostPage">
+        <uni-icons type="paperplane" size="24" color="#ff6600"></uni-icons>
+        <p>我的发布</p>
       </div>
-      <div class="order-item">
-        <uni-icons type="chat" size="24" color="#ff6600"></uni-icons>
-        <p>我的评论</p>
-      </div>
+<!--      <div class="order-item">-->
+<!--        <uni-icons type="chat" size="24" color="#ff6600"></uni-icons>-->
+<!--        <p>我的评论</p>-->
+<!--      </div>-->
       <div class="order-item"  @click="goToFavoritesPage">
         <uni-icons type="star" size="24" color="#ff6600"></uni-icons>
         <p>我的收藏</p>
@@ -31,17 +31,17 @@
         <p>信息修改</p>
         <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
       </div>
-      <div class="feature-item" @click="goToAuthenticationPage">
-        <uni-icons type="gear" size="20" color="#ff6600"></uni-icons>
-        <p>信息认证</p>
-        <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
-      </div>
-      <div class="feature-item" @click="goToUniversePage">
-        <uni-icons type="settings" size="20" color="#ff6600"></uni-icons>
-        <p>通用管理</p>
-        <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
-      </div>
-      <div class="feature-item">
+<!--      <div class="feature-item" @click="goToAuthenticationPage">-->
+<!--        <uni-icons type="gear" size="20" color="#ff6600"></uni-icons>-->
+<!--        <p>信息认证</p>-->
+<!--        <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>-->
+<!--      </div>-->
+<!--      <div class="feature-item" @click="goToUniversePage">-->
+<!--        <uni-icons type="settings" size="20" color="#ff6600"></uni-icons>-->
+<!--        <p>通用管理</p>-->
+<!--        <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>-->
+<!--      </div>-->
+      <div class="feature-item" @click="goToAboutPage">
         <uni-icons type="info" size="20" color="#ff6600"></uni-icons>
         <p>关于我们</p>
         <uni-icons type="arrow-right" size="16" color="#ccc" class="arrow-right"></uni-icons>
@@ -52,7 +52,6 @@
 
 <script>
 import {baseUrl} from "@/utils/env";
-
 import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue';
 
 export default {
@@ -67,11 +66,11 @@ export default {
   },
   onLoad(){
     uni.request({
-          url: baseUrl + '/student/get/info',
-          method: 'GET',
-          header: {
-            token: uni.getStorageSync('token')
-          },
+      url: baseUrl + '/student/get/info',
+      method: 'GET',
+      header: {
+        token: uni.getStorageSync('token')
+      },
       success: (res) => {
         if (res.data.code === 1) {
           this.nickName = res.data.data.username;
@@ -87,6 +86,11 @@ export default {
     });
   },
   methods: {
+    goToPostPage() {
+      uni.navigateTo({
+        url: '/pages/favorites/post'
+      });
+    },
     goToFavoritesPage() {
       uni.navigateTo({
         url: '/pages/favorites/index'
@@ -95,6 +99,11 @@ export default {
     goToPersonPage() {
       uni.navigateTo({
         url: '/pages/person/editInfo'
+      });
+    },
+    goToAboutPage() {
+      uni.navigateTo({
+        url: '/pages/index/about'
       });
     },
     goToAuthenticationPage() {

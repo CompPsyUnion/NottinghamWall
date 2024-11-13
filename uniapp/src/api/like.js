@@ -1,5 +1,8 @@
 import { baseUrl } from "@/utils/env";
 
+/**
+ * 点赞话题
+ */
 export const likeTopic = (topicId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -21,6 +24,9 @@ export const likeTopic = (topicId) => {
     });
 };
 
+/**
+ * 取消点赞话题
+ */
 export const unlikeTopic = (topicId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -42,6 +48,9 @@ export const unlikeTopic = (topicId) => {
     });
 };
 
+/**
+ * 检查是否已点赞
+ */
 export const checkIfLiked = (topicId) => {
     return new Promise((resolve, reject) => {
         uni.request({
@@ -66,6 +75,9 @@ export const checkIfLiked = (topicId) => {
     });
 };
 
+/**
+ * 获取点赞计数
+ */
 export const fetchLikeCount = (topicId) => {
     return new Promise((resolve, reject) => {
         uni.request({

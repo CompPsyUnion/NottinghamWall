@@ -3,6 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.yiming1234.NottinghamWall.mapper.AdminMapper">
 
+    <insert id="insert" parameterType="cn.yiming1234.NottinghamWall.entity.Admin">
+        INSERT INTO admin (name, username, password, phone, sex, id_number, create_time, update_time, create_user, update_user)
+        VALUES (#{name}, #{username}, #{password}, #{phone}, #{sex}, #{idNumber}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})
+    </insert>
+
+    <select id="getByUsername" resultType="cn.yiming1234.NottinghamWall.entity.Admin">
+        SELECT * FROM admin WHERE username = #{username}
+    </select>
+
+    <select id="getById" resultType="cn.yiming1234.NottinghamWall.entity.Admin">
+        SELECT * FROM admin WHERE id = #{id}
+    </select>
+
     <select id="pageQuery" resultType="cn.yiming1234.NottinghamWall.entity.Admin">
         select * from admin
         <where>

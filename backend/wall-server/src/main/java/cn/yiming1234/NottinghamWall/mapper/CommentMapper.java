@@ -1,6 +1,7 @@
 package cn.yiming1234.NottinghamWall.mapper;
 
 import cn.yiming1234.NottinghamWall.dto.CommentDTO;
+import cn.yiming1234.NottinghamWall.entity.Topic;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,80 +12,56 @@ public interface CommentMapper {
 
     /**
      * 评论话题
-     *
-     * @param commentDTO
      */
     void commentTopic(CommentDTO commentDTO);
 
     /**
      * 回复评论
-     *
-     * @param commentDTO
      */
     void replyComment(CommentDTO commentDTO);
 
     /**
      * 删除评论
-     *
-     * @param commentId
-     * @param userId
      */
-    void deleteComment(@Param("commentId") String commentId, @Param("userId") Long userId);
+    void deleteComment(@Param("commentId") Integer commentId, @Param("userId") Integer userId);
 
     /**
      * 点赞评论
-     *
-     * @param commentId
-     * @param userId
      */
-    void likeComment(@Param("commentId") String commentId, @Param("userId") Long userId);
+    void likeComment(@Param("commentId") Integer commentId, @Param("userId") Integer userId);
 
     /**
      * 取消点赞评论
-     *
-     * @param commentId
-     * @param userId
      */
-    void unlikeComment(@Param("commentId") String commentId, @Param("userId") Long userId);
+    void unlikeComment(@Param("commentId") Integer commentId, @Param("userId") Integer userId);
 
     /**
      * 判断是否点赞评论
-     *
-     * @param commentId
-     * @param userId
-     * @return
      */
-    Boolean isLikeComment(@Param("commentId") String commentId, @Param("userId") Long userId);
+    Boolean isLikeComment(@Param("commentId") Integer commentId, @Param("userId") Integer userId);
 
     /**
      * 获取点赞评论计数
-     *
-     * @param id
-     * @return
      */
-    int getLikeCommentCount(String id);
+    int getLikeCommentCount(Integer id);
 
     /**
      * 获取评论列表
-     *
-     * @param topicId
-     * @return
      */
     List<CommentDTO> getComments(@Param("topicId") Integer topicId);
 
     /**
      * 获取评论计数
-     *
-     * @param topicId
-     * @return
      */
-    int getCommentCount(@Param("topicId") String topicId);
+    int getCommentCount(@Param("topicId") Integer topicId);
 
     /**
      * 获取评论详情
-     *
-     * @param commentId
-     * @return
      */
-    CommentDTO getCommentById(@Param("commentId") String commentId);
+    CommentDTO getCommentById(@Param("commentId") Integer commentId);
+
+    /**
+     * 查询用户评论的帖子
+     */
+    List<Topic> getCommentedPosts(@Param("userId") Integer userId);
 }
