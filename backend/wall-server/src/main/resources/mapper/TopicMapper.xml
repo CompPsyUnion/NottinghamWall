@@ -60,8 +60,10 @@
         <result property="isDraft" column="isDraft" />
     </resultMap>
 
-    <select id="getPublishedPosts" parameterType="int" resultType="Topic">
-        SELECT * FROM topic WHERE authorID = #{authorId}
+    <select id="getPublishedTopicIds" parameterType="int" resultType="int">
+        SELECT id
+        FROM topic
+        WHERE authorID = #{authorId}
     </select>
 
     <!-- Likes functionality -->

@@ -215,18 +215,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public PageResult<Topic> getPublishedPosts(Integer id, int page, int pageSize) {
         PageHelper.startPage(page, pageSize);
-        List<Topic> posts = topicMapper.getPublishedPosts(id);
-        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
-        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
-    }
-
-    /**
-     * 查询评论的帖子（分页）
-     */
-    @Override
-    public PageResult<Topic> getCommentedPosts(Integer id, int page, int pageSize) {
-        PageHelper.startPage(page, pageSize);
-        List<Topic> posts = commentMapper.getCommentedPosts(id);
+        List<Integer> publishedTopicIds = topicMapper.getPublishedTopicIds(id);
+        List<Topic> posts = topicMapper.getTopicsByIds(publishedTopicIds);
         PageInfo<Topic> pageInfo = new PageInfo<>(posts);
         return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
     }
@@ -238,7 +228,19 @@ public class StudentServiceImpl implements StudentService {
     public PageResult<Topic> getCollectedPosts(Integer id, int page, int pageSize) {
         PageHelper.startPage(page, pageSize);
         List<Integer> collectedTopicIds = topicMapper.getCollectedTopicIds(id);
+        log.info("collectedTopicIds:{}", collectedTopicIds);
         List<Topic> posts = topicMapper.getTopicsByIds(collectedTopicIds);
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    /**
+     * 查询评论的帖子（分页）
+     */
+    @Override
+    public PageResult<Topic> getCommentedPosts(Integer id, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Topic> posts = commentMapper.getCommentedPosts(id);
         PageInfo<Topic> pageInfo = new PageInfo<>(posts);
         return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
     }

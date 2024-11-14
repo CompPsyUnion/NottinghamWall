@@ -112,12 +112,12 @@ public interface TopicMapper {
     void deleteTopicComments(Integer topicId);
 
     /**
-     * 查询用户发布的帖子
+     * 查询用户发布的帖子ids
      */
-    List<Topic> getPublishedPosts(@Param("authorId") Integer authorId);
+    List<Integer> getPublishedTopicIds(@Param("authorId") Integer authorId);
 
     /**
      * 查询用户收藏的帖子ids
      */
-    List<Integer> getCollectedTopicIds(Integer id);
+    List<Integer> getCollectedTopicIds(@Param("id") Integer id);
 }
