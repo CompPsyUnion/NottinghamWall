@@ -94,11 +94,26 @@ public class StudentServiceImpl implements StudentService {
         }
         Student student = studentMapper.findByOpenid(openid);
         if (student == null) {
+            String[] avatars = {
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/zhongli.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/xiao.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/puren.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/wendi.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/ganyu.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/linren.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/linhua.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/leidian.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/naxida.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/diluke.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/jiaming.jpg",
+                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/default.jpg",
+            };
+            String avatar = avatars[(int) (Math.random() * avatars.length)];
             student = Student.builder()
                     .openid(openid)
-                    .username("飞天裤衩")
+                    .username("传奇绳匠" + System.currentTimeMillis())
                     .sex("1")
-                    .avatar("https://yiming1234.oss-cn-beijing.aliyuncs.com/default.jpg")
+                    .avatar(avatar)
                     .createTime(LocalDateTime.now())
                     .build();
             studentMapper.insert(student);

@@ -33,30 +33,31 @@
 </template>
 
 <script>
-import { baseUrl } from "@/utils/env"; // 引入环境变量
+import {baseUrl} from "@/utils/env";
+import View from "@/pages/person/editInfo.vue";
 
 export default {
-  /**
-   * 页面的初始数据
-   */
+  components: {
+    View
+  },
   data() {
     return {
-      avatarUrl: '', // 初始化头像URL
-      originalAvatarUrl: '', // 保存从服务器获取的原始头像URL
+      avatarUrl: '',
+      originalAvatarUrl: '',
       nickName: '',
-      selectedSex: 'Male', // 默认选择
-      sexValueMap: { // 性别值映射
+      studentid: '',
+      selectedSex: 'Male',
+      sexValueMap: {
         'Male': 1,
         'Female': 2,
       },
-      studentid: '' // 初始化学生号
     };
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-    // 获取用户信息
     uni.request({
       url: baseUrl + '/student/get/info',
       method: 'GET',
@@ -67,7 +68,7 @@ export default {
         if (res.data.code === 1) {
           this.nickName = res.data.data.username;
           this.avatarUrl = res.data.data.avatar;
-          this.originalAvatarUrl = res.data.data.avatar; // 保存原始头像URL
+          this.originalAvatarUrl = res.data.data.avatar;
           this.studentid = res.data.data.studentid;
           this.selectedSex = res.data.data.sex === "1" ? 'Male' : 'Female';
           console.log('获取用户信息成功:', res.data.data);
@@ -103,6 +104,7 @@ export default {
     logError(error) {
       console.error('Error:', error);
     },
+
     /**
      * 提交表单
      */
@@ -115,7 +117,7 @@ export default {
         return;
       }
       if (this.avatarUrl === this.originalAvatarUrl) {
-        this.updateUserInfo(this.avatarUrl);
+        this.updateUserInfo(this.originalAvatarUrl);
       } else {
         uni.uploadFile({
           url: baseUrl + '/student/common/upload',
@@ -128,8 +130,7 @@ export default {
             try {
               const responseData = JSON.parse(res.data);
               if (responseData.code === 1) {
-                const avatar = responseData.data;
-                this.updateUserInfo(avatar);
+                this.updateUserInfo(responseData);
               } else {
                 console.log('上传失败:', responseData.msg);
                 uni.showToast({
@@ -157,25 +158,28 @@ export default {
         });
       }
     },
+
     /**
      * 更新用户信息
-     * @param avatarUrl 头像 URL
      */
-    updateUserInfo(avatarUrl) {
+    updateUserInfo() {
+      console.log('更新用户信息:', this.nickName, this.avatarUrl, this.sexValueMap[this.selectedSex], this.studentid),
       uni.request({
         url: baseUrl + '/student/update/info',
         method: 'PUT',
         header: {
-          token: uni.getStorageSync('token')
+          token: uni.getStorageSync('token'),
+          'Content-Type': 'application/json'
         },
         data: {
           username: this.nickName,
-          avatar: avatarUrl[0],
+          avatar: this.avatarUrl,
           sex: this.sexValueMap[this.selectedSex],
           studentid: this.studentid
         },
         success: (res) => {
           if (res.data.code === 1) {
+            console.log(res.data.data);
             uni.showToast({
               title: '更新成功',
               icon: 'success',

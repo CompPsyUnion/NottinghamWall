@@ -6,9 +6,9 @@
 
 <script>
 import uniNoticeBar from '@dcloudio/uni-ui/lib/uni-notice-bar/uni-notice-bar.vue';
+import uniSection from "@dcloudio/uni-ui/lib/uni-section/uni-section.vue";
 import TopicComponent from './components/topic.vue';
 import { fetchCollectedTopics} from "@/api/collect";
-import uniSection from "@dcloudio/uni-ui/lib/uni-section/uni-section.vue";
 
 export default {
   components: {

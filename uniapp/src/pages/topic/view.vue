@@ -189,10 +189,9 @@ export default {
     this.loadComments();
   },
   methods: {
+
     /**
      * 获取用户信息
-     * @param authorID
-     * @returns {Object}
      */
     getUserInfo(authorID) {
       if (!authorID) {
@@ -207,8 +206,6 @@ export default {
 
     /**
      * 异步获取用户信息
-     * @param authorID
-     * @returns {Promise<void>}
      */
     async fetchUserInfo(authorID) {
       if (!this.userInfoMap[authorID]) {
@@ -224,7 +221,6 @@ export default {
 
     /**
      * 加载评论
-      * @returns {Promise<void>}
      */
     async loadComments() {
       if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
@@ -278,7 +274,6 @@ export default {
 
     /**
      * 显示评论操作菜单
-     * @param {Object} comment
      */
     showCommentActionSheet(comment) {
       const isAuthor = String(this.currentUserId) === String(comment.userId);
@@ -312,7 +307,6 @@ export default {
     // 创建话题不在该页面
     /**
      * 删除话题
-     * @returns {Promise<void>}
      */
     async deleteTopic() {
       try {
@@ -331,7 +325,6 @@ export default {
 
     /**
      * 处理点赞操作
-     * @returns {Promise<void>}
      */
     async handleLike() {
       try {
@@ -354,7 +347,6 @@ export default {
 
     /**
      * 处理收藏操作
-     * @returns {Promise<void>}
      */
     async handleCollect() {
       try {
@@ -373,7 +365,6 @@ export default {
 
     /**
      * 提交评论
-     * @returns {Promise<void>}
      */
     async submitComment() {
       if (!this.commentContent.trim()) {
@@ -394,7 +385,6 @@ export default {
 
     /**
      * 刷新评论列表和计数
-     * @returns {Promise<void>}
      */
     async refreshComments() {
       try {
@@ -414,8 +404,6 @@ export default {
 
     /**
      * 删除评论
-     * @param {Object} comment
-     * @returns {Promise<void>}
      */
     async deleteCommentAction(comment) {
       try {
@@ -440,7 +428,6 @@ export default {
 
     /**
      * 回复评论
-     * @param {Object} comment
      */
     async replyToComment(comment) {
       // TODO: 实现回复评论功能
@@ -449,8 +436,6 @@ export default {
 
     /**
      * 点赞/取消点赞评论
-     * @param {Object} comment
-     * @returns {Promise<void>}
      */
     async toggleCommentLike(comment) {
       try {
