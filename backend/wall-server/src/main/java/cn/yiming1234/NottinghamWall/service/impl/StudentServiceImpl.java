@@ -160,6 +160,7 @@ public class StudentServiceImpl implements StudentService {
             student.setSex(studentDTO.getSex());
             student.setStudentid(studentDTO.getStudentid());
             student.setUpdateTime(LocalDateTime.now());
+            log.info("更新后的学生信息:{}", student);
             studentMapper.updateById(student);
         }
         return student;

@@ -142,7 +142,7 @@ public class StudentController {
         studentDTO.setAvatar(Optional.ofNullable(studentDTO.getAvatar()).orElse(student.getAvatar()));
         studentDTO.setSex(Optional.ofNullable(studentDTO.getSex()).orElse(student.getSex()));
         studentDTO.setStudentid(Optional.ofNullable(studentDTO.getStudentid()).orElse(student.getStudentid()));
-
+        log.info("更新学生信息:{}", studentDTO);
         Student updatedStudent = studentService.update(studentDTO);
         return Result.success(updatedStudent);
     }
