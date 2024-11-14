@@ -120,13 +120,17 @@
     </select>
 
     <!-- Get topics by a list of IDs -->
-    <select id="getTopicsByIds" parameterType="list" resultMap="topicResultMap">
-        SELECT *
-        FROM topic
+    <select id="getTopicsByIds" parameterType="list" resultType="Topic">
+        SELECT * FROM topic
         WHERE id IN
-        <foreach item="id" collection="list" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        <if test="list != null and list.size() > 0">
+            <foreach item="id" collection="list" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        <if test="list == null or list.size() == 0">
+            (SELECT NULL WHERE 1=0)
+        </if>
     </select>
 
     <!-- Delete functionalities -->
