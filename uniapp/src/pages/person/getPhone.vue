@@ -5,7 +5,7 @@
       <view>
         <text class="title">Hello!</text>
         <br/>
-        <text class="subtitle">欢迎使用Nottingham Wall</text>
+        <text class="subtitle">欢迎使用CPU Wall</text>
       </view>
     </view>
     <view class="content">

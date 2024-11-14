@@ -129,6 +129,7 @@ export default {
           success: (res) => {
             try {
               const responseData = JSON.parse(res.data);
+              console.log('上传成功:', responseData);
               if (responseData.code === 1) {
                 this.updateUserInfo(responseData);
               } else {
@@ -162,8 +163,8 @@ export default {
     /**
      * 更新用户信息
      */
-    updateUserInfo() {
-      console.log('更新用户信息:', this.nickName, this.avatarUrl, this.sexValueMap[this.selectedSex], this.studentid),
+    updateUserInfo(responseData) {
+      console.log('更新用户信息:', this.nickName, responseData.data[0], this.sexValueMap[this.selectedSex], this.studentid),
       uni.request({
         url: baseUrl + '/student/update/info',
         method: 'PUT',
@@ -173,7 +174,7 @@ export default {
         },
         data: {
           username: this.nickName,
-          avatar: this.avatarUrl,
+          avatar: responseData.data[0],
           sex: this.sexValueMap[this.selectedSex],
           studentid: this.studentid
         },

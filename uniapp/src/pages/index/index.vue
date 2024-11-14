@@ -1,7 +1,7 @@
 <template>
   <view>
     <CustomSwiper :imgList="imgList" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="500"/>
-    <uni-notice-bar show-icon scrollable text="Nottingham Wall 当前还处于开发阶段！" />
+    <uni-notice-bar show-icon scrollable text="CPU Wall 当前还处于开发阶段！" />
     <TopicComponent :records="records" :loadMoreStatus="loadMoreStatus"/>
     <FabComponent />
   </view>

@@ -4,7 +4,7 @@
       <text class="title">隐私权政策提示</text>
       <view class="text-container">
         <text>
-          请您在使用Nottingham Wall服务前点击
+          请您在使用CPU Wall服务前点击
           <text url="https://blog.yiming1234.cn">《服务使用协议》</text>
           <text url="https://blog.yiming1234.cn">《隐私与个人信息保护政策》</text>与
           并仔细阅读。如您同意以上全部内容，请点击同意并开始使用我们的服务。如果您不同意，您只能浏览部分内容。
