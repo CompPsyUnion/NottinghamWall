@@ -50,17 +50,6 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/student/uniapp/status");
     }
 
-    // 全局CORS
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("https://gh.xuanzhi33.cn") // 允许特定域名
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 允许的HTTP方法
-                .allowedHeaders("*") // 允许的请求头
-                .allowCredentials(false) // 禁用Cookie发送
-                .maxAge(3600); // 预检请求的缓存时间
-    }
-
     /**
      * 通过knife4j生成接口文档
      * @return
