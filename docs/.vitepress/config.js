@@ -3,7 +3,7 @@ import sidebar from "./config/sidebar.js";
 export default {
     title: 'NottinghamWall Wiki',
     description: 'Documentation for NottinghamWall',
-    base: "/NottinghamWall/",
+    base: "/",
     themeConfig: {
       logo: "https://avatars.githubusercontent.com/u/178354211?s=200&v=4",
       nav: [
