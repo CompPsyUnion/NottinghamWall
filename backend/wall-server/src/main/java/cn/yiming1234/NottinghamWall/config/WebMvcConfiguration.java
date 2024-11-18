@@ -33,10 +33,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private JwtTokenStudentInterceptor jwtTokenStudentInterceptor;
+
     /**
      * 注册自定义拦截器
-     *
-     * @param registry
      */
     protected void addInterceptors(InterceptorRegistry registry) {
         log.info("开始注册自定义拦截器...");
@@ -47,12 +46,14 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenStudentInterceptor)
                 .addPathPatterns("/student/**")
                 .excludePathPatterns("/student/login/login")
+                .excludePathPatterns("/student/get/topic")
+                .excludePathPatterns("/student/like/count/{id}")
+                .excludePathPatterns("/student/comment/count/{id}")
                 .excludePathPatterns("/student/uniapp/status");
     }
 
     /**
      * 通过knife4j生成接口文档
-     * @return
      */
     @Bean
     public Docket docket() {
@@ -62,18 +63,16 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .version("1.0")
                 .description("宁波诺丁汉大学校园墙项目接口文档")
                 .build();
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("cn.yiming1234.controller"))
                 .paths(PathSelectors.any())
                 .build();
-        return docket;
     }
 
     /**
      * 设置静态资源映射
-     * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         //log.info("开始设置静态资源映射...");
