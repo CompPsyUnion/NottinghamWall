@@ -138,13 +138,9 @@ public class StudentController {
         Student student = studentService.getById(id);
         log.info("当前学生信息:{}", student);
         studentDTO.setId(id);
-        studentDTO.setUsername(Optional.ofNullable(studentDTO.getUsername()).orElse(student.getUsername()));
-        studentDTO.setAvatar(Optional.ofNullable(studentDTO.getAvatar()).orElse(student.getAvatar()));
-        studentDTO.setSex(Optional.ofNullable(studentDTO.getSex()).orElse(student.getSex()));
-        studentDTO.setStudentid(Optional.ofNullable(studentDTO.getStudentid()).orElse(student.getStudentid()));
+        studentService.update(studentDTO);
         log.info("更新学生信息:{}", studentDTO);
-        Student updatedStudent = studentService.update(studentDTO);
-        return Result.success(updatedStudent);
+        return Result.success();
     }
 
     /**

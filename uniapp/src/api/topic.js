@@ -75,7 +75,7 @@ export const uploadTopic = (data) => {
                 if (res.statusCode === 200 && res.data.code === 1) {
                     resolve(res.data);
                 } else {
-                    reject('提交失败: ' + res.data.message);
+                    reject(res.data.msg || '发布失败');
                 }
             },
             fail: (err) => {

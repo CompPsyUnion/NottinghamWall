@@ -379,7 +379,7 @@ export default {
         this.$refs.commentPopup.close();
       } catch (error) {
         console.error("评论失败:", error);
-        await uni.showToast({ title: "评论失败", icon: "none" });
+        await uni.showToast({ title: error , icon: "none" });
       }
     },
 

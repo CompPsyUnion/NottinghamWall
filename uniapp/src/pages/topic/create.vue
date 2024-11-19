@@ -172,7 +172,7 @@ export default {
           .catch((err) => {
             console.error('发布失败:', err);
             uni.showToast({
-              title: '发布失败，请检查网络',
+              title: err,
               icon: 'none',
               duration: 2000
             });

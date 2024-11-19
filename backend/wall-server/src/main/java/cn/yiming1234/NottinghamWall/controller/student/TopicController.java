@@ -40,6 +40,7 @@ public class TopicController {
 
     /**
      * 从请求头中提取用户id
+     * @param request 请求
      */
     private Integer extractUserId(HttpServletRequest request) {
         return getaLong(request, jwtProperties, log);
@@ -59,6 +60,8 @@ public class TopicController {
 
     /**
      * 创建话题
+     * @param topicDTO 话题DTO
+     * @param request 请求
      */
     @PostMapping("/post/topic")
     @ApiOperation(value = "创建话题")
@@ -72,6 +75,7 @@ public class TopicController {
 
     /**
      * 删除话题
+     * @param id 话题id
      */
     @DeleteMapping("/delete/topic/{id}")
     @ApiOperation(value = "删除话题")

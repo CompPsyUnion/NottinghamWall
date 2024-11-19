@@ -1,15 +1,19 @@
 package cn.yiming1234.NottinghamWall.service.impl;
 
+import cn.yiming1234.NottinghamWall.constant.MessageConstant;
 import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
+import cn.yiming1234.NottinghamWall.exception.TeapotException;
+import cn.yiming1234.NottinghamWall.mapper.StudentMapper;
 import cn.yiming1234.NottinghamWall.mapper.TopicMapper;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.service.TopicService;
+import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
+import cn.yiming1234.NottinghamWall.utils.ContentCheckUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +22,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TopicServiceImpl implements TopicService {
 
-    private static final Logger log = LoggerFactory.getLogger(TopicServiceImpl.class);
+    private final TopicMapper topicMapper;
+    private final ContentCheckUtil contentCheckUtil;
+    private final AliOssUtil aliOssUtil;
+    private final StudentServiceImpl studentServiceImpl;
+    private final StudentMapper studentMapper;
 
     @Autowired
-    private TopicMapper topicMapper;
+    public TopicServiceImpl(TopicMapper topicMapper, ContentCheckUtil contentCheckUtil, AliOssUtil aliOssUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper) {
+        this.topicMapper = topicMapper;
+        this.contentCheckUtil = contentCheckUtil;
+        this.aliOssUtil = aliOssUtil;
+        this.studentServiceImpl = studentServiceImpl;
+        this.studentMapper = studentMapper;
+    }
 
     private Topic convertToTopic(TopicDTO topicDTO) {
         Topic topic = new Topic();
@@ -37,18 +52,45 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 添加话题
+     * @param topicDTO 话题DTO
      */
     @Override
     public void addTopic(TopicDTO topicDTO) {
         Topic topic = convertToTopic(topicDTO);
-        topic.setIsDraft(false);
         log.info("当前话题内容:{}", topicDTO.getContent());
 
+        boolean isContentSafe = contentCheckUtil.checkTextContent(
+                topicDTO.getContent(),
+                3,
+                studentMapper.getOpenidById(topicDTO.getAuthorID()),
+                studentServiceImpl.getAccessToken()
+                );
+        if (!isContentSafe) {
+            throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
+        }
+
+//        for (String imgUrl : topicDTO.getImgURLs()) {
+//            log.info("ImgUrl Checking: {}", imgUrl);
+//            boolean isImageContentSafe = contentCheckUtil.checkImageContent(
+//                    imgUrl,
+//                    3,
+//                    studentMapper.getOpenidById(topicDTO.getAuthorID()),
+//                    studentServiceImpl.getAccessToken()
+//            );
+//            if (!isImageContentSafe) {
+//                String objectName = imgUrl.substring(imgUrl.lastIndexOf("/") + 1);
+//                aliOssUtil.delete(objectName);
+//                throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
+//            }
+//        }
+
+        topic.setIsDraft(false);
         topicMapper.insert(topic);
     }
 
     /**
      * 删除话题
+     * @param id 话题id
      */
     @Override
     public void deleteTopic(Integer id) {
@@ -60,6 +102,7 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 新建草稿
+     * @param topicDTO 话题DTO
      */
     @Override
     public void saveDraft(TopicDTO topicDTO) {
@@ -74,6 +117,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 获取草稿
+     * @param userId 用户id
+     * @return 话题
      */
     @Override
     public Topic getDraft(Integer userId) {
@@ -84,6 +129,7 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 删除草稿
+     * @param id 话题id
      */
     @Override
     public void deleteDraft(Integer id) {
@@ -92,6 +138,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 检查是否存在草稿
+     * @param authorID 作者id
+     * @return 是否存在草稿
      */
     @Override
     public Boolean isExistDraft(Integer authorID) {
@@ -102,6 +150,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 分页查询话题
+     * @param pageQueryDTO 分页查询DTO
+     * @return 分页结果
      */
     @Override
     public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
@@ -114,6 +164,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 根据id获取话题
+     * @param id 话题id
+     * @return 话题
      */
     @Override
     public Topic getTopicById(Integer id) {
@@ -124,6 +176,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 点赞功能
+     * @param id 话题id
+     * @param userId 用户id
      */
     @Override
     public void likeTopic(Integer id, Integer userId) {
@@ -132,6 +186,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 取消点赞功能
+     * @param id 话题id
+     * @param userId 用户id
      */
     @Override
     public void unlikeTopic(Integer id, Integer userId) {
@@ -140,6 +196,9 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 判断是否点赞
+     * @param id 话题id
+     * @param userId 用户id
+     * @return 是否点赞
      */
     @Override
     public Boolean isLikeTopic(Integer id, Integer userId) {
@@ -150,6 +209,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 获取点赞计数
+     * @param id 话题id
+     * @return 点赞数
      */
     @Override
     public int getLikeCount(Integer id) {
@@ -160,6 +221,7 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 收藏话题
+     * @param id 话题id
      */
     @Override
     public void collectTopic(Integer id, Integer userId) {
@@ -168,6 +230,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 取消收藏话题
+     * @param id 话题id
+     * @param userId 用户id
      */
     @Override
     public void uncollectTopic(Integer id, Integer userId) {
@@ -176,6 +240,9 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 判断是否收藏话题
+     * @param id 话题id
+     * @param userId 用户id
+     * @return 是否收藏
      */
     @Override
     public Boolean isCollectTopic(Integer id, Integer userId) {
@@ -186,6 +253,8 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * 获取收藏计数
+     * @param id 话题id
+     * @return 收藏数
      */
     @Override
     public int getCollectCount(Integer id) {

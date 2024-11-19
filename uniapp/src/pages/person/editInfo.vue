@@ -117,7 +117,7 @@ export default {
         return;
       }
       if (this.avatarUrl === this.originalAvatarUrl) {
-        this.updateUserInfo(this.originalAvatarUrl);
+        this.updateUserInfo({ data: [this.originalAvatarUrl]});
       } else {
         uni.uploadFile({
           url: baseUrl + '/student/common/upload',
@@ -174,7 +174,7 @@ export default {
         },
         data: {
           username: this.nickName,
-          avatar: responseData.data[0],
+          avatar: responseData.data[0] ? responseData.data[0] : this.originalAvatarUrl,
           sex: this.sexValueMap[this.selectedSex],
           studentid: this.studentid
         },

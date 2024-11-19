@@ -15,6 +15,10 @@
         SELECT * FROM student WHERE id = #{id}
     </select>
 
+    <select id="getOpenidById" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT openid FROM student WHERE id = #{id}
+    </select>
+
     <select id="findByOpenid" resultType="cn.yiming1234.NottinghamWall.entity.Student">
         SELECT * FROM student WHERE openid = #{openid}
     </select>

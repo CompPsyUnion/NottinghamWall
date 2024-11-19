@@ -22,10 +22,6 @@ public class AliOssUtil {
 
     /**
      * 文件上传
-     *
-     * @param bytes
-     * @param objectName
-     * @return
      */
     public String upload(byte[] bytes, String objectName) {
 
@@ -69,8 +65,6 @@ public class AliOssUtil {
 
     /**
      * 文件删除
-     *
-     * @param objectName
      */
     public void delete(String objectName) {
         // 创建OSSClient实例。
