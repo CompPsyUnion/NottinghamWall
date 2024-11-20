@@ -11,11 +11,15 @@ import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.service.TopicService;
 import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
 import cn.yiming1234.NottinghamWall.utils.ContentCheckUtil;
+import cn.yiming1234.NottinghamWall.utils.ImageCheckUtil;
+import com.aliyun.green20220302.models.ImageModerationResponse;
+import com.aliyun.green20220302.models.ImageModerationResponseBody;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -55,10 +59,9 @@ public class TopicServiceImpl implements TopicService {
      * @param topicDTO 话题DTO
      */
     @Override
-    public void addTopic(TopicDTO topicDTO) {
+    public void addTopic(TopicDTO topicDTO) throws Exception {
         Topic topic = convertToTopic(topicDTO);
         log.info("当前话题内容:{}", topicDTO.getContent());
-
         boolean isContentSafe = contentCheckUtil.checkTextContent(
                 topicDTO.getContent(),
                 3,
@@ -68,22 +71,23 @@ public class TopicServiceImpl implements TopicService {
         if (!isContentSafe) {
             throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
         }
+        for (String imgUrl : topicDTO.getImgURLs()) {
+            log.info("ImgUrl Checking: {}", imgUrl);
+            String objectName = imgUrl.substring(imgUrl.lastIndexOf("/") + 1);
+            ImageModerationResponse response = ImageCheckUtil.invokeFunction(
+                        aliOssUtil.getAccessKeyId(),
+                        aliOssUtil.getAccessKeySecret(),
+                    "green.cn-beijing.aliyuncs.com",
+                        objectName
+                    );
 
-//        for (String imgUrl : topicDTO.getImgURLs()) {
-//            log.info("ImgUrl Checking: {}", imgUrl);
-//            boolean isImageContentSafe = contentCheckUtil.checkImageContent(
-//                    imgUrl,
-//                    3,
-//                    studentMapper.getOpenidById(topicDTO.getAuthorID()),
-//                    studentServiceImpl.getAccessToken()
-//            );
-//            if (!isImageContentSafe) {
-//                String objectName = imgUrl.substring(imgUrl.lastIndexOf("/") + 1);
-//                aliOssUtil.delete(objectName);
-//                throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
-//            }
-//        }
-
+            ImageModerationResponseBody body = response.getBody();
+            boolean isImageContentSafe = !"high".equals(body.getData().getRiskLevel());
+            if (!isImageContentSafe) {
+                aliOssUtil.delete(objectName);
+                throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
+            }
+        }
         topic.setIsDraft(false);
         topicMapper.insert(topic);
     }

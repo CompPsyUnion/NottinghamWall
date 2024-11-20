@@ -28,9 +28,6 @@ public class AdminCommonController {
 
     /**
      * 管理员上传文件
-     *
-     * @param file
-     * @return
      */
     @PostMapping("/upload")
     @ApiOperation(value = "管理员上传文件")
@@ -45,14 +42,14 @@ public class AdminCommonController {
             return Result.success(filePath);
         } catch (IOException e) {
             log.error("上传文件失败", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         return null;
     }
     /**
      * 管理员删除文件
-     *
-     * @param file
      */
     @PostMapping("/delete")
     @ApiOperation(value = "管理员删除文件")

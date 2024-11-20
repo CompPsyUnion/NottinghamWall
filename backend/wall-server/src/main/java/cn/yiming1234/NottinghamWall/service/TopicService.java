@@ -11,7 +11,7 @@ public interface TopicService {
      * 添加话题
      * @param topicDTO 话题DTO
      */
-    void addTopic(TopicDTO topicDTO);
+    void addTopic(TopicDTO topicDTO) throws Exception;
 
     /**
      * 删除话题

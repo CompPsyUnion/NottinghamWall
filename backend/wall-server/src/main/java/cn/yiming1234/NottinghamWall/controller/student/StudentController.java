@@ -133,7 +133,7 @@ public class StudentController {
      */
     @ApiOperation(value = "更新学生信息")
     @PutMapping("/update/info")
-    public Result update(@RequestBody StudentDTO studentDTO, HttpServletRequest request){
+    public Result update(@RequestBody StudentDTO studentDTO, HttpServletRequest request) throws Exception {
         Integer id = getCurrentStudentId(request);
         Student student = studentService.getById(id);
         log.info("当前学生信息:{}", student);

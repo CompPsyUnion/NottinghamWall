@@ -48,8 +48,9 @@ public class ContentCheckUtil {
 
             JSONObject result = jsonResponse.getJSONObject("result");
             String suggest = result.getString("suggest");
-            log.info("检测结果：" + suggest);
-            return "pass".equals(suggest);
+            int label = result.getIntValue("label");
+            log.info("检测结果：" + suggest + ", 标签：" + label);
+            return "pass".equals(suggest) && label == 100;
         } catch (Exception e) {
             log.info("检测文本内容失败:{}",e.getMessage());
             throw new TeapotException(MessageConstant.CONTENT_UNSECURED);

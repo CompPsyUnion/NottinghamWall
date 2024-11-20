@@ -65,7 +65,7 @@ public class TopicController {
      */
     @PostMapping("/post/topic")
     @ApiOperation(value = "创建话题")
-    public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) {
+    public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) throws Exception {
         Integer userId = Math.toIntExact(extractUserId(request));
         topicDTO.setAuthorID(userId);
         topicService.addTopic(topicDTO);

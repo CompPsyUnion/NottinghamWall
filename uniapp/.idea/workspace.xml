@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/ImageCheckUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/AliOssUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/AliOssUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/ContentCheckUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/ContentCheckUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminCommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentCommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentCommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/topic/report.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/report.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,6 +206,8 @@
       <workItem from="1731991132909" duration="6376000" />
       <workItem from="1732006264049" duration="491000" />
       <workItem from="1732012008804" duration="549000" />
+      <workItem from="1732082850756" duration="2174000" />
+      <workItem from="1732089379168" duration="1236000" />
     </task>
     <servers />
   </component>

@@ -33,7 +33,7 @@ public interface StudentService {
      * 更新学生信息
      * @param studentDTO 学生信息
      */
-    Student update(StudentDTO studentDTO);
+    Student update(StudentDTO studentDTO) throws Exception;
 
     /**
      * 更新学生手机号

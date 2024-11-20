@@ -57,6 +57,8 @@ public class StudentCommonController {
                 }
             } catch (IOException e) {
                 log.error("上传文件失败: {}", file.getOriginalFilename(), e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
         return Result.success(filePaths);

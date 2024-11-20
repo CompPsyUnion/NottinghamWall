@@ -17,8 +17,11 @@ import cn.yiming1234.NottinghamWall.service.StudentService;
 import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
 import cn.yiming1234.NottinghamWall.utils.ContentCheckUtil;
 import cn.yiming1234.NottinghamWall.utils.HttpClientUtil;
+import cn.yiming1234.NottinghamWall.utils.ImageCheckUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.aliyun.green20220302.models.ImageModerationResponse;
+import com.aliyun.green20220302.models.ImageModerationResponseBody;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -197,21 +200,31 @@ public class StudentServiceImpl implements StudentService {
      * @return 学生
      */
     @Override
-    public Student update(StudentDTO studentDTO) {
+    public Student update(StudentDTO studentDTO) throws Exception {
         Student student = studentMapper.getById(studentDTO.getId());
         if (student != null) {
             String accessToken = getAccessToken();
             boolean isUsernameSafe = contentCheckUtil.checkTextContent(studentDTO.getUsername(), 1, student.getOpenid(), accessToken);
-//            boolean isAvatarSafe = contentCheckUtil.checkImageContent(studentDTO.getAvatar(), 1, student.getOpenid(), accessToken);
+
+            String photoName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
+            ImageModerationResponse response = ImageCheckUtil.invokeFunction(
+                    aliOssUtil.getAccessKeyId(),
+                    aliOssUtil.getAccessKeySecret(),
+                    "green.cn-beijing.aliyuncs.com",
+                    photoName
+            );
+            ImageModerationResponseBody body = response.getBody();
+            boolean isAvatarSafe = !"high".equals(body.getData().getRiskLevel());
+
             if (!isUsernameSafe) {
                 log.info("username:{}", studentDTO.getUsername());
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
-//            if (!isAvatarSafe) {
-//                String objectName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1);
-//                aliOssUtil.delete(objectName);
-//                throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
-//            }
+            if (!isAvatarSafe) {
+                String objectName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1);
+                aliOssUtil.delete(objectName);
+                throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
+            }
             if (!student.getAvatar().equals(studentDTO.getAvatar()) && !student.getAvatar().contains("default.jpg")) {
                 String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
                 aliOssUtil.delete(objectName);
