@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+    <view>
+      <text class="section-title">p.s.</text>
+      <text style="display: block;">此投诉为本小程序自有投诉渠道</text>
+      <text style="display: block;">非微信官方投诉渠道</text>
+    </view>
+
     <!-- 投诉类型选择 -->
     <view class="section">
       <text class="section-title">请选择投诉类型</text>

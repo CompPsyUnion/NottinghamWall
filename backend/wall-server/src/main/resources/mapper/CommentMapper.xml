@@ -80,7 +80,7 @@
     </select>
 
     <!-- Get Like Comment Count -->
-    <select id="getLikeCommentCount" parameterType="String" resultType="int">
+    <select id="getLikeCommentCount" parameterType="Integer" resultType="int">
         SELECT COUNT(*)
         FROM comment_like
         WHERE comment_id = #{id}
