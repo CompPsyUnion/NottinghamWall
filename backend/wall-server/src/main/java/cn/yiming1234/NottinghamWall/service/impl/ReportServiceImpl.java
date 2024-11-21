@@ -29,6 +29,7 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * 举报
+     * @param reportDTO 举报DTO
      */
     @Override
     public void insertReport(ReportDTO reportDTO) {
@@ -54,14 +55,15 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * 分页查询举报
+     * @param pageQueryDTO 分页查询DTO
      */
     @Override
-    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+    public PageResult<Report> pageQuery(PageQueryDTO pageQueryDTO) {
         PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
         Page<Report> page = reportMapper.pageQuery(pageQueryDTO);
 
         long total = page.getTotal();
         List<Report> records = page.getResult();
-        return new PageResult(total, records);
+        return new PageResult<>(total, records);
     }
 }

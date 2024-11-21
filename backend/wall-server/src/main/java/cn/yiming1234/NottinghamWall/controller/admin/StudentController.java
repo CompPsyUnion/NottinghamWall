@@ -5,6 +5,7 @@ import cn.yiming1234.NottinghamWall.entity.Student;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.result.Result;
 import cn.yiming1234.NottinghamWall.service.StudentService;
+import com.aliyuncs.exceptions.ClientException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class StudentController {
          */
         @GetMapping("/{id}")
         @ApiOperation("根据id查询学生")
-        public Result<Student> getById(@PathVariable Integer id){
+        public Result<Student> getById(@PathVariable Integer id) throws ClientException {
             Student student = studentService.getById(id);
             return Result.success(student);
         }

@@ -11,6 +11,7 @@ import cn.yiming1234.NottinghamWall.result.Result;
 import cn.yiming1234.NottinghamWall.service.StudentService;
 import cn.yiming1234.NottinghamWall.utils.JwtUtil;
 import cn.yiming1234.NottinghamWall.vo.StudentLoginVO;
+import com.aliyuncs.exceptions.ClientException;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -100,7 +100,7 @@ public class StudentController {
      */
     @ApiOperation(value = "获取学生信息")
     @GetMapping("/get/info")
-    public Result<Student> getStudentInfo(HttpServletRequest request) {
+    public Result<Student> getStudentInfo(HttpServletRequest request) throws ClientException {
         Integer id = getCurrentStudentId(request);
         Student student = studentService.getById(id);
         return Result.success(student);
@@ -111,7 +111,7 @@ public class StudentController {
      */
     @ApiOperation(value = "根据id获取学生信息")
     @GetMapping("/get/info/{id}")
-    public Result<Student> getStudentInfoById(@PathVariable Integer id) {
+    public Result<Student> getStudentInfoById(@PathVariable Integer id) throws ClientException {
         log.info("根据id获取学生信息：{}", id);
         Student student = studentService.getById(id);
         return Result.success(student);
@@ -133,7 +133,7 @@ public class StudentController {
      */
     @ApiOperation(value = "更新学生信息")
     @PutMapping("/update/info")
-    public Result update(@RequestBody StudentDTO studentDTO, HttpServletRequest request) throws Exception {
+    public Result<Void> update(@RequestBody StudentDTO studentDTO, HttpServletRequest request) throws Exception {
         Integer id = getCurrentStudentId(request);
         Student student = studentService.getById(id);
         log.info("当前学生信息:{}", student);

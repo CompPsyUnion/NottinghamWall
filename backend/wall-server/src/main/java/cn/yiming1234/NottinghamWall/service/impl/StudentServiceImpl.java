@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.green20220302.models.ImageModerationResponse;
 import com.aliyun.green20220302.models.ImageModerationResponseBody;
+import com.aliyuncs.exceptions.ClientException;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -33,6 +34,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -62,7 +66,56 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 通用方法：根据帖子ID获取帖子列表并分页
+     * @param idListFunction 获取帖子ID的函数
+     * @param id 学生id
+     * @param page 页码
+     * @param pageSize 每页大小
+     * @return 分页后的帖子列表
+     */
+    private PageResult<Topic> getPosts(Function<Integer, List<Integer>> idListFunction, Integer id, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Integer> topicIds = idListFunction.apply(id);
+        List<Topic> posts = topicMapper.getTopicsByIds(topicIds);
+        processPostImages(posts);
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    /**
+     * 通用方法：直接获取帖子并分页
+     * @param postsSupplier 获取帖子列表的函数
+     * @param id 学生id
+     * @param page 页码
+     * @param pageSize 每页大小
+     * @return 分页后的帖子列表
+     */
+    private PageResult<Topic> getPosts(Supplier<List<Topic>> postsSupplier, Integer id, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Topic> posts = postsSupplier.get();
+        processPostImages(posts);
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    /**
+     * 处理帖子图片URL
+     * @param posts 帖子列表
+     */
+    private void processPostImages(List<Topic> posts) {
+        posts.forEach(topic -> {
+            if (topic != null && topic.getImgURLs() != null) {
+                List<String> signedUrls = topic.getImgURLs().stream()
+                        .map(aliOssUtil::generatePresignedUrl)
+                        .collect(Collectors.toList());
+                topic.setImgURLs(signedUrls);
+            }
+        });
+    }
+
+    /**
      * 获取accessToken
+     * @return accessToken
      */
     public String fetchAccessToken() {
         Map<String, String> map = new HashMap<>();
@@ -79,6 +132,10 @@ public class StudentServiceImpl implements StudentService {
         return accessToken;
     }
 
+    /**
+     * 获取accessToken
+     * @return accessToken
+     */
     public String getAccessToken() {
         if (accessToken == null) {
             log.info("token为空，重新获取");
@@ -125,18 +182,18 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentMapper.findByOpenid(openid);
         if (student == null) {
             String[] avatars = {
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/zhongli.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/xiao.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/puren.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/wendi.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/ganyu.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/linren.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/linhua.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/leidian.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/naxida.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/diluke.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/jiaming.jpg",
-                    "https://yiming1234.oss-cn-beijing.aliyuncs.com/default.jpg",
+                    "zhongli.jpg",
+                    "xiao.jpg",
+                    "puren.jpg",
+                    "wendi.jpg",
+                    "ganyu.jpg",
+                    "linren.jpg",
+                    "linhua.jpg",
+                    "leidian.jpg",
+                    "naxida.jpg",
+                    "diluke.jpg",
+                    "jiaming.jpg",
+                    "default.jpg",
             };
             String avatar = avatars[(int) (Math.random() * avatars.length)];
             student = Student.builder()
@@ -201,6 +258,7 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student update(StudentDTO studentDTO) throws Exception {
+
         Student student = studentMapper.getById(studentDTO.getId());
         if (student != null) {
             String accessToken = getAccessToken();
@@ -229,8 +287,10 @@ public class StudentServiceImpl implements StudentService {
                 String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
                 aliOssUtil.delete(objectName);
             }
+
+            String objectName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1, studentDTO.getAvatar().indexOf("?"));
             student.setUsername(studentDTO.getUsername());
-            student.setAvatar(studentDTO.getAvatar());
+            student.setAvatar(objectName);
             student.setSex(studentDTO.getSex());
             student.setStudentid(studentDTO.getStudentid());
             student.setUpdateTime(LocalDateTime.now());
@@ -246,8 +306,13 @@ public class StudentServiceImpl implements StudentService {
      * @return 学生
      */
     @Override
-    public Student getById(Integer id) {
-        return studentMapper.getById(id);
+    public Student getById(Integer id) throws ClientException {
+        Student student = studentMapper.getById(id);
+        if (student != null && student.getAvatar() != null) {
+            String avatarUrl = aliOssUtil.generatePresignedUrl(student.getAvatar());
+            student.setAvatar(avatarUrl);
+        }
+        return student;
     }
 
     /**
@@ -282,16 +347,16 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * 学生分页查询
+     *
      * @param pageQueryDTO 分页查询DTO
      * @return 学生分页结果
      */
-    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+    public PageResult<Student> pageQuery(PageQueryDTO pageQueryDTO) {
         PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
         Page<Student> page = studentMapper.pageQuery(pageQueryDTO);
-
         long total = page.getTotal();
         List<Student> records = page.getResult();
-        return new PageResult(total, records);
+        return new PageResult<>(total, records);
     }
 
     /**
@@ -299,32 +364,11 @@ public class StudentServiceImpl implements StudentService {
      * @param id 学生id
      * @param page 页码
      * @param pageSize 每页大小
-     * @return 发布的帖子
+     * @return 分页后的帖子列表
      */
     @Override
     public PageResult<Topic> getPublishedPosts(Integer id, int page, int pageSize) {
-        PageHelper.startPage(page, pageSize);
-        List<Integer> publishedTopicIds = topicMapper.getPublishedTopicIds(id);
-        List<Topic> posts = topicMapper.getTopicsByIds(publishedTopicIds);
-        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
-        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
-    }
-
-    /**
-     * 查询收藏的帖子（分页）
-     * @param id 学生id
-     * @param page 页码
-     * @param pageSize 每页大小
-     * @return 收藏的帖子
-     */
-    @Override
-    public PageResult<Topic> getCollectedPosts(Integer id, int page, int pageSize) {
-        PageHelper.startPage(page, pageSize);
-        List<Integer> collectedTopicIds = topicMapper.getCollectedTopicIds(id);
-        log.info("collectedTopicIds:{}", collectedTopicIds);
-        List<Topic> posts = topicMapper.getTopicsByIds(collectedTopicIds);
-        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
-        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+        return getPosts(topicMapper::getPublishedTopicIds, id, page, pageSize);
     }
 
     /**
@@ -332,13 +376,23 @@ public class StudentServiceImpl implements StudentService {
      * @param id 学生id
      * @param page 页码
      * @param pageSize 每页大小
-     * @return 评论的帖子
+     * @return 分页后的帖子列表
+     */
+    @Override
+    public PageResult<Topic> getCollectedPosts(Integer id, int page, int pageSize) {
+        return getPosts(topicMapper::getCollectedTopicIds, id, page, pageSize);
+    }
+
+    /**
+     * 查询收藏的帖子（分页）
+     * @param id 学生id
+     * @param page 页码
+     * @param pageSize 每页大小
+     * @return 分页后的帖子列表
      */
     @Override
     public PageResult<Topic> getCommentedPosts(Integer id, int page, int pageSize) {
-        PageHelper.startPage(page, pageSize);
-        List<Topic> posts = commentMapper.getCommentedPosts(id);
-        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
-        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+        return getPosts(() -> commentMapper.getCommentedPosts(id), id, page, pageSize);
     }
+
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/student")
@@ -68,6 +69,13 @@ public class TopicController {
     public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) throws Exception {
         Integer userId = Math.toIntExact(extractUserId(request));
         topicDTO.setAuthorID(userId);
+
+        List<String> imgURLs = topicDTO.getImgURLs();
+        List<String> imgNames = imgURLs.stream()
+                .map(url -> url.substring(url.lastIndexOf("/") + 1, url.indexOf("?")))
+                .collect(Collectors.toList());
+        topicDTO.setImgURLs(imgNames);
+
         topicService.addTopic(topicDTO);
         log.info("提交话题或草稿：{}", topicDTO);
         return Result.success(null);
@@ -145,9 +153,9 @@ public class TopicController {
      */
     @GetMapping("/get/topic")
     @ApiOperation(value = "实现话题无限滚动")
-    public Result<PageResult> getTopic(PageQueryDTO pageQueryDTO) {
+    public Result<PageResult<Topic>> getTopic(PageQueryDTO pageQueryDTO) {
         log.info("获取话题列表：{}", pageQueryDTO);
-        PageResult pageResult = topicService.pageQuery(pageQueryDTO);
+        PageResult<Topic> pageResult = topicService.pageQuery(pageQueryDTO);
         return Result.success(pageResult);
     }
 

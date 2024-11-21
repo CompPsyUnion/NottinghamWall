@@ -47,7 +47,7 @@ public interface TopicService {
      * 分页查询话题
      * @param pageQueryDTO 分页查询DTO
      */
-    PageResult pageQuery(PageQueryDTO pageQueryDTO);
+    PageResult<Topic> pageQuery(PageQueryDTO pageQueryDTO);
 
     /**
      * 根据id获取话题

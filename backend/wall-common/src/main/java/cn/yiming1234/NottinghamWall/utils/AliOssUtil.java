@@ -1,10 +1,9 @@
 package cn.yiming1234.NottinghamWall.utils;
 
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.GeneratePresignedUrlRequest;
+import com.aliyun.oss.*;
+import com.aliyun.oss.common.comm.SignVersion;
+
+import com.aliyun.oss.model.CannedAccessControlList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,9 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.Date;
 
+/**
+ * 阿里云OSS工具类
+ */
 @Data
 @AllArgsConstructor
 @Slf4j
@@ -34,6 +36,7 @@ public class AliOssUtil {
 
         try {
             ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
+            ossClient.setBucketAcl(bucketName, CannedAccessControlList.Private);
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -52,21 +55,17 @@ public class AliOssUtil {
             }
         }
 
-        StringBuilder stringBuilder = new StringBuilder("https://");
-        stringBuilder
-                .append(bucketName)
-                .append(".")
-                .append(endpoint)
-                .append("/")
-                .append(objectName);
+        Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
+        URL url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
 
-        log.info("文件上传到:{}", stringBuilder);
+        log.info("文件上传到:{}", url);
 
-        return stringBuilder.toString();
+        return url.toString();
     }
 
     /**
      * 文件删除
+     * @param objectName 文件名
      */
     public void delete(String objectName) {
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -95,24 +94,25 @@ public class AliOssUtil {
     /**
      * 生成文件访问URL
      * @param objectName 文件名
-     * @param expiration 过期时间（毫秒）
      * @return 文件访问URL
      */
-    public String generatePresignedUrl(String objectName, long expiration) {
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+    public String generatePresignedUrl(String objectName) {
+        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret, clientBuilderConfiguration);
+
         try {
-            Date expirationDate = new Date(System.currentTimeMillis() + expiration);
-            GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, objectName);
-            request.setExpiration(expirationDate);
-            URL signedUrl = ossClient.generatePresignedUrl(request);
-            return signedUrl.toString();
-        } catch (Exception e) {
-            log.error("生成签名URL失败: {}", e.getMessage());
-            return null;
+            Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
+            URL url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
+            log.info("File access URL: {}", url);
+            return url.toString();
+        } catch (OSSException oe) {
+            log.error("Caught an OSSException: {}", oe.getErrorMessage());
+        } catch (ClientException ce) {
+            log.error("Caught a ClientException: {}", ce.getMessage());
         } finally {
-            if (ossClient != null) {
-                ossClient.shutdown();
-            }
+            ossClient.shutdown();
         }
+        return null;
     }
 }

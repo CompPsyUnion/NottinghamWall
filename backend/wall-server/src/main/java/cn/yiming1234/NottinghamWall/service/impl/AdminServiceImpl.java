@@ -32,6 +32,8 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 管理员登录
+     * @param adminLoginDTO 登录信息
+     * @return 管理员信息
      */
     @Override
     public Admin login(AdminLoginDTO adminLoginDTO) {
@@ -56,6 +58,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 新增管理员
+     * @param adminDTO 管理员信息
      */
     @Override
     public void save(AdminDTO adminDTO) {
@@ -74,19 +77,23 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 管理员分页查询
+     * @param pageQueryDTO 分页查询参数
+     * @return 分页查询结果
      */
     @Override
-    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+    public PageResult<Admin> pageQuery(PageQueryDTO pageQueryDTO) {
         PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
         Page<Admin> page = adminMapper.pageQuery(pageQueryDTO);
 
         long total = page.getTotal();
         List<Admin> records = page.getResult();
-        return new PageResult(total, records);
+        return new PageResult<>(total, records);
     }
 
     /**
      * 启用禁用管理员
+     * @param status 状态
+     * @param id 管理员id
      */
     @Override
     public void startOrStop(Integer status, Integer id) {
@@ -99,6 +106,8 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 根据id查询管理员
+     * @param id 管理员id
+     * @return 管理员信息
      */
     @Override
     public Admin getById(Integer id) {
@@ -109,6 +118,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 修改管理员
+     * @param adminDTO 管理员信息
      */
     @Override
     public void update(AdminDTO adminDTO) {

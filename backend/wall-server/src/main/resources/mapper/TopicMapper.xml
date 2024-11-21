@@ -120,7 +120,7 @@
     </select>
 
     <!-- Get topics by a list of IDs -->
-    <select id="getTopicsByIds" parameterType="list" resultType="Topic">
+    <select id="getTopicsByIds" parameterType="list" resultMap="topicResultMap">
         SELECT * FROM topic
         WHERE id IN
         <if test="list != null and list.size() > 0">

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 内容安全性检测工具类
+ * 微信内容安全性检测工具类
  */
 @Data
 @Slf4j

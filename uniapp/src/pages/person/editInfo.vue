@@ -120,7 +120,7 @@ export default {
         this.updateUserInfo({ data: [this.originalAvatarUrl]});
       } else {
         uni.uploadFile({
-          url: baseUrl + '/student/common/upload',
+          url: `${baseUrl}/student/common/upload`,
           filePath: this.avatarUrl,
           name: 'files',
           header: {

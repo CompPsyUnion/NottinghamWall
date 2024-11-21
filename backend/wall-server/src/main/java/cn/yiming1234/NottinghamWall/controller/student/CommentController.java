@@ -30,8 +30,6 @@ public class CommentController {
 
     /**
      * 从请求头中提取用户id
-     * @param request
-     * @return
      */
     private Integer extractUserId(HttpServletRequest request) {
         return getaLong(request, jwtProperties);
@@ -50,15 +48,12 @@ public class CommentController {
         log.info("评论话题：{}", id);
         Integer userId = extractUserId(request);
         commentDTO.setUserId(Math.toIntExact(userId));
-        commentDTO.setTopicId(Integer.valueOf(id));
+        commentDTO.setTopicId(id);
         commentService.commentTopic(commentDTO);
         return Result.success(null);
     }
 
-    /**
-     * 回复评论
-     */
-    // TODO
+    // TODO 回复评论
 
     /**
      * 删除评论

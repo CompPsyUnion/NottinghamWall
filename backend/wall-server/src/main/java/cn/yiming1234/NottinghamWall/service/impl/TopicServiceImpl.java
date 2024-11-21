@@ -7,6 +7,7 @@ import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.exception.TeapotException;
 import cn.yiming1234.NottinghamWall.mapper.StudentMapper;
 import cn.yiming1234.NottinghamWall.mapper.TopicMapper;
+import cn.yiming1234.NottinghamWall.properties.AliOssProperties;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.service.TopicService;
 import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
@@ -19,11 +20,11 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -34,14 +35,16 @@ public class TopicServiceImpl implements TopicService {
     private final AliOssUtil aliOssUtil;
     private final StudentServiceImpl studentServiceImpl;
     private final StudentMapper studentMapper;
+    private final AliOssProperties aliOssProperties;
 
     @Autowired
-    public TopicServiceImpl(TopicMapper topicMapper, ContentCheckUtil contentCheckUtil, AliOssUtil aliOssUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper) {
+    public TopicServiceImpl(TopicMapper topicMapper, ContentCheckUtil contentCheckUtil, AliOssUtil aliOssUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper, AliOssProperties aliOssProperties) {
         this.topicMapper = topicMapper;
         this.contentCheckUtil = contentCheckUtil;
         this.aliOssUtil = aliOssUtil;
         this.studentServiceImpl = studentServiceImpl;
         this.studentMapper = studentMapper;
+        this.aliOssProperties = aliOssProperties;
     }
 
     private Topic convertToTopic(TopicDTO topicDTO) {
@@ -75,8 +78,8 @@ public class TopicServiceImpl implements TopicService {
             log.info("ImgUrl Checking: {}", imgUrl);
             String objectName = imgUrl.substring(imgUrl.lastIndexOf("/") + 1);
             ImageModerationResponse response = ImageCheckUtil.invokeFunction(
-                        aliOssUtil.getAccessKeyId(),
-                        aliOssUtil.getAccessKeySecret(),
+                        aliOssProperties.getAccessKeyId(),
+                        aliOssProperties.getAccessKeySecret(),
                     "green.cn-beijing.aliyuncs.com",
                         objectName
                     );
@@ -158,12 +161,18 @@ public class TopicServiceImpl implements TopicService {
      * @return 分页结果
      */
     @Override
-    public PageResult pageQuery(PageQueryDTO pageQueryDTO) {
+    public PageResult<Topic> pageQuery(PageQueryDTO pageQueryDTO) {
         PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
         Page<Topic> page = topicMapper.pageQuery(pageQueryDTO);
         long total = page.getTotal();
         List<Topic> records = page.getResult();
-        return new PageResult(total, records);
+        records.forEach(topic -> {
+            List<String> signedUrls = topic.getImgURLs().stream()
+                    .map(aliOssUtil::generatePresignedUrl)
+                    .collect(Collectors.toList());
+            topic.setImgURLs(signedUrls);
+        });
+        return new PageResult<>(total, records);
     }
 
     /**
@@ -174,6 +183,12 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic getTopicById(Integer id) {
         Topic topic = topicMapper.getTopicById(id);
+        if (topic != null && topic.getImgURLs() != null) {
+            List<String> signedUrls = topic.getImgURLs().stream()
+                    .map(aliOssUtil::generatePresignedUrl)
+                    .collect(Collectors.toList());
+            topic.setImgURLs(signedUrls);
+        }
         log.info("根据id获取话题详情：{}", topic);
         return topic;
     }

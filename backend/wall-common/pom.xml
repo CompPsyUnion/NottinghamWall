@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.16.3</version>
+            <version>3.17.4</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
@@ -59,6 +59,7 @@
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.17.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,6 +75,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.17.4</version>
         </dependency>
     </dependencies>
 </project>

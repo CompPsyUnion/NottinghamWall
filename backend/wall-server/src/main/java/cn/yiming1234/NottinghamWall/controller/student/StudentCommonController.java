@@ -51,7 +51,8 @@ public class StudentCommonController {
                         compressedBytes = file.getBytes();
                     }
                     String objectName = UUID.randomUUID() + extension;
-                    String filePath = aliOssUtil.upload(compressedBytes, objectName);
+                    aliOssUtil.upload(compressedBytes, objectName);
+                    String filePath = aliOssUtil.generatePresignedUrl(objectName);
                     filePaths.add(filePath);
                     log.info("图片上传成功: {}", filePath);
                 }

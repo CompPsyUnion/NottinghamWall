@@ -60,7 +60,7 @@ export default {
   },
   data() {
     return {
-      avatarUrl: 'https://yiming1234.oss-cn-beijing.aliyuncs.com/default.jpg',
+      avatarUrl: '/static/default_avatar.png',
       nickName: '飞天裤衩',
     };
   },

@@ -6,6 +6,7 @@ import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Student;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.result.PageResult;
+import com.aliyuncs.exceptions.ClientException;
 
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ public interface StudentService {
      * 分页查询学生
      * @param pageQueryDTO 分页查询条件
      */
-    PageResult pageQuery(PageQueryDTO pageQueryDTO);
+    PageResult<Student> pageQuery(PageQueryDTO pageQueryDTO);
 
     /**
      * 更新学生信息
@@ -45,7 +46,7 @@ public interface StudentService {
      * 根据id查询学生
      * @param id 学生id
      */
-    Student getById(Integer id);
+    Student getById(Integer id) throws ClientException;
 
     /**
      * 根据用户名查询学生

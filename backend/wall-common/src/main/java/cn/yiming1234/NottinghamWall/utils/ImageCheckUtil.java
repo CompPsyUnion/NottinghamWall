@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * 阿里云图片内容审核工具类
+ */
 @Slf4j
 public class ImageCheckUtil {
 
@@ -42,7 +45,7 @@ public class ImageCheckUtil {
             response = client.imageModerationWithOptions(request, runtime);
             log.info("response:{}", response.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("invoke function error:{}", e.getMessage());
         }
         return response;
     }
