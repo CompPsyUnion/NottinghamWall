@@ -10,7 +10,6 @@
     "@dcloudio/uni-components": "3.0.0-alpha-3000020210521001",
     "@dcloudio/uni-mp-weixin": "3.0.0-4020920240930001",
     "@dcloudio/uni-ui": "^1.5.7",
-    "compressjs": "^1.0.3",
     "axios": "1.7.4",
     "element-plus": "^2.8.7",
     "pinia": "^2.2.1",
