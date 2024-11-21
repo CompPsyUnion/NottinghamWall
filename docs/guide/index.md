@@ -1,6 +1,6 @@
-# NottinghamWall
+# CPU Wall
 
-Welcome to the NottinghamWall wiki!
+Welcome to the CPU Wall wiki!
 
 You can visit the website to see it.
 

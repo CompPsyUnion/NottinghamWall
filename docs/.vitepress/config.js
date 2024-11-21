@@ -1,7 +1,7 @@
 import sidebar from "./config/sidebar.js";
 
 export default {
-    title: 'CPU Wiki',
+    title: 'CPU Wall Wiki',
     description: 'Documentation for NottinghamWall',
     base: "/",
     themeConfig: {
