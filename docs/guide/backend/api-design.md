@@ -2,9 +2,9 @@
 
 Base URLs:
 
-开发环境：http://localhost:8080
+开发环境：`http://localhost:8080`
 
-生产环境：https://nottinghamwall.yiming1234.cn
+生产环境：`https://nottinghamwall.yiming1234.cn`
 
 # 用户端公共接口
 
