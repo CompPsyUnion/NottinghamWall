@@ -4,6 +4,7 @@ import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
 import cn.yiming1234.NottinghamWall.dto.AdminDTO;
 import cn.yiming1234.NottinghamWall.dto.AdminLoginDTO;
 import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.UpdatePasswordDTO;
 import cn.yiming1234.NottinghamWall.entity.Admin;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.result.PageResult;
@@ -138,11 +139,9 @@ public class AdminController {
     @ApiOperation("修改密码")
     public Result<Object> updatePassword(
             @RequestHeader("token") String token,
-            @RequestBody String oldPassword,
-            @RequestBody String newPassword,
-            @RequestBody String confirmPassword){
+            @RequestBody UpdatePasswordDTO updatePasswordDTO){
         Integer adminId = getAdminId(token);
-        adminService.updatePassword(adminId, oldPassword, newPassword, confirmPassword);
+        adminService.updatePassword(adminId, updatePasswordDTO.getOldPassword(), updatePasswordDTO.getNewPassword(), updatePasswordDTO.getConfirmPassword());
         return Result.success();
     }
 }
