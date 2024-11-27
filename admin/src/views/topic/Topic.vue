@@ -2,30 +2,66 @@
   <div class="content-wrapper">
     <div class="dashboard-container">
       <div class="container">
+        <!-- 搜索栏 -->
         <div class="tableBar">
-          <label style="margin-right:5px">学生姓名：</label>
-          <el-input v-model="username" placeholder="请输入学生昵称" style="width:15%" />
+          <label style="margin-right:5px">话题内容：</label>
+          <el-input v-model="username" placeholder="请输入话题内容" style="width:15%" />
           <el-button type="primary" style="margin-left:25px" @click="pageQuery">
             查询
           </el-button>
         </div>
-        <!-- 使用 v-if 来条件渲染 table 或 el-empty -->
-        <el-table v-if="records.length > 0" :data="records" stripe style="width: 100%">
-          <!-- 显示头像 -->
-          <el-table-column label="话题" width="180">
 
-          </el-table-column>
-          <el-table-column prop="username" label="举报标签" width="180" />
+        <div v-if="records.length > 0">
+          <div v-for="topic in records" :key="topic.id" class="topic-item">
+            <el-descriptions
+                direction="vertical"
+                border
+                style="margin-top: 20px"
+            >
+              <!-- 图片预览部分 -->
+              <el-descriptions-item
+                  label="Photo"
+                  align="center"
+              >
+                <div class="image-preview">
+                  <el-image
+                      :key="index"
+                      :src="topic.imgURLs[0]"
+                      :preview-src-list="topic.imgURLs"
+                      :zoom-rate="1.2"
+                      :max-scale="7"
+                      :min-scale="0.2"
+                      fit="cover"
+                      class="topic-image"
+                  />
+                </div>
+              </el-descriptions-item>
+              <!-- 发帖人名称 -->
+              <el-descriptions-item label="Student ID">
+                <strong>{{ topic.authorUsername }}</strong>
+              </el-descriptions-item>
+              <!-- 创建时间 -->
+              <el-descriptions-item label="Created Time">
+                {{ formatDate(topic.createdAt) }}
+              </el-descriptions-item>
+              <!-- 话题内容 -->
+              <el-descriptions-item label="Content">
+                {{ topic.content }}
+              </el-descriptions-item>
+              <!-- 评论部分 -->
+              <el-descriptions-item label="Comment">
+                <el-collapse v-model="activeNames[topic.id]" @change="handleChange(topic.id)">
+                  <el-collapse-item title="点击展开评论" name="1">
+                    <div v-for="comment in topic.comments" :key="comment.id">
+                      <p><strong>{{ comment.user.username }}:</strong> {{ comment.content }}</p>
+                    </div>
+                  </el-collapse-item>
+                </el-collapse>
+              </el-descriptions-item>
+            </el-descriptions>
+          </div>
+        </div>
 
-          <el-table-column label="详细描述">
-
-          </el-table-column>
-          <el-table-column prop="studentid" label="发帖人" />
-          <el-table-column prop="email" label="发帖时间" />
-          <el-table-column prop="phone" label="举报人" />
-          <el-table-column prop="updateTime" label="举报时间" />
-        </el-table>
-        <!-- 当 records 为空时显示 el-empty 组件 -->
         <el-empty v-else description="暂无数据" />
 
         <el-pagination
@@ -44,18 +80,30 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import { ElMessage } from 'element-plus';
-import { getStudentList } from '@/api/student';
+<script setup lang="ts">
+import {onMounted, ref} from 'vue';
+import {ElMessage} from 'element-plus';
+import {getTopicList} from '@/api/topic';
+import {getStudentById} from '@/api/student'
+import {getCommentListByTopicId} from '@/api/comment';
 
-// 定义响应式变量
 const username = ref('');
 const page = ref(1);
 const pageSize = ref(5);
 const total = ref(0);
 const records = ref([]);
-// 分页查询函数
+const activeNames = ref<Record<number, Array<string>>>({});
+
+const getUsername = async (authorID: number) => {
+  try {
+    const response = await getStudentById(authorID);
+    return response.data.username || '未知';
+  } catch (error) {
+    console.error('Error fetching username:', error);
+    return '未知';
+  }
+};
+
 const pageQuery = async () => {
   const params = {
     username: username.value,
@@ -63,33 +111,64 @@ const pageQuery = async () => {
     pageSize: pageSize.value
   };
   try {
-    const res = await getStudentList(params);
+    const res = await getTopicList(params);
     if (res.code === 1) {
-      records.value = res.data.records.sort((a, b) => {
-        return a.id - b.id;
-      });
-      total.value = res.data.total; // 处理 total
+      records.value = await Promise.all(
+          res.data.records.map(async (topic: any) => {
+            if (!topic.authorUsername) {
+              topic.authorUsername = await getUsername(topic.authorID);
+            }
+            return topic;
+          })
+      );
+      total.value = res.data.total;
     } else {
-      ElMessage.error('获取学生列表失败');
+      ElMessage.error('获取话题列表失败');
     }
-  } catch (err) {
+  } catch (err: any) {
     ElMessage.error('请求失败: ' + err.message);
   }
 };
 
-// 处理 pageSize 改变
-const handleSizeChange = async (newSize) => {
+const fetchComments = async (topicId: number) => {
+  try {
+    const response = await getCommentListByTopicId(topicId);
+    const topic = records.value.find((t: any) => t.id === topicId);
+    if (topic) {
+      topic.comments = await Promise.all(
+          response.data.list.map(async (comment: any) => {
+            const userResponse = await getStudentById(comment.userId);
+            comment.user = userResponse.data;
+            return comment;
+          })
+      );
+    }
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+  }
+};
+
+const formatDate = (dateTime: string | null) => {
+  if (!dateTime) return '未知';
+  const date = new Date(dateTime);
+  return date.toLocaleString();
+};
+
+const handleSizeChange = async (newSize: number) => {
   pageSize.value = newSize;
   await pageQuery();
 };
 
-// 处理 page 改变
-const handleCurrentChange = async (newPage) => {
+const handleCurrentChange = async (newPage: number) => {
   page.value = newPage;
   await pageQuery();
 };
 
-// 在组件挂载时进行数据查询
+const handleChange = async (topicId: number) => {
+  console.log(`Topic ID ${topicId} collapse changed`);
+  await fetchComments(topicId);
+};
+
 onMounted(() => {
   pageQuery();
 });
@@ -103,14 +182,26 @@ onMounted(() => {
 }
 
 .tableBar {
-  margin-bottom: 20px; /* Add spacing below the tableBar */
+  margin-bottom: 20px; /* 添加 tableBar 下方的间距 */
 }
 
-.el-table {
-  margin-bottom: 20px; /* Add spacing below the table */
+.topic-item {
+  margin-bottom: 20px;
+}
+
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* 添加间距 */
+}
+
+.topic-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 .pageList {
-  margin-top: 20px; /* Add spacing above the pagination */
+  margin-top: 20px; /* 添加分页组件上方的间距 */
 }
 </style>

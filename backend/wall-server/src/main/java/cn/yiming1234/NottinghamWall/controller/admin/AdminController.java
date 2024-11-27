@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +28,22 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "管理端管理员接口")
 public class AdminController {
+
+    private final AdminService adminService;
+    private final JwtProperties jwtProperties;
+
     @Autowired
-    private AdminService adminService;
-    @Autowired
-    private JwtProperties jwtProperties;
+    public AdminController(AdminService adminService, JwtProperties jwtProperties) {
+        this.adminService = adminService;
+        this.jwtProperties = jwtProperties;
+    }
+
+    private Integer getAdminId(String token){
+        Integer id = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(),token).get(JwtClaimsConstant.EMP_ID, Integer.class);
+        log.info("id:{}", id);
+        return id;
+    }
+
     /**
      * 登录
      */
@@ -71,19 +84,18 @@ public class AdminController {
      */
     @PostMapping
     @ApiOperation("新增管理员")
-    public Result save(@RequestBody AdminDTO adminDTO){
+    public Result<Admin> save(@RequestBody AdminDTO adminDTO){
         log.info("新增管理员：{}", adminDTO);
-        //System.out.println("当前线程的id："+Thread.currentThread().getId());
         adminService.save(adminDTO);
         return Result.success();
     }
+
     /**
      * 启用或停用管理员
      */
     @PostMapping("/status/{status}")
     @ApiOperation("启用或停用管理员")
-    public Result startOrStop(@PathVariable Integer status, Integer id){
-        //log.info("启用或停用管理员：{}", id);
+    public Result<Admin> startOrStop(@PathVariable Integer status, Integer id){
         adminService.startOrStop(status, id);
         return Result.success();
     }
@@ -113,7 +125,7 @@ public class AdminController {
      */
     @PutMapping
     @ApiOperation("修改管理员")
-    public Result update(@RequestBody AdminDTO adminDTO){
+    public Result<Admin> update(@RequestBody AdminDTO adminDTO){
         log.info("修改管理员：{}", adminDTO);
         adminService.update(adminDTO);
         return Result.success();

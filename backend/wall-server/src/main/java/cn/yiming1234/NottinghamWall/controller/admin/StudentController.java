@@ -10,7 +10,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController("adminStudentController")
 @RequestMapping("/admin/student")
@@ -26,9 +29,9 @@ public class StudentController {
          */
         @GetMapping("/page")
         @ApiOperation("分页查询学生")
-        public Result<PageResult> page(PageQueryDTO pageQueryDTO){
+        public Result<PageResult<Student>> page(PageQueryDTO pageQueryDTO){
             log.info("学生分页查询：{}", pageQueryDTO);
-            PageResult pageResult = studentService.pageQuery(pageQueryDTO);
+            PageResult<Student> pageResult = studentService.pageQuery(pageQueryDTO);
             return Result.success(pageResult);
         }
         /**
@@ -44,7 +47,7 @@ public class StudentController {
         /**
         * 根据学号查询学生
          */
-        @GetMapping("/{studentId}")
+        @GetMapping("/getByStudentId/{studentId}")
         @ApiOperation("根据学号查询学生")
         public Result<Student> getByStudentId(@PathVariable Integer studentId){
             Student student = studentService.getByStudentId(studentId);
@@ -54,7 +57,7 @@ public class StudentController {
         /**
         * 根据邮箱查询学生
          */
-        @GetMapping("/{email}")
+        @GetMapping("/getByEmail/{email}")
         @ApiOperation("根据邮箱查询学生")
         public  Result<Student> getByEmail(@PathVariable String email){
             Student student = studentService.getByEmail(email);

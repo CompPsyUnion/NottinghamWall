@@ -1,9 +1,9 @@
 package cn.yiming1234.NottinghamWall.service.impl;
 
 import cn.yiming1234.NottinghamWall.constant.MessageConstant;
+import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.dto.StudentDTO;
 import cn.yiming1234.NottinghamWall.dto.StudentLoginDTO;
-import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Student;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.exception.LoginFailedException;
@@ -29,6 +29,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -161,7 +162,6 @@ public class StudentServiceImpl implements StudentService {
         map.put("js_code", code);
         map.put("grant_type", "authorization_code");
         String json = HttpClientUtil.doGet(WX_URL, map);
-        //判断openid是否为空
         JSONObject jsonObject = JSON.parseObject(json);
         log.info("jsonObject:{}", jsonObject);
         return jsonObject.getString("openid");
@@ -202,6 +202,7 @@ public class StudentServiceImpl implements StudentService {
                     .sex("1")
                     .avatar(avatar)
                     .createTime(LocalDateTime.now())
+                    .updateTime(LocalDateTime.now())
                     .build();
             studentMapper.insert(student);
         }
@@ -283,14 +284,16 @@ public class StudentServiceImpl implements StudentService {
                 aliOssUtil.delete(objectName);
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
-            if (!student.getAvatar().equals(studentDTO.getAvatar()) && !student.getAvatar().contains("default.jpg")) {
+
+            String currentAvatarName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1, student.getAvatar().indexOf("?"));
+            String newAvatarName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1, studentDTO.getAvatar().indexOf("?"));
+            if (!currentAvatarName.equals(newAvatarName) && !student.getAvatar().contains("default.jpg")) {
                 String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
                 aliOssUtil.delete(objectName);
             }
 
-            String objectName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1, studentDTO.getAvatar().indexOf("?"));
             student.setUsername(studentDTO.getUsername());
-            student.setAvatar(objectName);
+            student.setAvatar(newAvatarName);
             student.setSex(studentDTO.getSex());
             student.setStudentid(studentDTO.getStudentid());
             student.setUpdateTime(LocalDateTime.now());
@@ -322,7 +325,12 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student getByUsername(String username) {
-        return studentMapper.getByUsername(username);
+        Student student = studentMapper.getByUsername(username);
+        if (student != null && student.getAvatar() != null) {
+            String avatarUrl = aliOssUtil.generatePresignedUrl(student.getAvatar());
+            student.setAvatar(avatarUrl);
+        }
+        return student;
     }
 
     /**
@@ -332,7 +340,12 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student getByStudentId(Integer studentId) {
-        return studentMapper.getByStudentId(studentId);
+        Student student = studentMapper.getByStudentId(studentId);
+        if (student != null && student.getAvatar() != null) {
+            String avatarUrl = aliOssUtil.generatePresignedUrl(student.getAvatar());
+            student.setAvatar(avatarUrl);
+        }
+        return student;
     }
 
     /**
@@ -342,7 +355,12 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student getByEmail(String email) {
-        return studentMapper.getByEmail(email);
+        Student student = studentMapper.getByEmail(email);
+        if (student != null && student.getAvatar() != null) {
+            String avatarUrl = aliOssUtil.generatePresignedUrl(student.getAvatar());
+            student.setAvatar(avatarUrl);
+        }
+        return student;
     }
 
     /**
@@ -356,6 +374,14 @@ public class StudentServiceImpl implements StudentService {
         Page<Student> page = studentMapper.pageQuery(pageQueryDTO);
         long total = page.getTotal();
         List<Student> records = page.getResult();
+
+        records.forEach(student -> {
+            if (student != null && student.getAvatar() != null) {
+                String avatarUrl = aliOssUtil.generatePresignedUrl(student.getAvatar());
+                student.setAvatar(avatarUrl);
+            }
+        });
+
         return new PageResult<>(total, records);
     }
 

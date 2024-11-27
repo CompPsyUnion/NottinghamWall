@@ -15,7 +15,7 @@
         <!-- 使用 v-if 来条件渲染 table 或 el-empty -->
         <el-table v-if="records.length > 0" :data="records" stripe style="width: 100%">
           <el-table-column prop="name" label="管理员姓名" width="180" />
-          <el-table-column prop="username" label="编号" width="180" />
+          <el-table-column prop="username" label="帐号" width="180" />
           <el-table-column prop="phone" label="手机号" />
           <el-table-column prop="status" label="账号状态">
             <template #default="scope">
@@ -27,7 +27,7 @@
                 style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
                 active-text="点击禁用"
                 inactive-text="点击启用"
-                :disabled="scope.row.username === 'Pleasure1234'"
+                :disabled="scope.row.username === 'Pleasure1234' || scope.row.username === currentAdmin"
                 @change="handleStatusChange(scope.row)"
               />
             </template>
@@ -37,7 +37,7 @@
             <template #default="scope">
               <el-button
                 type="primary" size="small"
-                :disabled="scope.row.username === 'Pleasure1234'"
+                :disabled="scope.row.username === 'Pleasure1234' || scope.row.username !== currentAdmin"
                 @click="handleUpdateAdmin(scope.row)"
               >
                 修改
@@ -69,8 +69,11 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { getAdminList, statusChangeAdmin } from '@/api/admin';
+import {useAdminStore} from '@/store/admin';
 
 const router = useRouter();
+
+const currentAdmin = useAdminStore().admin;
 
 // 定义响应式变量
 const name = ref('');

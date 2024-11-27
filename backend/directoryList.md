@@ -1,4 +1,4 @@
-|-- undefined
+~~|-- undefined
     |-- .gitignore
     |-- package-lock.json
     |-- pom.xml
@@ -327,4 +327,4 @@
                     |-- compile
                         |-- default-compile
                             |-- createdFiles.lst
-                            |-- inputFiles.lst
+                            |-- inputFiles.lst~~

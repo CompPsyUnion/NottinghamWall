@@ -5,9 +5,6 @@ package cn.yiming1234.NottinghamWall.exception;
  */
 public class AccountNotFoundException extends BaseException {
 
-    public AccountNotFoundException() {
-    }
-
     public AccountNotFoundException(String msg) {
         super(msg);
     }

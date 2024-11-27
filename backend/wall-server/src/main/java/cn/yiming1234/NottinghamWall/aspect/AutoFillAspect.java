@@ -22,18 +22,19 @@ import java.time.LocalDateTime;
 @Aspect
 @Slf4j
 public class AutoFillAspect {
+
     /**
      * 自动填充切入点
      */
-    @Pointcut("execution(* cn.yiming1234.service.*.*(..)) && @annotation(cn.yiming1234.NottinghamWall.annotation.AutoFill)")
+    @Pointcut("execution(* cn.yiming1234.NottinghamWall.mapper.*.*(..)) && @annotation(cn.yiming1234.NottinghamWall.annotation.AutoFill)")
     public void autoFillPointCut() {
     }
+
     /**
      * 自动填充
      */
     @Before("autoFillPointCut()")
     public void autoFill(JoinPoint joinPoint) {
-        //log.info("自动填充");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         AutoFill autoFill = signature.getMethod().getAnnotation(AutoFill.class);
         OperationType operationType = autoFill.value();
@@ -45,29 +46,31 @@ public class AutoFillAspect {
         Object entity = args[0];
         LocalDateTime now = LocalDateTime.now();
         Integer currentId = BaseContext.getCurrentId();
+        log.info("Auto-fill operation start");
         if(operationType == OperationType.INSERT) {
             try {
                 Method setCreateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME,LocalDateTime.class);
-                Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER,Long.class);
+                Method setCreateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER,Integer.class);
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME,LocalDateTime.class);
-                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER,Long.class);
+                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER,Integer.class);
 
                 setCreateTime.invoke(entity, now);
                 setCreateUser.invoke(entity, currentId);
                 setUpdateTime.invoke(entity, now);
                 setUpdateUser.invoke(entity, currentId);
+                log.info("Auto-fill operation success");
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error during auto-fill operation", e);
             }
         }else if(operationType == OperationType.UPDATE){
             try {
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME,LocalDateTime.class);
-                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER,Long.class);
+                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER,Integer.class);
 
                 setUpdateTime.invoke(entity, now);
                 setUpdateUser.invoke(entity, currentId);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error during auto-fill operation", e);
             }
         }
     }

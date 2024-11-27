@@ -50,6 +50,7 @@ const route = useRoute();
 const ruleFormRef = ref(null);
 
 const ruleForm = reactive({
+  id: route.query.id,
   name: '',
   username: '',
   sex: '1',

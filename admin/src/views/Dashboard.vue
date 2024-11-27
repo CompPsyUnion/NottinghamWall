@@ -30,7 +30,7 @@
             <span>话题管理</span>
           </el-menu-item>
           <el-menu-item index="2-2">
-            <span>评论管理</span>
+            <span>活动管理</span>
           </el-menu-item>
           <el-menu-item index="2-3">
             <span>举报管理</span>
