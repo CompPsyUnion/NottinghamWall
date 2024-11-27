@@ -97,7 +97,7 @@ export const addAdmin = (adminData) => {
  * 根据id获取管理员信息
  */
 export const getAdminById = (id) => {
-    console.log('Query admin by id'); // 添加日志
+    console.log('Query admin by id');
     return request.get(`/admin/manage/${id}`, {
         params: {id}
     }).then(response => {
@@ -113,7 +113,7 @@ export const getAdminById = (id) => {
  * 提供调用登出接口的函数
  */
 export const userLogoutService = () => {
-    console.log('Logout request initiated'); // 添加日志
+    console.log('Logout request initiated');
     return request.post('/admin/manage/logout', null, {
         headers: {
             'Content-Type': 'application/json'

@@ -137,7 +137,7 @@ public class AdminController {
     @PutMapping("/password")
     @ApiOperation("修改密码")
     public Result<Object> updatePassword(
-            @RequestHeader("Authorization") String token,
+            @RequestHeader("token") String token,
             @RequestBody String oldPassword,
             @RequestBody String newPassword,
             @RequestBody String confirmPassword){
