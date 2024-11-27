@@ -301,7 +301,8 @@ public class StudentServiceImpl implements StudentService {
             }
 
             String currentAvatarName = student.getAvatar();
-            String newAvatarName = studentDTO.getAvatar();
+            String newAvatarName = extractFileName(studentDTO.getAvatar());
+            log.info(newAvatarName);
             if (!currentAvatarName.equals(newAvatarName) && !student.getAvatar().contains("default.jpg")) {
                 aliOssUtil.delete(currentAvatarName);
             }
