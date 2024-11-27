@@ -281,7 +281,7 @@ public class StudentServiceImpl implements StudentService {
             String accessToken = getAccessToken();
             boolean isUsernameSafe = contentCheckUtil.checkTextContent(studentDTO.getUsername(), 1, student.getOpenid(), accessToken);
 
-            String photoName = extractFileName(student.getAvatar());
+            String photoName = student.getAvatar();
             ImageModerationResponse response = ImageCheckUtil.invokeFunction(
                     aliOssUtil.getAccessKeyId(),
                     aliOssUtil.getAccessKeySecret(),
@@ -296,16 +296,14 @@ public class StudentServiceImpl implements StudentService {
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
             if (!isAvatarSafe) {
-                String objectName = extractFileName(studentDTO.getAvatar());
-                aliOssUtil.delete(objectName);
+                aliOssUtil.delete(studentDTO.getAvatar());
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
 
-            String currentAvatarName = extractFileName(student.getAvatar());
-            String newAvatarName = extractFileName(studentDTO.getAvatar());
+            String currentAvatarName = student.getAvatar();
+            String newAvatarName = studentDTO.getAvatar();
             if (!currentAvatarName.equals(newAvatarName) && !student.getAvatar().contains("default.jpg")) {
-                String objectName = extractFileName(student.getAvatar());
-                aliOssUtil.delete(objectName);
+                aliOssUtil.delete(currentAvatarName);
             }
 
             student.setUsername(studentDTO.getUsername());
