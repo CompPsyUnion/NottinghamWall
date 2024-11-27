@@ -100,6 +100,21 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /**
+     * 从URL中提取文件名
+     * @param url URL
+     * @return 文件名
+     */
+    private String extractFileName(String url) {
+        int lastSlashIndex = url.lastIndexOf("/");
+        int queryIndex = url.indexOf("?");
+        if (lastSlashIndex == -1 || queryIndex == -1 || lastSlashIndex >= queryIndex) {
+            throw new IllegalArgumentException("Invalid URL format: " + url);
+        }
+        log.info(url.substring(lastSlashIndex + 1, queryIndex));
+        return url.substring(lastSlashIndex + 1, queryIndex);
+    }
+
+    /**
      * 处理帖子图片URL
      * @param posts 帖子列表
      */
@@ -113,6 +128,8 @@ public class StudentServiceImpl implements StudentService {
             }
         });
     }
+
+
 
     /**
      * 获取accessToken
@@ -259,13 +276,12 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public Student update(StudentDTO studentDTO) throws Exception {
-
         Student student = studentMapper.getById(studentDTO.getId());
         if (student != null) {
             String accessToken = getAccessToken();
             boolean isUsernameSafe = contentCheckUtil.checkTextContent(studentDTO.getUsername(), 1, student.getOpenid(), accessToken);
 
-            String photoName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
+            String photoName = extractFileName(student.getAvatar());
             ImageModerationResponse response = ImageCheckUtil.invokeFunction(
                     aliOssUtil.getAccessKeyId(),
                     aliOssUtil.getAccessKeySecret(),
@@ -280,15 +296,15 @@ public class StudentServiceImpl implements StudentService {
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
             if (!isAvatarSafe) {
-                String objectName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1);
+                String objectName = extractFileName(studentDTO.getAvatar());
                 aliOssUtil.delete(objectName);
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
 
-            String currentAvatarName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1, student.getAvatar().indexOf("?"));
-            String newAvatarName = studentDTO.getAvatar().substring(studentDTO.getAvatar().lastIndexOf("/") + 1, studentDTO.getAvatar().indexOf("?"));
+            String currentAvatarName = extractFileName(student.getAvatar());
+            String newAvatarName = extractFileName(studentDTO.getAvatar());
             if (!currentAvatarName.equals(newAvatarName) && !student.getAvatar().contains("default.jpg")) {
-                String objectName = student.getAvatar().substring(student.getAvatar().lastIndexOf("/") + 1);
+                String objectName = extractFileName(student.getAvatar());
                 aliOssUtil.delete(objectName);
             }
 
