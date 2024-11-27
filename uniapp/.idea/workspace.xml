@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/../admin/src/api/topic.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/TopicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/.env.production" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/api/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/api/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/api/comment.js" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/api/comment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/api/student.js" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/api/student.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/views/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/views/admin/Admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/views/admin/Admin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/views/admin/addAdmin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/views/admin/addAdmin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../admin/src/views/topic/Topic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../admin/src/views/topic/Topic.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/directoryList.md" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/directoryList.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/exception/AccountLockedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/exception/AccountLockedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/exception/AccountNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/exception/AccountNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/PageResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/PageResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/result/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-common/src/main/java/cn/yiming1234/NottinghamWall/utils/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/WallApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/WallApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/aspect/AutoFillAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/aspect/AutoFillAspect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/admin/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/handler/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/interceptor/JwtTokenAdminInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/interceptor/JwtTokenAdminInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/interceptor/JwtTokenStudentInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/interceptor/JwtTokenStudentInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/TopicMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/mapper/TopicMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/service/impl/StudentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -237,6 +207,7 @@
       <workItem from="1732203231936" duration="182000" />
       <workItem from="1732616578827" duration="4988000" />
       <workItem from="1732711868207" duration="25000" />
+      <workItem from="1732717824892" duration="31000" />
     </task>
     <servers />
   </component>

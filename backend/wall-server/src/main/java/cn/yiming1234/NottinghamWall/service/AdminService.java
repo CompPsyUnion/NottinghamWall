@@ -26,7 +26,7 @@ public interface AdminService {
     /**
      * 分页查询管理员
      */
-    PageResult pageQuery(PageQueryDTO PageQueryDTO);
+    PageResult<Admin> pageQuery(PageQueryDTO PageQueryDTO);
 
     /**
      * 根据id查询管理员
@@ -37,4 +37,9 @@ public interface AdminService {
      * 修改管理员
      */
     void update(AdminDTO adminDTO);
+
+    /**
+     * 修改密码
+     */
+    void updatePassword(Integer adminId, String oldPassword, String newPassword, String confirmPassword);
 }

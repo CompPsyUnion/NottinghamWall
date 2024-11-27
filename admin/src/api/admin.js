@@ -109,11 +109,11 @@ export const getAdminById = (id) => {
     });
 }
 
-// 提供调用登出接口的函数
+/**
+ * 提供调用登出接口的函数
+ */
 export const userLogoutService = () => {
     console.log('Logout request initiated'); // 添加日志
-
-    // 发送 POST 请求
     return request.post('/admin/manage/logout', null, {
         headers: {
             'Content-Type': 'application/json'
@@ -131,8 +131,23 @@ export const userLogoutService = () => {
     });
 }
 
+/**
+ * 管理员修改密码
+ */
+export const changePassword = (passwordData) => {
+    console.log('Change password');
+    return request.put('/admin/manage/password', passwordData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        console.log('Change password response received', response);
+        return response;
+    }).catch(error => {
+        console.error('Change password failed', error);
+        throw error;
+    });
+}
+
 // 提供调用删除员工接口的函数
 // TODO: 添加删除员工接口函数
-
-// 提供调用修改密码接口的函数
-// TODO: 添加修改密码接口函数

@@ -9,6 +9,7 @@ import AdminVue from '@/views/admin/Admin.vue'
 import StudentVue from '@/views/student/Student.vue'
 import addAdminVue from '@/views/admin/addAdmin.vue'
 import TopicVue from '@/views/topic/Topic.vue'
+import ChangePasswordVue from '@/views/admin/changePassword.vue';
 
 //定义路由关系
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
             {
                 path:'manage/topic',
                 component: TopicVue
+            },
+            {
+                path: 'manage/password',
+                component: ChangePasswordVue
             }
         ]
     }

@@ -7,14 +7,12 @@ import cn.yiming1234.NottinghamWall.dto.AdminDTO;
 import cn.yiming1234.NottinghamWall.dto.AdminLoginDTO;
 import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.entity.Admin;
-import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.exception.AccountLockedException;
 import cn.yiming1234.NottinghamWall.exception.AccountNotFoundException;
 import cn.yiming1234.NottinghamWall.exception.PasswordErrorException;
 import cn.yiming1234.NottinghamWall.mapper.AdminMapper;
 import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.service.AdminService;
-import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -24,30 +22,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class AdminServiceImpl implements AdminService {
 
     private final AdminMapper adminMapper;
-    private final AliOssUtil aliOssUtil;
 
     @Autowired
-    public AdminServiceImpl(AdminMapper adminMapper, AliOssUtil aliOssUtil) {
+    public AdminServiceImpl(AdminMapper adminMapper) {
         this.adminMapper = adminMapper;
-        this.aliOssUtil = aliOssUtil;
-    }
-
-    private void processPostImages(List<Topic> posts) {
-        posts.forEach(topic -> {
-            if (topic != null && topic.getImgURLs() != null) {
-                List<String> signedUrls = topic.getImgURLs().stream()
-                        .map(aliOssUtil::generatePresignedUrl)
-                        .collect(Collectors.toList());
-                topic.setImgURLs(signedUrls);
-            }
-        });
     }
 
     /**
@@ -140,6 +124,30 @@ public class AdminServiceImpl implements AdminService {
     public void update(AdminDTO adminDTO) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(adminDTO, admin);
+        adminMapper.update(admin);
+    }
+
+    /**
+     * 修改密码
+     * @param adminId 管理员id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @param confirmPassword 确认密码
+     */
+    @Override
+    public void updatePassword(Integer adminId, String oldPassword, String newPassword, String confirmPassword) {
+        Admin admin = adminMapper.getById(adminId);
+        String oldPasswordHash = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
+
+        if (!oldPasswordHash.equals(admin.getPassword())) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_MISMATCH);
+        }
+
+        admin.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
         adminMapper.update(admin);
     }
 }

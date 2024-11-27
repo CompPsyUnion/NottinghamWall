@@ -61,7 +61,7 @@
               收缩
             </el-radio-button>
           </el-radio-group>
-          <div class="spacer" /> <!-- 占位元素，用于推送头像到右侧 -->
+          <div class="spacer" />
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               <span class="username">{{ username }}</span>
@@ -119,7 +119,7 @@ const handleCommand = (command) => {
   switch (command) {
     case 'changePassword':
       console.log('修改密码')
-      // TODO: 跳转到修改密码页面
+      router.push('/manage/password')
       break
     case 'logout':
       userLogoutService().then(() => {
@@ -143,7 +143,7 @@ const handleCommand = (command) => {
 .el-menu-vertical-demo {
   height: 100%;
   overflow: auto;
-  background-color: #f5f5f5; /* 简约朴素的浅灰色 */
+  background-color: #f5f5f5;
 }
 
 .logo-container {
@@ -151,8 +151,8 @@ const handleCommand = (command) => {
   justify-content: center;
   align-items: center;
   height: 60px;
-  background-color: #f5f5f5; /* 简约朴素的浅灰色 */
-  border-bottom: 1px solid #dcdcdc; /* 边框颜色 */
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #dcdcdc;
 }
 
 .logo {
@@ -169,36 +169,36 @@ const handleCommand = (command) => {
 .header {
   height: 60px;
   display: flex;
-  align-items: center; /* 垂直居中内容 */
+  align-items: center;
   padding: 0 20px;
-  background-color: #f5f5f5; /* 简约朴素的浅灰色 */
-  border-bottom: 1px solid #dcdcdc; /* 边框颜色 */
-  justify-content: space-between; /* 两端对齐 */
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #dcdcdc;
+  justify-content: space-between;
 }
 
 .spacer {
-  flex-grow: 1; /* 占据剩余空间，将头像推到右侧 */
+  flex-grow: 1;
 }
 
 .el-dropdown-link {
   display: flex;
   align-items: center;
   cursor: pointer;
-  outline: none; /* 去除选中时的黑色边框 */
+  outline: none;
 }
 
 .el-dropdown-link:focus {
-  outline: none; /* 再次确保去除焦点时的黑色边框 */
+  outline: none;
 }
 
 .username {
-  margin-right: 10px; /* 用户名与头像之间的间距 */
+  margin-right: 10px;
   font-size: 14px;
   color: #333;
 }
 
 .avatar {
-  width: 40px; /* 头像大小 */
-  height: 40px; /* 头像大小 */
+  width: 40px;
+  height: 40px;
 }
 </style>

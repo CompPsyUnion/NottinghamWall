@@ -105,9 +105,9 @@ public class AdminController {
      */
     @GetMapping("/page")
     @ApiOperation("分页查询管理员")
-    public Result<PageResult> page(PageQueryDTO pageQueryDTO){
+    public Result<PageResult<Admin>> page(PageQueryDTO pageQueryDTO){
         log.info("管理员分页查询：{}", pageQueryDTO);
-        PageResult pageResult = adminService.pageQuery(pageQueryDTO);
+        PageResult<Admin> pageResult = adminService.pageQuery(pageQueryDTO);
         return Result.success(pageResult);
     }
     /**
@@ -128,6 +128,21 @@ public class AdminController {
     public Result<Admin> update(@RequestBody AdminDTO adminDTO){
         log.info("修改管理员：{}", adminDTO);
         adminService.update(adminDTO);
+        return Result.success();
+    }
+
+    /**
+     * 管理员修改密码
+     */
+    @PutMapping("/password")
+    @ApiOperation("修改密码")
+    public Result<Object> updatePassword(
+            @RequestHeader("Authorization") String token,
+            @RequestBody String oldPassword,
+            @RequestBody String newPassword,
+            @RequestBody String confirmPassword){
+        Integer adminId = getAdminId(token);
+        adminService.updatePassword(adminId, oldPassword, newPassword, confirmPassword);
         return Result.success();
     }
 }
