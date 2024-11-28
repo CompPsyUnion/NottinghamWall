@@ -1,6 +1,7 @@
 package cn.yiming1234.NottinghamWall.service.impl;
 
 import cn.yiming1234.NottinghamWall.constant.MessageConstant;
+import cn.yiming1234.NottinghamWall.context.BaseContext;
 import cn.yiming1234.NottinghamWall.dto.CommentDTO;
 import cn.yiming1234.NottinghamWall.exception.TeapotException;
 import cn.yiming1234.NottinghamWall.mapper.CommentMapper;
@@ -134,7 +135,7 @@ public class CommentServiceImpl implements CommentService {
         PageHelper.startPage(page, pageSize);
         List<CommentDTO> comments = commentMapper.getComments(topicId);
         comments.forEach(comment -> {
-            boolean hasLiked = commentMapper.isLikeComment(comment.getId(), comment.getUserId());
+            boolean hasLiked = commentMapper.isLikeComment(comment.getId(), BaseContext.getCurrentId());
             comment.setHasLiked(hasLiked);
         });
         return new PageInfo<>(comments);
