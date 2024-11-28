@@ -1,8 +1,8 @@
 package cn.yiming1234.NottinghamWall.controller.student;
 
 import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
-import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.result.PageResult;
@@ -67,7 +67,7 @@ public class TopicController {
     @PostMapping("/post/topic")
     @ApiOperation(value = "创建话题")
     public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) throws Exception {
-        Integer userId = Math.toIntExact(extractUserId(request));
+        Integer userId = (Integer) Math.toIntExact(extractUserId(request));
         topicDTO.setAuthorID(userId);
 
         List<String> imgURLs = topicDTO.getImgURLs();

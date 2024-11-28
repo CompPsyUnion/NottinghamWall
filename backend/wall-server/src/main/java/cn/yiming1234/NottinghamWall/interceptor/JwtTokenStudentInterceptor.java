@@ -14,7 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 
 /**
  * jwt令牌校验的拦截器
@@ -30,23 +29,16 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
      * 校验jwt
      */
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
-
-        System.out.println("当前线程的id："+Thread.currentThread().getId());
-
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        Method method = handlerMethod.getMethod();
-        if ("getTopic".equals(method.getName())) {
+        if (!(handler instanceof HandlerMethod)) {
             return true;
         }
         String token = request.getHeader(jwtProperties.getUserTokenName());
-        log.info("token:{}",token);
         try {
             log.info("jwt校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
             Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
             log.info("userId:{}", userId);
             BaseContext.setCurrentId(userId);
-
             return true;
         } catch (Exception ex) {
             response.setStatus(401);

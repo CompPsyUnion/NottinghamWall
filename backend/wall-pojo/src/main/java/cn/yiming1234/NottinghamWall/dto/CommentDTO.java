@@ -13,6 +13,7 @@ public class CommentDTO {
     private Integer userId;
     private String content;
     private Integer parentId;
+    private Boolean hasLiked;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private StudentDTO user;

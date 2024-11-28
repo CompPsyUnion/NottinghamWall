@@ -133,6 +133,10 @@ public class CommentServiceImpl implements CommentService {
     public PageInfo<CommentDTO> getComments(Integer topicId, int page, int pageSize) {
         PageHelper.startPage(page, pageSize);
         List<CommentDTO> comments = commentMapper.getComments(topicId);
+        comments.forEach(comment -> {
+            boolean hasLiked = commentMapper.isLikeComment(comment.getId(), comment.getUserId());
+            comment.setHasLiked(hasLiked);
+        });
         return new PageInfo<>(comments);
     }
 

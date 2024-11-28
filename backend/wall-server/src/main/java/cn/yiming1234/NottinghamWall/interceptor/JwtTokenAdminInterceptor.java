@@ -29,13 +29,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
      * 校验jwt
      */
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
-
-        System.out.println("当前线程的id："+Thread.currentThread().getId());
         if (!(handler instanceof HandlerMethod)) {
             return true;
 
         }
-
         String token = request.getHeader(jwtProperties.getAdminTokenName());
         try {
             log.info("jwt校验:{}", token);

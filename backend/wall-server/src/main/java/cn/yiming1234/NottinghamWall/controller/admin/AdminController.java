@@ -1,6 +1,7 @@
 package cn.yiming1234.NottinghamWall.controller.admin;
 
 import cn.yiming1234.NottinghamWall.constant.JwtClaimsConstant;
+import cn.yiming1234.NottinghamWall.context.BaseContext;
 import cn.yiming1234.NottinghamWall.dto.AdminDTO;
 import cn.yiming1234.NottinghamWall.dto.AdminLoginDTO;
 import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
@@ -77,6 +78,7 @@ public class AdminController {
     @PostMapping("/logout")
     @ApiOperation(value = "退出")
     public Result<String> logout() {
+        BaseContext.removeCurrentId();
         return Result.success();
     }
 

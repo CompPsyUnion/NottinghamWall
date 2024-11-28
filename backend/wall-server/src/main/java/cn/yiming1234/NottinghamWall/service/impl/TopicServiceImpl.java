@@ -1,8 +1,8 @@
 package cn.yiming1234.NottinghamWall.service.impl;
 
 import cn.yiming1234.NottinghamWall.constant.MessageConstant;
-import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
+import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.exception.TeapotException;
 import cn.yiming1234.NottinghamWall.mapper.StudentMapper;
@@ -91,7 +91,7 @@ public class TopicServiceImpl implements TopicService {
                 throw new TeapotException(MessageConstant.CONTENT_UNSECURED);
             }
         }
-        topic.setIsDraft(false);
+        topic.setIsDraft(Boolean.FALSE);
         topicMapper.insert(topic);
     }
 
@@ -114,7 +114,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void saveDraft(TopicDTO topicDTO) {
         Topic topic = convertToTopic(topicDTO);
-        topic.setIsDraft(true);
+        topic.setIsDraft(Boolean.TRUE);
         if (topic.getId() != null) {
             topicMapper.update(topic);
         } else {
@@ -234,7 +234,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public int getLikeCount(Integer id) {
         int count = topicMapper.getLikeCount(id);
-        log.info("话题 {} 的点赞数：{}", id, count);
+        log.info("话题 {} 的点赞数：{}", id.toString(), Integer.valueOf(count));
         return count;
     }
 
@@ -278,7 +278,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public int getCollectCount(Integer id) {
         int count = topicMapper.getCollectCount(id);
-        log.info("话题 {} 的收藏数：{}", id, count);
+        log.info("话题 {} 的收藏数：{}", id.toString(), Integer.valueOf(count));
         return count;
     }
 }

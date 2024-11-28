@@ -197,7 +197,7 @@ export const fetchCommentLikeCount = (commentId) => {
 }
 
 /**
- * 检查是否已收藏
+ * 获取回复评论计数
  */
 export const fetchCommentCount = (topicId) => {
     return new Promise((resolve, reject) => {
