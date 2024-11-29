@@ -7,14 +7,14 @@ import cn.yiming1234.NottinghamWall.result.PageResult;
 import cn.yiming1234.NottinghamWall.result.Result;
 import cn.yiming1234.NottinghamWall.service.CommentService;
 import cn.yiming1234.NottinghamWall.service.TopicService;
+import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController("adminTopicController")
 @RequestMapping("/admin/topic")
@@ -22,10 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TopicController {
 
+    private final TopicService topicService;
+    private final CommentService commentService;
+    private final AliOssUtil aliOssUtil;
+
     @Autowired
-    private TopicService topicService;
-    @Autowired
-    private CommentService commentService;
+    public TopicController(TopicService topicService, CommentService commentService, AliOssUtil aliOssUtil) {
+        this.topicService = topicService;
+        this.commentService = commentService;
+        this.aliOssUtil = aliOssUtil;
+    }
 
     /**
      * 话题分页查询
@@ -49,4 +55,21 @@ public class TopicController {
         return Result.success(comments);
     }
 
+    /**
+     * 根据话题id删除话题
+     */
+    @DeleteMapping("/delete/topic/{id}")
+    @ApiOperation("根据话题id删除话题")
+    public Result<Void> deleteTopic(@PathVariable Integer id) {
+        log.info("删除话题：{}", id);
+        Topic topic = topicService.getTopicById(id);
+        List<String> imgURLs = topic.getImgURLs();
+        for (String imgURL : imgURLs) {
+            String objectName = imgURL.substring(imgURL.lastIndexOf("/") + 1);
+            aliOssUtil.delete(objectName);
+        }
+        log.info("删除图片成功");
+        topicService.deleteTopic(id);
+        return Result.success(null);
+    }
 }
