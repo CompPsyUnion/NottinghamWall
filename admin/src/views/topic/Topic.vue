@@ -58,6 +58,17 @@
                   </el-collapse-item>
                 </el-collapse>
               </el-descriptions-item>
+              <!-- 话题删除部分 -->
+              <el-descriptions-item label="Delete">
+                <el-button
+                    type="danger"
+                    size="small"
+                    @click="handleDeleteTopic(topic.id)"
+                    style="margin-top: 10px; margin-left: auto; display: block;"
+                >
+                  删除话题
+                </el-button>
+              </el-descriptions-item>
             </el-descriptions>
           </div>
         </div>
@@ -83,7 +94,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import {ElMessage} from 'element-plus';
-import {getTopicList} from '@/api/topic';
+import {getTopicList,deleteTopic} from '@/api/topic';
 import {getStudentById} from '@/api/student'
 import {getCommentListByTopicId} from '@/api/comment';
 
@@ -145,6 +156,20 @@ const fetchComments = async (topicId: number) => {
     }
   } catch (error) {
     console.error('Error fetching comments:', error);
+  }
+};
+
+const handleDeleteTopic = async (topicId: number) => {
+  try {
+    const response = await deleteTopic(topicId);
+    if (response.code === 1) {
+      ElMessage.success('删除成功');
+      await pageQuery();
+    } else {
+      ElMessage.error('删除失败，请稍后再试');
+    }
+  } catch (error) {
+    ElMessage.error('删除话题失败: ' + error.message);
   }
 };
 

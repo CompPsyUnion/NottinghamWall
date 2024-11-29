@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -303,7 +304,13 @@ public class StudentServiceImpl implements StudentService {
             String currentAvatarName = student.getAvatar();
             String newAvatarName = extractFileName(studentDTO.getAvatar());
             log.info(newAvatarName);
-            if (!currentAvatarName.equals(newAvatarName) && !student.getAvatar().contains("default.jpg")) {
+
+            List<String> defaultAvatars = Arrays.asList(
+                    "zhongli.jpg", "xiao.jpg", "puren.jpg", "wendi.jpg", "ganyu.jpg",
+                    "linren.jpg", "linhua.jpg", "leidian.jpg", "naxida.jpg", "diluke.jpg",
+                    "jiaming.jpg", "default.jpg"
+            );
+            if (!defaultAvatars.contains(currentAvatarName) && !currentAvatarName.equals(newAvatarName)) {
                 aliOssUtil.delete(currentAvatarName);
             }
 
