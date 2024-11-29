@@ -58,7 +58,7 @@ public class TopicController {
     /**
      * 根据话题id删除话题
      */
-    @DeleteMapping("/delete/topic/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation("根据话题id删除话题")
     public Result<Void> deleteTopic(@PathVariable Integer id) {
         log.info("删除话题：{}", id);

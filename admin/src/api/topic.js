@@ -19,7 +19,7 @@ export const getTopicList = (params) => {
  */
 export const deleteTopic = (id) => {
     console.log('Deleting topic', id);
-    return request.delete(`/admin/delete/topic/${id}`).then(response => {
+    return request.delete(`/admin/topic/delete/${id}`).then(response => {
         console.log('Topic deleted', response);
         return response;
     }).catch(error => {
