@@ -40,5 +40,5 @@ jobs:
         username: ${{secrets.SERVER_USER}}
         password: ${{secrets.SERVER_PASSWORD}}
         port: 22
-        source: "target/"
+        source: "backend/wall-server/target/"
         target: ${{secrets.SERVER_PATH}}
