@@ -9,12 +9,12 @@
 
 <script>
 import uniNoticeBar from '@dcloudio/uni-ui/lib/uni-notice-bar/uni-notice-bar.vue';
-import { userLoginService } from '@/api/login';
 import CustomSwiper from './components/swipper.vue';
 import FabComponent from './components/fab.vue';
 import TopicComponent from './components/topic.vue';
 import View from "@/pages/index/index.vue";
 import { baseUrl } from "@/utils/env";
+import {userLoginService} from "@/api/login";
 
 export default {
   components: {
@@ -43,17 +43,8 @@ export default {
     };
   },
   onLoad() {
-    this.initialize();
-  },
-  onReachBottom() {
-    this.getRecords();
-  },
-  methods: {
-    /**
-     * 初始化
-     */
-    async initialize() {
-      await this.getRecords();
+    if(!uni.getStorageSync('token')) {
+      console.log('token missing')
       uni.login({
         provider: 'weixin',
         success: async (loginRes) => {
@@ -71,10 +62,20 @@ export default {
         },
         fail: function (err) {
           console.log('login fail:', err);
+          uni.navigateTo({
+            url: '/pages/transition/agreement'
+          })
         }
       });
-    },
-
+    }
+  },
+  onShow() {
+    this.getRecords();
+  },
+  onReachBottom() {
+    this.getRecords();
+  },
+  methods: {
     /**
      * 获取话题列表
      */

@@ -7,7 +7,7 @@
           请您在使用CPU Wall服务前点击
           <text url="https://blog.yiming1234.cn">《服务使用协议》</text>
           <text url="https://blog.yiming1234.cn">《隐私与个人信息保护政策》</text>与
-          并仔细阅读。如您同意以上全部内容，请点击同意并开始使用我们的服务。如果您不同意，您只能浏览部分内容。
+          并仔细阅读。如您同意以上全部内容，请点击同意并开始使用我们的服务。如果您不同意，您将无法使用我们的小程序。
         </text>
       </view>
       <view class="checkbox-container">
@@ -15,14 +15,32 @@
         <text class="checkbox-text">本人已年满14岁，可自行授权个人信息处理</text>
       </view>
       <view class="button-container">
-        <button class="btn disagree">不同意</button>
-        <button class="btn agree">同意</button>
+        <button class="btn disagree" @click="handleDisagree">不同意</button>
+        <button class="btn agree" @click="handleAgree">同意</button>
       </view>
     </view>
   </view>
 </template>
 
 <script setup>
+const handleDisagree = () => {
+  console.log('User disagreed');
+  uni.exitMiniProgram({
+    success: function() {
+      console.log('退出小程序成功');
+    },
+    fail: function(err) {
+      console.log('退出小程序失败', err);
+    }
+  })
+};
+
+const handleAgree = () => {
+  console.log('User agreed');
+  uni.navigateTo({
+    url: '/pages/index/index'
+  })
+};
 </script>
 
 <style scoped>

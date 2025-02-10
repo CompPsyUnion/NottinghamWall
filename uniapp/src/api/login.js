@@ -5,7 +5,6 @@ import {baseUrl} from "@/utils/env";
  */
 export const userLoginService = (LoginData) => {
     console.log('Login request initiated'); // 添加日志
-    // 发送 JSON 格式的请求体
     return new Promise(() => {
         uni.request({
             url: baseUrl + '/student/login/login',
@@ -15,7 +14,6 @@ export const userLoginService = (LoginData) => {
             },
             data: JSON.stringify(LoginData),
             success: function (res) {
-                // 请求成功的回调
                 if (res.statusCode === 200) {
                     console.log('请求成功:', res.data);
                     uni.setStorageSync('token', res.data.data.token);
