@@ -24,7 +24,7 @@ public class UniappController {
      * @param status
      * @return
      */
-    @PutMapping("/{ststus}")
+    @PutMapping("/{status}")
     @ApiOperation(value = "设置状态")
     public Result setStatus(@PathVariable Integer status) {
         log.info("设置状态：{}", status == 1 ? "开启" : "关闭");

@@ -3,9 +3,9 @@
     <uni-card
         v-if="topicRecord"
         :isFull="true"
-        :title="getUserInfo(topicRecord.authorID).username"
+        :title="topicRecord.username"
         :sub-title="topicRecord.updatedAt"
-        :thumbnail="getUserInfo(topicRecord.authorID).avatar"
+        :thumbnail="topicRecord.avatar"
         class="card-container"
         @click.stop
     >
@@ -24,19 +24,19 @@
       </view>
       <view slot="actions" class="card-actions">
         <view class="action-item" @click.stop="handleLike">
-          <uni-icons :type="hasLiked ? 'heart-filled' : 'heart'" size="18" :color="hasLiked ? '#f00' : '#999'"></uni-icons>
+          <uni-icons :type="topicRecord.isLiked ? 'heart-filled' : 'heart'" size="18" :color="topicRecord.isLiked ? '#f00' : '#999'"></uni-icons>
           <text class="action-item-text">
-            {{ hasLiked ? '已点赞' : '点赞' }} {{ likeCount }}
+            {{ topicRecord.isLiked ? '已点赞' : '点赞' }} {{ topicRecord.likeCount }}
           </text>
         </view>
         <view class="action-item" @click.stop="openCommentPopup">
           <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
-          <text class="action-item-text">评论 {{ commentCount }}</text>
+          <text class="action-item-text">评论 {{ topicRecord.commentCount }}</text>
         </view>
         <view class="action-item" @click.stop="handleCollect">
-          <uni-icons :type="isCollected ? 'star-filled' : 'star'" size="18" :color="isCollected ? '#ffcc00' : '#999'"></uni-icons>
+          <uni-icons :type="topicRecord.isCollected ? 'star-filled' : 'star'" size="18" :color="topicRecord.isCollected ? '#ffcc00' : '#999'"></uni-icons>
           <text class="action-item-text">
-            {{ isCollected ? '已收藏' : '收藏' }} {{ collectCount }}
+            {{ topicRecord.isCollected ? '已收藏' : '收藏' }} {{ topicRecord.collectCount }}
           </text>
         </view>
         <view class="action-item share-item" @click.stop>
@@ -58,9 +58,9 @@
           v-for="(comment, index) in comments"
           :key="comment.id"
           :isFull="true"
-          :title="getUserInfo(comment.userId).username"
+          :title="comment.username"
           :sub-title="comment.createdAt"
-          :thumbnail="getUserInfo(comment.userId).avatar"
+          :thumbnail="comment.avatar"
           class="comment-card"
           @click.stop
       >
@@ -72,8 +72,8 @@
         <!-- 评论操作 -->
         <view slot="actions" class="card-actions">
           <view class="action-item" @click.stop="toggleCommentLike(comment)">
-            <uni-icons :type="comment.hasLiked ? 'heart-filled' : 'heart'" size="18" :color="comment.hasLiked ? '#f00' : '#999'"></uni-icons>
-            <text class="action-item-text">{{ comment.hasLiked ? '已点赞' : '点赞' }} {{ comment.likeCount }}</text>
+            <uni-icons :type="comment.isLiked ? 'heart-filled' : 'heart'" size="18" :color="comment.isLiked ? '#f00' : '#999'"></uni-icons>
+            <text class="action-item-text">{{ comment.isLiked ? '已点赞' : '点赞' }} {{ comment.likeCount }}</text>
           </view>
           <view class="action-item" @click.stop="replyToComment(comment)">
             <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
@@ -113,18 +113,15 @@ import View from '@/pages/topic/view.vue';
 import { deleteTopic, fetchTopic,} from "@/api/topic";
 
 import {
-  checkIfCommentLiked,
   deleteComment,
-  fetchCommentCount,
-  fetchCommentLikeCount,
   fetchComments,
   likeComment,
   submitComment,
   unlikeComment,
 } from "@/api/comment";
 
-import {checkIfLiked, fetchLikeCount, likeTopic, unlikeTopic} from "@/api/like";
-import {checkIfCollected, fetchCollectCount, toggleCollect,} from "@/api/collect";
+import {likeTopic, unlikeTopic} from "@/api/like";
+import {collectTopic, uncollectTopic} from "@/api/collect";
 import {getCurrentUserInfo, getUserInfo as apiGetUserInfo} from "@/api/user";
 
 export default {
@@ -140,7 +137,7 @@ export default {
     return {
       topicRecord: null,
       userInfoMap: {},
-      hasLiked: false,
+      isLiked: false,
       isCollected: false,
       commentContent: "",
       comments: [],
@@ -163,19 +160,8 @@ export default {
       console.log("当前用户ID:", this.currentUserId);
 
       this.topicRecord = await fetchTopic(topicId);
-      this.hasLiked = await checkIfLiked(topicId);
-      this.isCollected = await checkIfCollected(topicId);
-      this.commentCount = await fetchCommentCount(topicId);
-      this.likeCount = await fetchLikeCount(topicId);
-      this.collectCount = await fetchCollectCount(topicId);
-
-      for (const comment of this.comments) {
-        comment.likeCount = await fetchCommentLikeCount(comment.id);
-      }
 
       await this.loadComments();
-      await this.fetchUserInfo(this.topicRecord.authorID);
-
       console.log("Received topicId:", topicId);
     } catch (error) {
       console.error("加载数据失败:", error);
@@ -189,21 +175,6 @@ export default {
     this.loadComments();
   },
   methods: {
-
-    /**
-     * 获取用户信息
-     */
-    getUserInfo(authorID) {
-      if (!authorID) {
-        console.error("authorID is undefined");
-        return { username: "匿名用户", avatar: "" };
-      }
-      if (!this.userInfoMap[authorID]) {
-        this.fetchUserInfo(authorID);
-      }
-      return this.userInfoMap[authorID] || { username: "匿名用户", avatar: "" };
-    },
-
     /**
      * 异步获取用户信息
      */
@@ -328,15 +299,15 @@ export default {
      */
     async handleLike() {
       try {
-        if (this.hasLiked) {
+        if (this.topicRecord.isLiked) {
           await unlikeTopic(this.topicRecord.id);
-          this.hasLiked = false;
-          this.likeCount = Math.max(0, this.likeCount - 1);
+          this.topicRecord.isLiked = false;
+          this.topicRecord.likeCount = Math.max(0, this.topicRecord.likeCount - 1);
           await uni.showToast({ title: "取消点赞成功", icon: "success" });
         } else {
           await likeTopic(this.topicRecord.id);
-          this.hasLiked = true;
-          this.likeCount += 1;
+          this.topicRecord.isLiked = true;
+          this.topicRecord.likeCount += 1;
           await uni.showToast({ title: "点赞成功", icon: "success" });
         }
       } catch (error) {
@@ -350,13 +321,17 @@ export default {
      */
     async handleCollect() {
       try {
-        await toggleCollect(this.topicRecord.id, this.isCollected);
-        this.isCollected = !this.isCollected;
-        this.collectCount = this.isCollected
-            ? this.collectCount + 1
-            : Math.max(0, this.collectCount - 1);
-        const message = this.isCollected ? "收藏成功" : "取消收藏成功";
-        await uni.showToast({ title: message, icon: "success" });
+        if (this.topicRecord.isCollected) {
+          await uncollectTopic(this.topicRecord.id);
+          this.topicRecord.isCollected = false;
+          this.topicRecord.collectCount = Math.max(0, this.topicRecord.collectCount - 1);
+          await uni.showToast({ title: "取消收藏成功", icon: "success" });
+        } else {
+          await collectTopic(this.topicRecord.id);
+          this.topicRecord.isCollected = true;
+          this.topicRecord.collectCount += 1;
+          await uni.showToast({ title: "收藏成功", icon: "success" });
+        }
       } catch (error) {
         console.error("收藏操作失败:", error);
         await uni.showToast({ title: "操作失败", icon: "none" });
@@ -392,7 +367,7 @@ export default {
         this.page = 1;
         this.comments = await fetchComments(this.topicRecord.id, this.page, this.pageSize);
         for (const comment of this.comments) {
-          comment.hasLiked = await checkIfCommentLiked(comment.id);
+          comment.isLiked = await checkIfCommentLiked(comment.id);
           await this.fetchUserInfo(comment.userId);
         }
         this.commentCount = await fetchCommentCount(this.topicRecord.id);
@@ -439,23 +414,22 @@ export default {
      */
     async toggleCommentLike(comment) {
       try {
-        if (comment.hasLiked) {
+        if (comment.isLiked) {
           await unlikeComment(comment.id);
-          comment.hasLiked = false;
+          comment.isLiked = false;
           comment.likeCount = Math.max(0, comment.likeCount - 1);
           await uni.showToast({ title: "取消点赞成功", icon: "success" });
         } else {
           await likeComment(comment.id);
-          comment.hasLiked = true;
+          comment.isLiked = true;
           comment.likeCount += 1;
           await uni.showToast({ title: "点赞成功", icon: "success" });
         }
-        comment.likeCount = await fetchCommentLikeCount(comment.id);
       } catch (error) {
         console.error("评论点赞操作失败:", error);
         await uni.showToast({ title: "操作失败", icon: "none" });
       }
-    },
+    }
   },
 };
 </script>

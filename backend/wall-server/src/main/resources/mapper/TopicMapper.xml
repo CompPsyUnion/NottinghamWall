@@ -150,4 +150,8 @@
         DELETE FROM topic WHERE id = #{id}
     </delete>
 
+    <delete id="deleteDraft">
+        DELETE FROM topic WHERE id = #{id}
+    </delete>
+
 </mapper>

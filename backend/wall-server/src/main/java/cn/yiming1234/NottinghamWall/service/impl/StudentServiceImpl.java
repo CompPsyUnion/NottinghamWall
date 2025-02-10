@@ -416,11 +416,30 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public PageResult<Topic> getPublishedPosts(Integer id, int page, int pageSize) {
-        return getPosts(topicMapper::getPublishedTopicIds, id, page, pageSize);
+        PageHelper.startPage(page, pageSize);
+        List<Integer> topicIds = topicMapper.getPublishedTopicIds(id);
+        List<Topic> posts = topicMapper.getTopicsByIds(topicIds);
+        posts.forEach(topic -> {
+            String username = studentMapper.getById(topic.getAuthorID()).getUsername();
+            String avatar = studentMapper.getById(topic.getAuthorID()).getAvatar();
+            topic.setUsername(username);
+            topic.setAvatar(aliOssUtil.generatePresignedUrl(avatar));
+            topic.setIsLiked(topicMapper.isLikeTopic(topic.getId(), id));
+            topic.setIsCollected(topicMapper.isCollectTopic(topic.getId(), id));
+            topic.setLikeCount(topicMapper.getLikeCount(topic.getId()));
+            topic.setCommentCount(commentMapper.getCommentCount(topic.getId()));
+            topic.setCollectCount(topicMapper.getCollectCount(topic.getId()));
+            List<String> signedUrls = topic.getImgURLs().stream()
+                .map(aliOssUtil::generatePresignedUrl)
+                .collect(Collectors.toList());
+            topic.setImgURLs(signedUrls);
+        });
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
     }
 
     /**
-     * 查询评论的帖子（分页）
+     * 查询收藏的帖子（分页）
      * @param id 学生id
      * @param page 页码
      * @param pageSize 每页大小
@@ -428,11 +447,30 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     public PageResult<Topic> getCollectedPosts(Integer id, int page, int pageSize) {
-        return getPosts(topicMapper::getCollectedTopicIds, id, page, pageSize);
+        PageHelper.startPage(page, pageSize);
+        List<Integer> topicIds = topicMapper.getCollectedTopicIds(id);
+        List<Topic> posts = topicMapper.getTopicsByIds(topicIds);
+        posts.forEach(topic -> {
+            String username = studentMapper.getById(topic.getAuthorID()).getUsername();
+            String avatar = studentMapper.getById(topic.getAuthorID()).getAvatar();
+            topic.setUsername(username);
+            topic.setAvatar(aliOssUtil.generatePresignedUrl(avatar));
+            topic.setIsLiked(topicMapper.isLikeTopic(topic.getId(), id));
+            topic.setIsCollected(topicMapper.isCollectTopic(topic.getId(), id));
+            topic.setLikeCount(topicMapper.getLikeCount(topic.getId()));
+            topic.setCommentCount(commentMapper.getCommentCount(topic.getId()));
+            topic.setCollectCount(topicMapper.getCollectCount(topic.getId()));
+            List<String> signedUrls = topic.getImgURLs().stream()
+                .map(aliOssUtil::generatePresignedUrl)
+                .collect(Collectors.toList());
+            topic.setImgURLs(signedUrls);
+        });
+        PageInfo<Topic> pageInfo = new PageInfo<>(posts);
+        return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
     }
 
     /**
-     * 查询收藏的帖子（分页）
+     * 查询评论的帖子（分页）
      * @param id 学生id
      * @param page 页码
      * @param pageSize 每页大小

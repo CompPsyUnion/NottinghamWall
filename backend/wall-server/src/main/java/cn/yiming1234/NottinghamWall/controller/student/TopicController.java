@@ -67,7 +67,7 @@ public class TopicController {
     @PostMapping("/post/topic")
     @ApiOperation(value = "创建话题")
     public Result<Void> createTopic(@RequestBody TopicDTO topicDTO, HttpServletRequest request) throws Exception {
-        Integer userId = (Integer) Math.toIntExact(extractUserId(request));
+        Integer userId = Math.toIntExact(extractUserId(request));
         topicDTO.setAuthorID(userId);
 
         List<String> imgURLs = topicDTO.getImgURLs();
@@ -153,9 +153,10 @@ public class TopicController {
      */
     @GetMapping("/get/topic")
     @ApiOperation(value = "实现话题无限滚动")
-    public Result<PageResult<Topic>> getTopic(PageQueryDTO pageQueryDTO) {
-        log.info("获取话题列表：{}", pageQueryDTO);
-        PageResult<Topic> pageResult = topicService.pageQuery(pageQueryDTO);
+    public Result<PageResult<Topic>> getTopic(HttpServletRequest request, PageQueryDTO pageQueryDTO) {
+        Integer userId = extractUserId(request);
+        PageResult<Topic> pageResult = topicService.pageQuery(pageQueryDTO, userId);
+        log.info("获取话题列表：{}", pageResult);
         return Result.success(pageResult);
     }
 
@@ -164,9 +165,10 @@ public class TopicController {
      */
     @GetMapping("/topic/{id}")
     @ApiOperation(value = "根据id获取话题详情")
-    public Result<Topic> getTopicById(@PathVariable Integer id) {
-        log.info("获取话题详情：{}", id);
-        Topic topic = topicService.getTopicById(id);
+    public Result<Topic> getTopicById(@PathVariable Integer id, HttpServletRequest request) {
+        Integer userId = extractUserId(request);
+        Topic topic = topicService.getTopicById(id, userId);
+        log.info("获取话题详情：{}", topic);
         return Result.success(topic);
     }
 
@@ -195,29 +197,6 @@ public class TopicController {
     }
 
     /**
-     * 是否点赞话题
-     */
-    @GetMapping("/islike/topic/{id}")
-    @ApiOperation(value = "是否点赞话题")
-    public Result<Boolean> isLikeTopic(@PathVariable Integer id, HttpServletRequest request) {
-        log.info("检查是否点赞话题：{}", id);
-        Integer userId = extractUserId(request);
-        Boolean isLike = topicService.isLikeTopic(id, userId);
-        return Result.success(isLike);
-    }
-
-    /**
-     * 获取点赞计数
-     */
-    @GetMapping("/like/count/{id}")
-    @ApiOperation(value = "获取点赞计数")
-    public Result<Integer> getLikeCount(@PathVariable Integer id) {
-        log.info("获取点赞计数：{}", id);
-        int count = topicService.getLikeCount(id);
-        return Result.success(count);
-    }
-
-    /**
      * 收藏话题
      */
     @PostMapping("/collect/topic/{id}")
@@ -240,28 +219,4 @@ public class TopicController {
         topicService.uncollectTopic(id, userId);
         return Result.success(null);
     }
-
-    /**
-     * 是否收藏话题
-     */
-    @GetMapping("/iscollect/topic/{id}")
-    @ApiOperation(value = "是否收藏话题")
-    public Result<Boolean> isCollectTopic(@PathVariable Integer id, HttpServletRequest request) {
-        log.info("检查是否收藏话题：{}", id);
-        Integer userId = extractUserId(request);
-        Boolean isCollect = topicService.isCollectTopic(id, userId);
-        return Result.success(isCollect);
-    }
-
-    /**
-     * 获取收藏计数
-     */
-    @GetMapping("/collect/count/{id}")
-    @ApiOperation(value = "获取收藏计数")
-    public Result<Integer> getCollectCount(@PathVariable Integer id) {
-        log.info("获取收藏计数：{}", id);
-        int count = topicService.getCollectCount(id);
-        return Result.success(count);
-    }
-
 }

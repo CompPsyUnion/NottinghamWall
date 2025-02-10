@@ -37,6 +37,10 @@
         order by create_time desc
     </select>
 
+    <select id="getByEmail" resultType="cn.yiming1234.NottinghamWall.entity.Student">
+        SELECT * FROM student WHERE email = #{email}
+    </select>
+
     <update id="updateById" parameterType="cn.yiming1234.NottinghamWall.entity.Student">
         UPDATE student
         SET

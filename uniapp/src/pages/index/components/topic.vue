@@ -4,9 +4,9 @@
       <uni-card
           v-for="(record, index) in records"
           :key="index"
-          :title="getUserInfo(record.authorID).username"
+          :title="record.username"
           :sub-title="record.updatedAt"
-          :thumbnail="getUserInfo(record.authorID).avatar"
+          :thumbnail="record.avatar"
           @click="onClick(record)"
       >
         <view class="image-container">
@@ -20,9 +20,9 @@
         <text class="uni-body content">{{ record.content }}</text>
         <view slot="actions" class="card-actions">
           <view class="action-item" @click.stop="handleLike(record)">
-            <uni-icons :type="record.hasLiked ? 'heart-filled' : 'heart'" size="18" :color="record.hasLiked ? '#f00' : '#999'"></uni-icons>
+            <uni-icons :type="record.isLiked ? 'heart-filled' : 'heart'" size="18" :color="record.isLiked ? '#f00' : '#999'"></uni-icons>
             <text class="action-item-text">
-              {{ record.hasLiked ? '已点赞' : '点赞' }} {{ record.likeCount }}
+              {{ record.isLiked ? '已点赞' : '点赞' }} {{ record.likeCount }}
             </text>
           </view>
           <view class="action-item">
@@ -48,10 +48,8 @@ import uniCard from "@dcloudio/uni-ui/lib/uni-card/uni-card.vue";
 import uniIcons from "@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue";
 import uniSection from "@dcloudio/uni-ui/lib/uni-section/uni-section.vue";
 
-import { baseUrl } from "@/utils/env";
-import { checkIfLiked, fetchLikeCount, likeTopic, unlikeTopic } from "@/api/like";
-import { checkIfCollected, fetchCollectCount, toggleCollect } from "@/api/collect";
-import { fetchCommentCount } from "@/api/comment";
+import { likeTopic, unlikeTopic } from "@/api/like";
+import { collectTopic, uncollectTopic } from "@/api/collect";
 import View from "@/pages/topic/view.vue";
 
 export default {
@@ -77,52 +75,7 @@ export default {
       userInfoMap: {},
     };
   },
-  watch: {
-    records: {
-      async handler(newRecords) {
-        const promises = newRecords.map(async (record) => {
-          await this.fetchUserInfo(record.authorID);
-          record.hasLiked = await checkIfLiked(record.id);
-          record.isCollected = await checkIfCollected(record.id);
-          record.likeCount = await fetchLikeCount(record.id);
-          record.collectCount = await fetchCollectCount(record.id);
-          record.commentCount = await fetchCommentCount(record.id);
-        });
-
-        await Promise.all(promises);
-      },
-      immediate: true,
-    },
-  },
   methods: {
-    async fetchUserInfo(authorID) {
-      if (!this.userInfoMap[authorID]) {
-        try {
-          const res = await uni.request({
-            url: baseUrl + `/student/get/info/${authorID}`,
-            method: "GET",
-            header: {
-              "content-type": "application/json",
-              token: uni.getStorageSync("token"),
-            },
-          });
-          if (res.data.code === 1) {
-            this.$set(this.userInfoMap, authorID, res.data.data);
-          } else {
-            this.$set(this.userInfoMap, authorID, { nickname: "匿名用户", avatar: "" });
-          }
-        } catch (error) {
-          console.error(`获取用户信息失败 authorID: ${authorID}`, error);
-          this.$set(this.userInfoMap, authorID, { nickname: "匿名用户", avatar: "" });
-        }
-      }
-    },
-    getUserInfo(authorID) {
-      if (!this.userInfoMap[authorID]) {
-        this.fetchUserInfo(authorID);
-      }
-      return this.userInfoMap[authorID] || {};
-    },
     onClick(record) {
       uni.navigateTo({
         url: `/pages/topic/view?topicId=${record.id}`,
@@ -130,14 +83,14 @@ export default {
     },
     async handleLike(record) {
       try {
-        if (record.hasLiked) {
+        if (record.isLiked) {
           await unlikeTopic(record.id);
-          record.hasLiked = false;
+          record.isLiked = false;
           record.likeCount = Math.max(0, record.likeCount - 1);
           uni.showToast({ title: "取消点赞成功", icon: "success" });
         } else {
           await likeTopic(record.id);
-          record.hasLiked = true;
+          record.isLiked = true;
           record.likeCount += 1;
           uni.showToast({ title: "点赞成功", icon: "success" });
         }
@@ -148,17 +101,22 @@ export default {
     },
     async handleCollect(record) {
       try {
-        await toggleCollect(record.id, record.isCollected);
-        record.isCollected = !record.isCollected;
-        record.collectCount = record.isCollected ? record.collectCount + 1 : Math.max(0, record.collectCount - 1);
-        const message = record.isCollected ? "收藏成功" : "取消收藏成功";
-        uni.showToast({ title: message, icon: "success" });
+        if (record.isCollected) {
+          await uncollectTopic(record.id);
+          record.isCollected = false;
+          record.collectCount = Math.max(0, record.collectCount - 1);
+          await uni.showToast({ title: "取消收藏成功", icon: "success" });
+        } else {
+          await collectTopic(record.id);
+          record.isCollected = true;
+          record.collectCount += 1;
+          await uni.showToast({ title: "收藏成功", icon: "success" });
+        }
       } catch (error) {
         console.error("收藏操作失败:", error);
-        uni.showToast({ title: "操作失败", icon: "none" });
+        await uni.showToast({ title: "操作失败", icon: "none" });
       }
     },
-
     async handleShare(record) {
       this.$emit('share', record);
     },

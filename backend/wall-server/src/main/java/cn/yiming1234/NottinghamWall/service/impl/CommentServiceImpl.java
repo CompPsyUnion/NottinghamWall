@@ -7,6 +7,7 @@ import cn.yiming1234.NottinghamWall.exception.TeapotException;
 import cn.yiming1234.NottinghamWall.mapper.CommentMapper;
 import cn.yiming1234.NottinghamWall.mapper.StudentMapper;
 import cn.yiming1234.NottinghamWall.service.CommentService;
+import cn.yiming1234.NottinghamWall.utils.AliOssUtil;
 import cn.yiming1234.NottinghamWall.utils.ContentCheckUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,13 +26,15 @@ public class CommentServiceImpl implements CommentService {
     private final ContentCheckUtil contentCheckUtil;
     private final StudentServiceImpl studentServiceImpl;
     private final StudentMapper studentMapper;
+    private final AliOssUtil aliOssUtil;
 
     @Autowired
-    public CommentServiceImpl(CommentMapper commentMapper, ContentCheckUtil contentCheckUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper) {
+    public CommentServiceImpl(CommentMapper commentMapper, ContentCheckUtil contentCheckUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper, AliOssUtil aliOssUtil) {
         this.commentMapper = commentMapper;
         this.contentCheckUtil = contentCheckUtil;
         this.studentServiceImpl = studentServiceImpl;
         this.studentMapper = studentMapper;
+        this.aliOssUtil = aliOssUtil;
     }
 
     /**
@@ -98,32 +101,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * 判断是否点赞评论
-     * @param commentId 评论ID
-     * @param userId 用户ID
-     * @return 是否点赞
-     */
-    @Override
-    public Boolean isLikeComment(Integer commentId, Integer userId) {
-        Boolean isLiked = commentMapper.isLikeComment(commentId, userId);
-        log.info("用户 {} 是否点赞评论 {}：{}", userId, commentId, isLiked);
-        return isLiked;
-    }
-
-    /**
-     * 获取点赞评论计数
-     * @param id 评论ID
-     * @return 点赞数
-     */
-    @Override
-    public int getLikeCommentCount(Integer id) {
-        int count = commentMapper.getLikeCommentCount(id);
-        log.info("评论 {} 的点赞数：{}", id, count);
-        return count;
-    }
-
-    /**
-     * 获取评论列表
+     * 管理端获取评论列表
      * （MyBatis PageHelper插件实现）
      * @param topicId 话题ID
      * @param page 页码
@@ -135,31 +113,34 @@ public class CommentServiceImpl implements CommentService {
         PageHelper.startPage(page, pageSize);
         List<CommentDTO> comments = commentMapper.getComments(topicId);
         comments.forEach(comment -> {
-            boolean hasLiked = commentMapper.isLikeComment(comment.getId(), BaseContext.getCurrentId());
-            comment.setHasLiked(hasLiked);
+            boolean isLiked = commentMapper.isLikeComment(comment.getId(), BaseContext.getCurrentId());
+            comment.setIsLiked(isLiked);
         });
         return new PageInfo<>(comments);
     }
 
     /**
-     * 获取评论计数
-     * @param id 话题ID
-     * @return 评论数
+     * 用户端获取评论列表
+     * （MyBatis PageHelper插件实现）
+     * @param topicId 话题ID
+     * @param page 页码
+     * @param pageSize 每页数量
+     * @return 评论列表
      */
     @Override
-    public int getCommentCount(Integer id) {
-        int count = commentMapper.getCommentCount(id);
-        log.info("话题 {} 的评论数：{}", id, count);
-        return count;
-    }
-
-    /**
-     * 根据Id查看评论
-     * @param commentId 评论ID
-     * @return 评论DTO
-     */
-    @Override
-    public CommentDTO getCommentById(Integer commentId) {
-        return commentMapper.getCommentById(commentId);
+    public PageInfo<CommentDTO> getComments(Integer userId, Integer topicId, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<CommentDTO> comments = commentMapper.getComments(topicId);
+        comments.forEach(comment -> {
+            String username = studentMapper.getById(comment.getUserId()).getUsername();
+            String avatar = studentMapper.getById(comment.getUserId()).getAvatar();
+            boolean isLiked = commentMapper.isLikeComment(comment.getId(), userId);
+            Integer count = commentMapper.getLikeCommentCount(comment.getId());
+            comment.setUsername(username);
+            comment.setAvatar(aliOssUtil.generatePresignedUrl(avatar));
+            comment.setIsLiked(isLiked);
+            comment.setLikeCount(count);
+        });
+        return new PageInfo<>(comments);
     }
 }

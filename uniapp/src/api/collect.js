@@ -26,16 +26,12 @@ export const fetchCollectedTopics = (page = 1, pageSize = 5) => {
 };
 
 /**
- * 收藏/取消收藏话题
+ * 收藏话题
  */
-export const toggleCollect = (topicId, isCollected) => {
-    const url = isCollected
-        ? `${baseUrl}/student/uncollect/topic/${topicId}`
-        : `${baseUrl}/student/collect/topic/${topicId}`;
-
+export const collectTopic = (topicId) => {
     return new Promise((resolve, reject) => {
         uni.request({
-            url: url,
+            url: `${baseUrl}/student/collect/topic/${topicId}`,
             method: 'POST',
             header: {
                 'Content-Type': 'application/json',
@@ -45,7 +41,7 @@ export const toggleCollect = (topicId, isCollected) => {
                 if (res.data.code === 1) {
                     resolve(res.data.msg);
                 } else {
-                    reject(res.data.msg || '操作失败');
+                    reject(res.data.msg || '收藏失败');
                 }
             },
             fail: (err) => reject(err),
@@ -54,55 +50,25 @@ export const toggleCollect = (topicId, isCollected) => {
 };
 
 /**
- * 检查是否已收藏
+ * 取消收藏话题
  */
-export const checkIfCollected = (topicId) => {
-    return new Promise((resolve) => {
+export const uncollectTopic = (topicId) => {
+    return new Promise((resolve, reject) => {
         uni.request({
-            url: `${baseUrl}/student/iscollect/topic/${topicId}`,
-            method: 'GET',
+            url: `${baseUrl}/student/uncollect/topic/${topicId}`,
+            method: 'POST',
             header: {
                 'Content-Type': 'application/json',
                 'token': uni.getStorageSync('token'),
             },
             success: (res) => {
                 if (res.data.code === 1) {
-                    resolve(res.data.data);
+                    resolve(res.data.msg);
                 } else {
-                    resolve(false);
+                    reject(res.data.msg || '取消收藏失败');
                 }
             },
-            fail: (err) => {
-                console.error("检查是否已收藏失败:", err);
-                resolve(false);
-            },
-        });
-    });
-};
-
-/**
- * 获取收藏计数
- */
-export const fetchCollectCount = (topicId) => {
-    return new Promise((resolve) => {
-        uni.request({
-            url: `${baseUrl}/student/collect/count/${topicId}`,
-            method: 'GET',
-            header: {
-                'Content-Type': 'application/json',
-                'token': uni.getStorageSync('token'),
-            },
-            success: (res) => {
-                if (res.data.code === 1) {
-                    resolve(res.data.data || 0);
-                } else {
-                    resolve(0);
-                }
-            },
-            fail: (err) => {
-                console.error("获取收藏计数失败:", err);
-                resolve(0);
-            },
+            fail: (err) => reject(err),
         });
     });
 };

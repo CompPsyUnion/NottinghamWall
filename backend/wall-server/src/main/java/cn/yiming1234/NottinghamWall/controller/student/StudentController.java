@@ -159,21 +159,6 @@ public class StudentController {
     }
 
     /**
-     * 获取评论的帖子（分页）
-     */
-    @ApiOperation(value = "获取评论的帖子（分页）")
-    @GetMapping("/get/comment")
-    public Result<PageResult<Topic>> getComment(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
-            HttpServletRequest request
-    ) {
-        Integer id = getCurrentStudentId(request);
-        PageResult<Topic> pageResult = studentService.getCommentedPosts(id, page, pageSize);
-        return Result.success(pageResult);
-    }
-
-    /**
      * 获取收藏的帖子（分页）
      */
     @ApiOperation(value = "获取收藏的帖子（分页）")
@@ -185,6 +170,21 @@ public class StudentController {
     ) {
         Integer id = getCurrentStudentId(request);
         PageResult<Topic> pageResult = studentService.getCollectedPosts(id, page, pageSize);
+        return Result.success(pageResult);
+    }
+
+    /**
+     * 获取评论的帖子（分页）
+     */
+    @ApiOperation(value = "获取评论的帖子（分页）")
+    @GetMapping("/get/comment")
+    public Result<PageResult<Topic>> getComment(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            HttpServletRequest request
+    ) {
+        Integer id = getCurrentStudentId(request);
+        PageResult<Topic> pageResult = studentService.getCommentedPosts(id, page, pageSize);
         return Result.success(pageResult);
     }
 }

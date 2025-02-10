@@ -92,29 +92,6 @@ public class CommentController {
     }
 
     /**
-     * 检查是否点赞评论
-     */
-    @GetMapping("/islike/comment/{id}")
-    @ApiOperation(value = "检查是否点赞评论")
-    public Result<Boolean> isLikeComment(@PathVariable Integer id, HttpServletRequest request) {
-        log.info("检查是否点赞评论：{}", id);
-        Integer userId = extractUserId(request);
-        Boolean isLike = commentService.isLikeComment(id, userId);
-        return Result.success(isLike);
-    }
-
-    /**
-     * 获取评论点赞计数
-     */
-    @GetMapping("/like/comment/count/{id}")
-    @ApiOperation(value = "获取评论点赞计数")
-    public Result<Integer> getLikeCommentCount(@PathVariable Integer id) {
-        log.info("获取评论点赞计数：{}", id);
-        int count = commentService.getLikeCommentCount(id);
-        return Result.success(count);
-    }
-
-    /**
      * 获取指定话题的所有评论，并进行分页处理。
      *
      * @param topicId  话题ID
@@ -125,26 +102,17 @@ public class CommentController {
     @GetMapping("/get/comments/{topicId}")
     @ApiOperation(value = "获取评论")
     public Result<PageInfo<CommentDTO>> getComments(
+            HttpServletRequest request,
             @PathVariable Integer topicId,
             @RequestParam() int page,
             @RequestParam() int pageSize
     ) {
-        log.info("获取评论列表：topicId={}, page={}, pageSize={}", topicId, page, pageSize);
-        PageInfo<CommentDTO> comments = commentService.getComments(topicId, page, pageSize);
+        Integer userId = extractUserId(request);
+        log.info("获取评论列表：userId={}, topicId={}, page={}, pageSize={}", userId, topicId, page, pageSize);
+        PageInfo<CommentDTO> comments = commentService.getComments(userId, topicId, page, pageSize);
         log.info("评论列表：{}", comments);
         log.info("评论列表大小：{}", comments.getList().size());
         return Result.success(comments);
 
-    }
-
-    /**
-     * 获取评论计数
-     */
-    @GetMapping("/comment/count/{id}")
-    @ApiOperation(value = "获取评论计数")
-    public Result<Integer> getCommentCount(@PathVariable Integer id) {
-        log.info("获取评论计数：{}", id);
-        int count = commentService.getCommentCount(id);
-        return Result.success(count);
     }
 }

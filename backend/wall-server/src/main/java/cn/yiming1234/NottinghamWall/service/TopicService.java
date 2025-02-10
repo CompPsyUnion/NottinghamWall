@@ -44,16 +44,27 @@ public interface TopicService {
     Boolean isExistDraft(Integer authorID);
 
     /**
-     * 分页查询话题
-     * @param pageQueryDTO 分页查询DTO
+     * 管理端分页查询话题
      */
     PageResult<Topic> pageQuery(PageQueryDTO pageQueryDTO);
+
+    /**
+     * 用户端分页查询话题
+     * @param pageQueryDTO 分页查询DTO
+     */
+    PageResult<Topic> pageQuery(PageQueryDTO pageQueryDTO, Integer userId);
 
     /**
      * 根据id获取话题
      * @param id 话题id
      */
     Topic getTopicById(Integer id);
+
+    /**
+     * 根据id获取话题
+     * @param id 话题id
+     */
+    Topic getTopicById(Integer id, Integer userId);
 
     /**
      * 点赞话题
@@ -70,19 +81,6 @@ public interface TopicService {
     void unlikeTopic(Integer id, Integer userId);
 
     /**
-     * 判断是否点赞话题
-     * @param id 话题id
-     * @param userId 用户id
-     */
-    Boolean isLikeTopic(Integer id, Integer userId);
-
-    /**
-     * 获取点赞计数
-     * @param id 话题id
-     */
-    int getLikeCount(Integer id);
-
-    /**
      * 收藏话题
      * @param id 话题id
      * @param userId 用户id
@@ -95,19 +93,6 @@ public interface TopicService {
      * @param userId 用户id
      */
     void uncollectTopic(Integer id, Integer userId);
-
-    /**
-     * 判断是否收藏话题
-     * @param id 话题id
-     * @param userId 用户id
-     */
-    Boolean isCollectTopic(Integer id, Integer userId);
-
-    /**
-     * 获取收藏计数
-     * @param id 话题id
-     */
-    int getCollectCount(Integer id);
 
     // TODO 邮箱功能（获赞评论提醒）
 }

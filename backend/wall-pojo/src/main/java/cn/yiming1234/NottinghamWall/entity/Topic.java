@@ -19,9 +19,15 @@ public class Topic implements Serializable {
     private Integer id;
     private String content;
     private Integer authorID;
+    private String username;
+    private String avatar;
     private List<String> imgURLs;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean isDraft;
-
+    private Integer likeCount;
+    private Integer commentCount;
+    private Integer collectCount;
+    private Boolean isLiked;
+    private Boolean isCollected;
 }

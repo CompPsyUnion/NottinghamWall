@@ -5,6 +5,7 @@ import cn.yiming1234.NottinghamWall.dto.PageQueryDTO;
 import cn.yiming1234.NottinghamWall.dto.TopicDTO;
 import cn.yiming1234.NottinghamWall.entity.Topic;
 import cn.yiming1234.NottinghamWall.exception.TeapotException;
+import cn.yiming1234.NottinghamWall.mapper.CommentMapper;
 import cn.yiming1234.NottinghamWall.mapper.StudentMapper;
 import cn.yiming1234.NottinghamWall.mapper.TopicMapper;
 import cn.yiming1234.NottinghamWall.properties.AliOssProperties;
@@ -36,15 +37,17 @@ public class TopicServiceImpl implements TopicService {
     private final StudentServiceImpl studentServiceImpl;
     private final StudentMapper studentMapper;
     private final AliOssProperties aliOssProperties;
+    private final CommentMapper commentMapper;
 
     @Autowired
-    public TopicServiceImpl(TopicMapper topicMapper, ContentCheckUtil contentCheckUtil, AliOssUtil aliOssUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper, AliOssProperties aliOssProperties) {
+    public TopicServiceImpl(TopicMapper topicMapper, ContentCheckUtil contentCheckUtil, AliOssUtil aliOssUtil, StudentServiceImpl studentServiceImpl, StudentMapper studentMapper, AliOssProperties aliOssProperties, CommentMapper commentMapper) {
         this.topicMapper = topicMapper;
         this.contentCheckUtil = contentCheckUtil;
         this.aliOssUtil = aliOssUtil;
         this.studentServiceImpl = studentServiceImpl;
         this.studentMapper = studentMapper;
         this.aliOssProperties = aliOssProperties;
+        this.commentMapper = commentMapper;
     }
 
     private Topic convertToTopic(TopicDTO topicDTO) {
@@ -156,7 +159,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     /**
-     * 分页查询话题
+     * 管理端
      * @param pageQueryDTO 分页查询DTO
      * @return 分页结果
      */
@@ -176,6 +179,35 @@ public class TopicServiceImpl implements TopicService {
     }
 
     /**
+     * 用户端分页查询话题
+     * @param pageQueryDTO 分页查询DTO
+     * @return 分页结果
+     */
+    @Override
+    public PageResult<Topic> pageQuery(PageQueryDTO pageQueryDTO, Integer userId) {
+        PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
+        Page<Topic> page = topicMapper.pageQuery(pageQueryDTO);
+        long total = page.getTotal();
+        List<Topic> records = page.getResult();
+        records.forEach(topic -> {
+            String username = studentMapper.getById(topic.getAuthorID()).getUsername();
+            String avatar = studentMapper.getById(topic.getAuthorID()).getAvatar();
+            topic.setUsername(username);
+            topic.setAvatar(aliOssUtil.generatePresignedUrl(avatar));
+            topic.setIsLiked(topicMapper.isLikeTopic(topic.getId(), userId));
+            topic.setIsCollected(topicMapper.isCollectTopic(topic.getId(), userId));
+            topic.setLikeCount(topicMapper.getLikeCount(topic.getId()));
+            topic.setCommentCount(commentMapper.getCommentCount(topic.getId()));
+            topic.setCollectCount(topicMapper.getCollectCount(topic.getId()));
+            List<String> signedUrls = topic.getImgURLs().stream()
+                    .map(aliOssUtil::generatePresignedUrl)
+                    .collect(Collectors.toList());
+            topic.setImgURLs(signedUrls);
+        });
+        return new PageResult<>(total, records);
+    }
+
+    /**
      * 根据id获取话题
      * @param id 话题id
      * @return 话题
@@ -184,6 +216,33 @@ public class TopicServiceImpl implements TopicService {
     public Topic getTopicById(Integer id) {
         Topic topic = topicMapper.getTopicById(id);
         if (topic != null && topic.getImgURLs() != null) {
+            List<String> signedUrls = topic.getImgURLs().stream()
+                    .map(aliOssUtil::generatePresignedUrl)
+                    .collect(Collectors.toList());
+            topic.setImgURLs(signedUrls);
+        }
+        log.info("根据id获取话题详情：{}", topic);
+        return topic;
+    }
+
+    /**
+     * 根据id获取话题
+     * @param id 话题id
+     * @return 话题
+     */
+    @Override
+    public Topic getTopicById(Integer id, Integer userId) {
+        Topic topic = topicMapper.getTopicById(id);
+        if (topic != null && topic.getImgURLs() != null) {
+            String username = studentMapper.getById(topic.getAuthorID()).getUsername();
+            String avatar = studentMapper.getById(topic.getAuthorID()).getAvatar();
+            topic.setUsername(username);
+            topic.setAvatar(aliOssUtil.generatePresignedUrl(avatar));
+            topic.setIsLiked(topicMapper.isLikeTopic(topic.getId(), userId));
+            topic.setIsCollected(topicMapper.isCollectTopic(topic.getId(), userId));
+            topic.setLikeCount(topicMapper.getLikeCount(topic.getId()));
+            topic.setCommentCount(commentMapper.getCommentCount(topic.getId()));
+            topic.setCollectCount(topicMapper.getCollectCount(topic.getId()));
             List<String> signedUrls = topic.getImgURLs().stream()
                     .map(aliOssUtil::generatePresignedUrl)
                     .collect(Collectors.toList());
@@ -214,31 +273,6 @@ public class TopicServiceImpl implements TopicService {
     }
 
     /**
-     * 判断是否点赞
-     * @param id 话题id
-     * @param userId 用户id
-     * @return 是否点赞
-     */
-    @Override
-    public Boolean isLikeTopic(Integer id, Integer userId) {
-        Boolean isLiked = topicMapper.isLikeTopic(id, userId);
-        log.info("是否点赞话题：{}", isLiked);
-        return isLiked;
-    }
-
-    /**
-     * 获取点赞计数
-     * @param id 话题id
-     * @return 点赞数
-     */
-    @Override
-    public int getLikeCount(Integer id) {
-        int count = topicMapper.getLikeCount(id);
-        log.info("话题 {} 的点赞数：{}", id.toString(), Integer.valueOf(count));
-        return count;
-    }
-
-    /**
      * 收藏话题
      * @param id 话题id
      */
@@ -257,28 +291,4 @@ public class TopicServiceImpl implements TopicService {
         topicMapper.uncollectTopic(id, userId);
     }
 
-    /**
-     * 判断是否收藏话题
-     * @param id 话题id
-     * @param userId 用户id
-     * @return 是否收藏
-     */
-    @Override
-    public Boolean isCollectTopic(Integer id, Integer userId) {
-        Boolean isCollected = topicMapper.isCollectTopic(id, userId);
-        log.info("用户 {} 是否收藏话题 {}：{}", userId, id, isCollected);
-        return isCollected;
-    }
-
-    /**
-     * 获取收藏计数
-     * @param id 话题id
-     * @return 收藏数
-     */
-    @Override
-    public int getCollectCount(Integer id) {
-        int count = topicMapper.getCollectCount(id);
-        log.info("话题 {} 的收藏数：{}", id.toString(), Integer.valueOf(count));
-        return count;
-    }
 }
