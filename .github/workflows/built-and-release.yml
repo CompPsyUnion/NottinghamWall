@@ -1,6 +1,7 @@
 name: SpringBoot Built and Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -32,6 +33,7 @@ jobs:
       uses: softprops/action-gh-release@v2.0.6
       with:
         files: backend/wall-server/target/wall-server-*.jar
+        name: Updated at 25/02/10
         tag_name: NottinghamWall-backend-v1.0
     - name: upload to server
       uses: appleboy/scp-action@master
