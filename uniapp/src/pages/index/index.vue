@@ -43,8 +43,19 @@ export default {
     };
   },
   onLoad() {
-    if(!uni.getStorageSync('token')) {
-      console.log('token missing')
+    this.init();
+  },
+  onShow() {
+    this.getRecords();
+  },
+  onReachBottom() {
+    this.getRecords();
+  },
+  methods: {
+    /**
+     * 初始化
+     */
+    async init() {
       uni.login({
         provider: 'weixin',
         success: async (loginRes) => {
@@ -67,23 +78,21 @@ export default {
           })
         }
       });
-    }
-  },
-  onShow() {
-    this.getRecords();
-  },
-  onReachBottom() {
-    this.getRecords();
-  },
-  methods: {
+    },
+
     /**
      * 获取话题列表
      */
     async getRecords() {
+      const token = uni.getStorageSync('token');
+      if (!token) {
+        uni.navigateTo({
+          url: '/pages/transition/agreement'
+        });
+      }
       if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
         return;
       }
-
       this.loadMoreStatus = 'loading';
       try {
         const res = await uni.request({
@@ -91,12 +100,10 @@ export default {
           method: 'GET',
           header: {
             'content-type': 'application/json',
-            'token': uni.getStorageSync('token')
+            'token': token
           },
         });
-
         console.log('请求结果:', res);
-
         if (res.statusCode === 200 && res.data.code === 1) {
           let newRecords = res.data.data.records;
           newRecords = newRecords.filter(record => !record.isDraft);
@@ -112,6 +119,10 @@ export default {
               this.page++;
             }
           }
+        } else if (res.statusCode === 500) {
+          uni.navigateTo({
+            url: '/pages/transition/agreement'
+          });
         } else {
           this.loadMoreStatus = 'more';
           uni.showToast({ title: '加载失败', icon: 'none' });
@@ -122,7 +133,6 @@ export default {
         uni.showToast({ title: '加载失败', icon: 'none' });
       }
     },
-
   }
 };
 </script>

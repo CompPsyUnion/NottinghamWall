@@ -44,15 +44,6 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("当前员工id:{}", empId);
             BaseContext.setCurrentId(empId);
             return true;
-        } catch (ExpiredJwtException ex) {
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
-            Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
-            BaseContext.setCurrentId(userId);
-
-            Map<String, Object> newClaims = new HashMap<>(claims);
-            String refreshToken = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), newClaims);
-            log.info("生成的新jwt令牌: {}", refreshToken);
-            return  true;
         } catch (Exception ex) {
             response.setStatus(401);
             return false;

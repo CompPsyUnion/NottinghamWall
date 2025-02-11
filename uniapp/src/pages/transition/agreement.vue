@@ -37,7 +37,7 @@ const handleDisagree = () => {
 
 const handleAgree = () => {
   console.log('User agreed');
-  uni.navigateTo({
+  uni.reLaunch({
     url: '/pages/index/index'
   })
 };
