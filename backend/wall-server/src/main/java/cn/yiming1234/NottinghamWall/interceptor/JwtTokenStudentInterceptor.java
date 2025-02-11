@@ -5,6 +5,7 @@ import cn.yiming1234.NottinghamWall.context.BaseContext;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * jwt令牌校验的拦截器
@@ -40,6 +43,15 @@ public class JwtTokenStudentInterceptor implements HandlerInterceptor {
             log.info("userId:{}", userId);
             BaseContext.setCurrentId(userId);
             return true;
+        } catch (ExpiredJwtException ex) {
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+            Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
+            BaseContext.setCurrentId(userId);
+
+            Map<String, Object> newClaims = new HashMap<>(claims);
+            String refreshToken = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), newClaims);
+            log.info("生成的新jwt令牌: {}", refreshToken);
+            return  true;
         } catch (Exception ex) {
             response.setStatus(401);
             return false;

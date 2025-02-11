@@ -20,9 +20,6 @@ public class UniappController {
     private RedisTemplate redisTemplate;
     /**
      * 设置状态
-     *
-     * @param status
-     * @return
      */
     @PutMapping("/{status}")
     @ApiOperation(value = "设置状态")
@@ -34,8 +31,6 @@ public class UniappController {
 
     /**
      * 管理端获取状态
-     *
-     * @return
      */
     @GetMapping("/status")
     @ApiOperation(value = "获取状态")

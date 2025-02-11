@@ -21,8 +21,6 @@ public class UniappController {
 
     /**
      * 学生端获取状态
-     *
-     * @return
      */
     @GetMapping("/status")
     @ApiOperation(value = "获取状态")
