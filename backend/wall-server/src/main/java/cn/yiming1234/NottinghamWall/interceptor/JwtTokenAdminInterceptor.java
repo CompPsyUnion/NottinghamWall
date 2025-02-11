@@ -5,7 +5,6 @@ import cn.yiming1234.NottinghamWall.context.BaseContext;
 import cn.yiming1234.NottinghamWall.properties.JwtProperties;
 import cn.yiming1234.NottinghamWall.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * jwt令牌校验的拦截器
