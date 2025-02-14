@@ -1,6 +1,32 @@
 import { baseUrl } from "@/utils/env";
 
 /**
+ * 获取帖子列表（分页）
+ */
+export const getRecords = (page, token) => {
+    return new Promise((resolve, reject) => {
+        uni.request({
+            url: `${baseUrl}/student/get/topic?page=${page}&pageSize=10`,
+            method: 'GET',
+            header: {
+                'content-type': 'application/json',
+                'token': token
+            },
+            success: (res) => {
+                if (res.statusCode === 200 && res.data.code === 1) {
+                    resolve(res.data.data);
+                } else {
+                    reject(res.data.message || '加载失败');
+                }
+            },
+            fail: (err) => {
+                reject(err);
+            }
+        });
+    });
+};
+
+/**
  * 上传单个文件
  */
 export const uploadSingleFile = (filePath) => {
@@ -86,7 +112,7 @@ export const uploadTopic = (data) => {
 };
 
 /**
- * 获取发布的帖子列表（分页）
+ * 获取个人发布的帖子列表（分页）
  */
 export const getPublishedPosts = (page = 1, pageSize = 5) => {
     return new Promise((resolve, reject) => {

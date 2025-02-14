@@ -110,7 +110,7 @@ import uniLoadMore from '@dcloudio/uni-ui/lib/uni-load-more/uni-load-more.vue';
 import uniEasyinput from '@dcloudio/uni-ui/lib/uni-easyinput/uni-easyinput.vue';
 import View from '@/pages/topic/view.vue';
 
-import { deleteTopic, fetchTopic,} from "@/api/topic";
+import { deleteTopic, fetchTopic } from "@/api/topic";
 
 import {
   deleteComment,
@@ -122,7 +122,7 @@ import {
 
 import {likeTopic, unlikeTopic} from "@/api/like";
 import {collectTopic, uncollectTopic} from "@/api/collect";
-import {getCurrentUserInfo, getUserInfo as apiGetUserInfo} from "@/api/user";
+import {getCurrentUserInfo} from "@/api/user";
 
 export default {
   components: {
@@ -175,21 +175,6 @@ export default {
     this.loadComments();
   },
   methods: {
-    /**
-     * 异步获取用户信息
-     */
-    async fetchUserInfo(authorID) {
-      if (!this.userInfoMap[authorID]) {
-        try {
-          const userInfo = await apiGetUserInfo(authorID);
-          this.$set(this.userInfoMap, authorID, userInfo);
-        } catch (error) {
-          console.error(`获取用户信息失败 authorID: ${authorID}`, error);
-          this.$set(this.userInfoMap, authorID, { username: "匿名用户", avatar: "" });
-        }
-      }
-    },
-
     /**
      * 加载评论
      */
@@ -364,13 +349,8 @@ export default {
     async refreshComments() {
       try {
         console.log("刷新评论列表", this.topicRecord.id);
-        this.page = 1;
-        this.comments = await fetchComments(this.topicRecord.id, this.page, this.pageSize);
-        for (const comment of this.comments) {
-          comment.isLiked = await checkIfCommentLiked(comment.id);
-          await this.fetchUserInfo(comment.userId);
-        }
-        this.commentCount = await fetchCommentCount(this.topicRecord.id);
+        this.topicRecord = await fetchTopic(this.topicRecord.id);
+        this.comments = await fetchComments(this.topicRecord.id, 1, this.pageSize);
       } catch (error) {
         console.error("刷新评论失败:", error);
         uni.showToast({ title: "刷新评论失败", icon: "none" });
@@ -391,9 +371,8 @@ export default {
 
         if (res.confirm) {
           await deleteComment(comment.id);
-          this.comments = this.comments.filter((c) => c.id !== comment.id);
-          this.commentCount = Math.max(0, this.commentCount - 1);
           await uni.showToast({ title: '删除成功', icon: 'success' });
+          await this.refreshComments();
         }
       } catch (error) {
         console.error('删除评论失败:', error);

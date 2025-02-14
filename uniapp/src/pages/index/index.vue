@@ -13,8 +13,8 @@ import CustomSwiper from './components/swipper.vue';
 import FabComponent from './components/fab.vue';
 import TopicComponent from './components/topic.vue';
 import View from "@/pages/index/index.vue";
-import { baseUrl } from "@/utils/env";
-import {userLoginService} from "@/api/login";
+import { getRecords } from "@/api/topic";
+import { userLoginService } from "@/api/login";
 
 export default {
   components: {
@@ -27,12 +27,12 @@ export default {
   data() {
     return {
       imgList: [
-        {img: '/static/carousel/image1.jpg'},
-        {img: '/static/carousel/image2.jpg'},
-        {img: '/static/carousel/image3.jpg'},
-        {img: '/static/carousel/image4.jpg'},
-        {img: '/static/carousel/image5.jpg'},
-        {img: '/static/carousel/image6.jpg'},
+        { img: '/static/carousel/image1.jpg' },
+        { img: '/static/carousel/image2.jpg' },
+        { img: '/static/carousel/image3.jpg' },
+        { img: '/static/carousel/image4.jpg' },
+        { img: '/static/carousel/image5.jpg' },
+        { img: '/static/carousel/image6.jpg' }
       ],
       page: 1,
       records: [],
@@ -46,16 +46,19 @@ export default {
     this.init();
   },
   onShow() {
-    this.getRecords();
+    this.page = 1;
+    this.records = [];
+    this.loadMoreStatus = 'more';
+    this.fetchRecords();
   },
   onReachBottom() {
-    this.getRecords();
+    this.fetchRecords();
   },
   methods: {
     /**
      * 初始化
      */
-    async init() {
+    init() {
       uni.login({
         provider: 'weixin',
         success: async (loginRes) => {
@@ -75,7 +78,7 @@ export default {
           console.log('login fail:', err);
           uni.navigateTo({
             url: '/pages/transition/agreement'
-          })
+          });
         }
       });
     },
@@ -83,31 +86,21 @@ export default {
     /**
      * 获取话题列表
      */
-    async getRecords() {
+    async fetchRecords() {
       const token = uni.getStorageSync('token');
       if (!token) {
-        uni.navigateTo({
-          url: '/pages/transition/agreement'
-        });
+        uni.navigateTo({ url: '/pages/transition/agreement' });
+        return;
       }
       if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
         return;
       }
       this.loadMoreStatus = 'loading';
       try {
-        const res = await uni.request({
-          url: `${baseUrl}/student/get/topic?page=${this.page}&pageSize=10`,
-          method: 'GET',
-          header: {
-            'content-type': 'application/json',
-            'token': token
-          },
-        });
+        const res = await getRecords(this.page, token);
         console.log('请求结果:', res);
-        if (res.statusCode === 200 && res.data.code === 1) {
-          let newRecords = res.data.data.records;
-          newRecords = newRecords.filter(record => !record.isDraft);
-
+        if (res && Array.isArray(res.records)) {
+          const newRecords = res.records.filter(record => !record.isDraft);
           if (newRecords.length === 0) {
             this.loadMoreStatus = 'noMore';
           } else {
@@ -119,16 +112,12 @@ export default {
               this.page++;
             }
           }
-        } else if (res.statusCode === 500) {
-          uni.navigateTo({
-            url: '/pages/transition/agreement'
-          });
         } else {
           this.loadMoreStatus = 'more';
           uni.showToast({ title: '加载失败', icon: 'none' });
         }
-      } catch (error) {
-        console.error('请求失败', error);
+      } catch (err) {
+        console.error('请求失败:', err);
         this.loadMoreStatus = 'more';
         uni.showToast({ title: '加载失败', icon: 'none' });
       }
