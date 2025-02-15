@@ -3,7 +3,7 @@
 
 ## Project Overview
 
-Initiated and developed by Pleasure1234, a the Computer Science (2+2) program student of Class of 2027, and established on June 15, 2024.
+Initiated and developed by Pleasurecruise, a the Computer Science (2+2) program student of Class of 2027, and established on June 15, 2024.
 
 This project primarily consists of three parts: the server side, the mini-program side, and the management side.
 
@@ -31,15 +31,15 @@ Version 1.0 of the mini-program is now live! Search for `CPU Wall` on WeChat or 
 
 ## Relevant Information
 
-API Interface Address: (https://nottinghamwall.apifox.cn/)
+API Interface Address: (https://nottinghamwall.apifox.cn)
 
-Server-Side Project Address: (https://github.com/Pleasurecruise/NottinghamWall/tree/main/backend)
+Server-Side Project Address: (https://github.com/CompPsyUnion/NottinghamWall/tree/main/backend)
 (in ``backend`` folder of this project)
 
-Mini-Program Project Address: (https://github.com/Pleasurecruise/NottinghamWall/tree/main/uniapp)
+Mini-Program Project Address: (https://github.com/CompPsyUnion/NottinghamWall/tree/main/uniapp)
 (in ``uniapp`` folder of this project)
 
-Management-Side Project Address: (https://github.com/Pleasurecruise/NottinghamWall/tree/main/admin)
+Management-Side Project Address: (https://github.com/CompPsyUnion/NottinghamWall/tree/main/admin)
 (in ``admin`` folder of this project)
 
 

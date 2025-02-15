@@ -31,13 +31,13 @@
 
 ## 相关信息
 
-API接口地址：(https://nottinghamwall.apifox.cn/)
+API接口地址：(https://nottinghamwall.apifox.cn)
 
-服务器端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/backend)
+服务器端项目地址：(https://github.com/CompPsyUnion/NottinghamWall/tree/main/backend)
 
-小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/uniapp)
+小程序端项目地址：(https://github.com/CompPsyUnion/NottinghamWall/tree/main/uniapp)
 
-管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/main/admin)
+管理端项目地址：(https://github.com/CompPsyUnion/NottinghamWall/tree/main/admin)
 
 ## Star History
 

@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-由23届计算机科学与技术专业（2+2）的Pleasure1234独立开发，于2024年6月15日建立
+由23级计算机科学与技术专业（2+2）的 Pleasurecruise 独立开发，于2024年6月15日建立
 
 该主项目为由SpringBoot编写的接口地址
 
@@ -28,8 +28,8 @@
 
 ## 相关信息
 
-API接口地址：(https://apifox.com/apidoc/shared-4f188e54-2808-4958-9fd1-8acbb4c4072c)
+API接口地址：(https://nottinghamwall.apifox.cn)
 
-小程序端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/uniapp)
+小程序端项目地址：(https://github.com/CompPsyUnion/NottinghamWall/tree/uniapp)
 
-管理端项目地址：(https://github.com/Pleasurecruise/NottinghamWall/tree/admin)
+管理端项目地址：(https://github.com/CompPsyUnion/NottinghamWall/tree/admin)
