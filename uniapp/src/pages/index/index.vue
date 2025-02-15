@@ -14,7 +14,7 @@ import FabComponent from './components/fab.vue';
 import TopicComponent from './components/topic.vue';
 import View from "@/pages/index/index.vue";
 import { getRecords } from "@/api/topic";
-import { userLoginService, checkTokenService } from "@/api/login";
+import {userLoginService} from "@/api/login";
 
 export default {
   components: {
@@ -54,6 +54,7 @@ export default {
   onReachBottom() {
     this.fetchRecords();
   },
+
   methods: {
     /**
      * 初始化
@@ -87,12 +88,11 @@ export default {
      * 获取话题列表
      */
     async fetchRecords() {
-      const res = await checkTokenService();
-      console.log('checkTokenService!!!!!!!!!', res);
-      if (res && res.code === 0) {
-        console.log('token未过期');
-      } else {
-        uni.navigateTo({url: '/pages/transition/agreement'});
+      const token = uni.getStorageSync('token');
+      if(!token) {
+        uni.navigateTo({
+          url: '/pages/transition/agreement'
+        });
         return;
       }
       if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
@@ -120,7 +120,7 @@ export default {
           await uni.showToast({title: '加载失败', icon: 'none'});
         }
       } catch (err) {
-        console.error('请求失败:', err);
+        console.error('话题列表加载失败:', err);
         this.loadMoreStatus = 'more';
         await uni.showToast({title: '加载失败', icon: 'none'});
       }

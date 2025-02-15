@@ -3,6 +3,7 @@ import {baseUrl} from "@/utils/env";
 /**
  * token校验与续签
  */
+// TODO 当前token失效采用每次登录清除上次token的方式，后续可考虑使用refreshToken
 export const checkTokenService = () => {
     return new Promise(() => {
         uni.request({
@@ -14,15 +15,11 @@ export const checkTokenService = () => {
             },
             success: function (res) {
                 if (res.statusCode === 200) {
-                    console.log('请求成功:', res.data);
-                    if (res.data.message === 'Token is valid') {
-                        console.log('Token is valid');
-                    } else {
-                        uni.setStorageSync('token', res.data.newToken);
-                    }
+                    console.log('token is valid', res.data);
                     console.log('-=-=-=-=checkTokenRes-=-=-=');
-                } else {
-                    console.error('请求错误:');
+                } else if (res.data.newToken) {
+                    console.log('token已续签:', res.data.newToken);
+                    uni.setStorageSync('token', res.data.newToken);
                 }
             },
             fail: function (error) {

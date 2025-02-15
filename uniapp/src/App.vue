@@ -1,6 +1,7 @@
 <script>
 export default {
   onLaunch: function () {
+    uni.removeStorageSync('token')
     console.log('App Launch')
   },
   onShow: function () {
