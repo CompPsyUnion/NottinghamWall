@@ -14,7 +14,7 @@ import FabComponent from './components/fab.vue';
 import TopicComponent from './components/topic.vue';
 import View from "@/pages/index/index.vue";
 import { getRecords } from "@/api/topic";
-import { userLoginService } from "@/api/login";
+import { userLoginService, checkTokenService } from "@/api/login";
 
 export default {
   components: {
@@ -58,7 +58,7 @@ export default {
     /**
      * 初始化
      */
-    init() {
+    async init() {
       uni.login({
         provider: 'weixin',
         success: async (loginRes) => {
@@ -87,9 +87,12 @@ export default {
      * 获取话题列表
      */
     async fetchRecords() {
-      const token = uni.getStorageSync('token');
-      if (!token) {
-        uni.navigateTo({ url: '/pages/transition/agreement' });
+      const res = await checkTokenService();
+      console.log('checkTokenService!!!!!!!!!', res);
+      if (res && res.code === 0) {
+        console.log('token未过期');
+      } else {
+        uni.navigateTo({url: '/pages/transition/agreement'});
         return;
       }
       if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
@@ -98,7 +101,7 @@ export default {
       this.loadMoreStatus = 'loading';
       try {
         const res = await getRecords(this.page, token);
-        console.log('请求结果:', res);
+        console.log('话题列表:', res);
         if (res && Array.isArray(res.records)) {
           const newRecords = res.records.filter(record => !record.isDraft);
           if (newRecords.length === 0) {
@@ -114,12 +117,12 @@ export default {
           }
         } else {
           this.loadMoreStatus = 'more';
-          uni.showToast({ title: '加载失败', icon: 'none' });
+          await uni.showToast({title: '加载失败', icon: 'none'});
         }
       } catch (err) {
         console.error('请求失败:', err);
         this.loadMoreStatus = 'more';
-        uni.showToast({ title: '加载失败', icon: 'none' });
+        await uni.showToast({title: '加载失败', icon: 'none'});
       }
     },
   }

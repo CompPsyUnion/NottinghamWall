@@ -1,6 +1,7 @@
-
+backend/wall-server/src/main/resources/application.yml
 backend/wall-server/src/main/resources/application-dev.yml
 backend/wall-server/src/main/resources/application-prod.yml
+backend/wall-server/target/classes/application.yml
 backend/wall-server/target/classes/application-dev.yml
 backend/wall-server/target/classes/application-prod.yml
 

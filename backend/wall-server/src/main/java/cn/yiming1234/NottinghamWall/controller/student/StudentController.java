@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +49,29 @@ public class StudentController {
             throw new IllegalArgumentException("Invalid token or user ID missing in token");
         }
         return (Integer) claims.get(JwtClaimsConstant.USER_ID);
+    }
+
+    /**
+     * token解析与续签
+     */
+    @PostMapping("/login/checkToken")
+    @ApiOperation(value = "token解析与续签")
+    public Result<String> checkToken(HttpServletRequest request) {
+        String token = request.getHeader(jwtProperties.getUserTokenName());
+        if (token == null || token.isEmpty()) {
+            return Result.error("Token is missing");
+        }
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+        if (claims == null || claims.getExpiration().before(new Date())) {
+            Integer userId = (Integer) claims.get(JwtClaimsConstant.USER_ID);
+            Map<String, Object> newClaims = new HashMap<>();
+            newClaims.put(JwtClaimsConstant.USER_ID, userId);
+            String newToken = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), newClaims);
+            log.info("Token expired, generated new JWT token: {}", newToken);
+            return Result.success(newToken);
+        }
+        log.info("Token is valid");
+        return Result.success("Token is valid");
     }
 
     /**

@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b9372bd-1e27-426e-a828-d13ff41c8583" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application-template.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/wall-server/src/main/java/cn/yiming1234/NottinghamWall/controller/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/wall-server/src/main/resources/application.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/topic.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/topic.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/topic/view.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/topic/view.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,6 +238,8 @@
       <workItem from="1739256637000" duration="7450000" />
       <workItem from="1739269197976" duration="458000" />
       <workItem from="1739517419977" duration="8283000" />
+      <workItem from="1739608456036" duration="1102000" />
+      <workItem from="1739609795371" duration="3709000" />
     </task>
     <servers />
   </component>
