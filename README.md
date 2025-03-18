@@ -1,5 +1,5 @@
 # University of Nottingham Ningbo Campus Wall
-🌏 [中文](/README.md) | English
+🌏 English | [中文](/README_ch.md)
 
 ## Project Overview
 
