@@ -52,7 +52,10 @@ export default {
     this.fetchRecords();
   },
   onReachBottom() {
-    this.fetchRecords();
+    console.log("触底")
+    if (this.loadMoreStatus === 'more') {
+      this.fetchRecords();
+    }
   },
 
   methods: {
@@ -90,12 +93,12 @@ export default {
     async fetchRecords() {
       const token = uni.getStorageSync('token');
       if(!token) {
-        uni.navigateTo({
+        await uni.navigateTo({
           url: '/pages/transition/agreement'
         });
         return;
       }
-      if (this.loadMoreStatus === 'loading' || this.loadMoreStatus === 'noMore') {
+      if (this.loadMoreStatus === 'noMore') {
         return;
       }
       this.loadMoreStatus = 'loading';
@@ -105,14 +108,19 @@ export default {
         if (res && Array.isArray(res.records)) {
           const newRecords = res.records.filter(record => !record.isDraft);
           if (newRecords.length === 0) {
-            this.loadMoreStatus = 'noMore';
-          } else {
-            this.records = this.records.concat(newRecords);
-            if (newRecords.length < 10) {
+            if (res.records.length === 0) {
               this.loadMoreStatus = 'noMore';
             } else {
               this.loadMoreStatus = 'more';
               this.page++;
+            }
+          } else {
+            this.records = this.records.concat(newRecords);
+            this.page++;
+            if (this.records.length >= res.total) {
+              this.loadMoreStatus = 'noMore';
+            } else {
+              this.loadMoreStatus = 'more';
             }
           }
         } else {

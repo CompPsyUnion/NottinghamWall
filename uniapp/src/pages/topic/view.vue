@@ -165,7 +165,7 @@ export default {
       console.log("Received topicId:", topicId);
     } catch (error) {
       console.error("加载数据失败:", error);
-      uni.showToast({
+      await uni.showToast({
         title: '加载数据失败',
         icon: 'none'
       });
@@ -200,7 +200,7 @@ export default {
       } catch (error) {
         console.error('请求失败', error);
         this.loadMoreStatus = 'more';
-        uni.showToast({ title: '加载失败', icon: 'none' });
+        await uni.showToast({title: '加载失败', icon: 'none'});
       }
     },
 
@@ -353,7 +353,7 @@ export default {
         this.comments = await fetchComments(this.topicRecord.id, 1, this.pageSize);
       } catch (error) {
         console.error("刷新评论失败:", error);
-        uni.showToast({ title: "刷新评论失败", icon: "none" });
+        await uni.showToast({title: "刷新评论失败", icon: "none"});
       }
     },
 

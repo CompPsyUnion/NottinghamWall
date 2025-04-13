@@ -11,3 +11,5 @@ uniapp/dist/mp-weixin/utils/env.js
 node_modules/
 docs/.vitepress/dist
 docs/.vitepress/cache
+
+.idea/
